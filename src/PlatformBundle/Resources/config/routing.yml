@@ -1,3 +1,42 @@
 hello_the_world:
     path:     /hello
     defaults: { _controller: PlatformBundle:Advert:hello }
+
+oc_platform_home:
+    path:      /{page}
+    defaults:
+        _controller: PlatformBundle:Advert:index
+        page:        1
+    requirements:
+        page: \d*
+
+oc_platform_view:
+    path:      /advert/{id}
+    defaults: { _controller: PlatformBundle:Advert:view }
+    requirements:
+        id: \d+
+
+oc_platform_view_slug:
+    path:      /{year}/{slug}.{_format}
+    defaults:
+        _controller: PlatformBundle:Advert:viewSlug
+        _format:      html
+    requirements:
+        year: \d{4}
+        _format: html|xml
+
+oc_platform_add:
+    path:      /add
+    defaults: { _controller: PlatformBundle:Advert:add }
+
+oc_platform_edit:
+    path:      /edit/{id}
+    defaults: { _controller: PlatformBundle:Advert:edit }
+    requirements:
+        id: \d+
+
+oc_platform_delete:
+    path:      /delete/{id}
+    defaults: { _controller: PlatformBundle:Advert:delete }
+    requirements:
+        id: \d+
