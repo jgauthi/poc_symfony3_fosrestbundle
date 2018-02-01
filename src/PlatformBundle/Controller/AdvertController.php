@@ -3,6 +3,7 @@
 namespace PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -38,10 +39,43 @@ class AdvertController extends Controller
 	}
 
 
+	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/404
 	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/5
-	public function viewAction($id)
+	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/5?tag=developer
+	public function viewAction($id, Request $request)
 	{
-		return new Response("Affichage de l'annonce d'id : ".$id);
+		// L'annonce n'existe pas
+		if($id == 404)
+		{
+			$response = new Response();
+			$response->setContent("L'annonce {$id} n'existe pas.");
+			$response->setStatusCode(Response::HTTP_NOT_FOUND);
+
+			return $response;
+		}
+
+		// Vous avez accès à la requête HTTP via $request (ne pas oublier le use)
+		// --> Avec cette façon d'accéder aux paramètres, vous n'avez pas besoin de tester leur existence.
+		$tag = $request->query->get('tag');
+		if(preg_match('#^(dev|debug)#', $tag))
+			dump($request);
+
+		/*
+			$_GET 							--> $request->query->get('tag')
+			$_POST 							--> $request->request->get('tag')
+			$_COOKIE 						--> $request->cookies->get('tag')
+			$_SERVER						--> $request->server->get('REQUEST_URI')
+			$_SERVER['HTTP_*']				--> $request->headers->get('USER_AGENT')
+			$id	(alternative)				--> $request->attributes->get('id')
+
+			$request->isMethod('POST')		--> Vérifier la méthode HTTP en cours
+			$request->isXmlHttpRequest()	--> Si Ajax
+
+			Pour en savoir plus:
+			http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/Request.html
+		*/
+
+		return new Response("Affichage de l'annonce d'id: {$id}, avec le tag: {$tag}");
 	}
 
 	// On récupère tous les paramètres en arguments de la méthode
