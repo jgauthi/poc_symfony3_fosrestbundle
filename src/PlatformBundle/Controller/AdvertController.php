@@ -3,6 +3,7 @@
 namespace PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -42,9 +43,10 @@ class AdvertController extends Controller
 	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/404
 	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/5
 	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/5?tag=developer
+	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/13 ou 14 ou 15
 	public function viewAction($id, Request $request)
 	{
-		// L'annonce n'existe pas
+		// L'annonce n'existe pas (ne pas oublier le use Symfony\Component\HttpFoundation\Response)
 		if($id == 404)
 		{
 			$response = new Response();
@@ -53,6 +55,24 @@ class AdvertController extends Controller
 
 			return $response;
 		}
+		// Revenir à la homepage
+		elseif($id == 13)
+		{
+			$url = $this->get('router')->generate('oc_platform_home');
+			return new RedirectResponse($url);
+		}
+		// (alternative) passer par la méthode raccourci (ne nécessite pas le use RedirectResponse)
+		elseif($id == 14)
+		{
+			$url = $this->get('router')->generate('oc_platform_home');
+			return $this->redirect($url);
+		}
+		// (alternative) passer par la méthode raccourci en indiquant la vue (ne nécessite pas le use RedirectResponse)
+		elseif($id == 15)
+			return $this->redirectToRoute('oc_platform_home');
+
+		// Pour debugguer les redirections: "intercept_redirects" à true dans "app/config/config_dev.yml"
+
 
 		// Vous avez accès à la requête HTTP via $request (ne pas oublier le use)
 		// --> Avec cette façon d'accéder aux paramètres, vous n'avez pas besoin de tester leur existence.
