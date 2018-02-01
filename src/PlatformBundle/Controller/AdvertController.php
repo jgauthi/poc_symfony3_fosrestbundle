@@ -3,6 +3,7 @@
 namespace PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -110,6 +111,21 @@ class AdvertController extends Controller
 		return new Response(
 			"On pourrait afficher l'annonce correspondant au slug '{$slug}', créée en {$year} et au format {$_format}."
 		);
+	}
+
+	// http://localhost/mindsymfony/web/app_dev.php/platform/list
+	public function listAction()
+	{
+		$articles = array('list_ids' => array(5, 13, 14, 15, 404));
+
+		if(class_exists('Symfony\Component\HttpFoundation\JsonResponse'))
+			return new JsonResponse($articles);
+
+		// Alternative manuel
+		$response = new Response(json_encode($articles));
+		$response->headers->set('Content-Type', 'application/json');
+
+		return $response;
 	}
 
 }

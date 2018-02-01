@@ -16,6 +16,10 @@ oc_platform_view:
     requirements:
         id: \d+
 
+oc_platform_list:
+    path:      /list
+    defaults: { _controller: PlatformBundle:Advert:list }
+
 oc_platform_view_slug:
     path:      /{year}/{slug}.{_format}
     defaults:
