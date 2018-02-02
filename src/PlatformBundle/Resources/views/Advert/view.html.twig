@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Affichage de l'annonce n°{{ id }} !</h1>
+	<div>
+		{# On affiche tous les messages flash dont le nom est « info » #}
+		{% for message in app.session.flashbag.get('info') %}
+		<p>Message flash : {{ message }}</p>
+		{% endfor %}
+	</div>
+
+	<p>Affichage de l'annonce d'id: {{ id }}, avec le tag: {{ tag }}, user id en cours: {{ userId }}</p>
+	<p>Ajouter une <a href="{{ path('oc_platform_add') }}">annonce</a></p>
+
+{% endblock %}

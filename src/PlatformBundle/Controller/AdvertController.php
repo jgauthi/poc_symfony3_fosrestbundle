@@ -96,7 +96,17 @@ class AdvertController extends Controller
 			http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/Request.html
 		*/
 
-		return new Response("Affichage de l'annonce d'id: {$id}, avec le tag: {$tag}");
+		// User en cours
+		$session = $request->getSession();
+		$session->set('user_id', 91);
+		$userId = $session->get('user_id');
+
+		return $this->render('@Platform/Advert/view.html.twig', array
+		(
+			'id'		=>	$id,
+			'tag' 		=>	$tag,
+			'userId'	=>	$userId,
+		));
 	}
 
 	// On récupère tous les paramètres en arguments de la méthode
@@ -127,5 +137,16 @@ class AdvertController extends Controller
 
 		return $response;
 	}
+
+	public function addAction(Request $request)
+	{
+		$session = $request->getSession();
+
+		$session->getFlashBag()->add('info', 'Annonce bien enregistré');
+		$session->getFlashBag()->add('info', 'Oui, elle est bien enregistré !');
+
+		return $this->redirectToRoute('oc_platform_view', array('id' => 5));
+	}
+
 
 }
