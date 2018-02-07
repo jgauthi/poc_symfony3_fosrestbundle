@@ -140,13 +140,38 @@ class AdvertController extends Controller
 
 	public function addAction(Request $request)
 	{
-		$session = $request->getSession();
+        if($request->isMethod('POST'))
+        {
+            // Ici, on s'occupera de la création et de la gestion du formulaire
+            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-		$session->getFlashBag()->add('info', 'Annonce bien enregistré');
-		$session->getFlashBag()->add('info', 'Oui, elle est bien enregistré !');
+            // Puis on redirige vers la page de visualisation de cettte annonce
+            return $this->redirectToRoute('oc_platform_view', array('id' => 5));
+        }
 
-		return $this->redirectToRoute('oc_platform_view', array('id' => 5));
+        // Si on n'est pas en POST, alors on affiche le formulaire
+        return $this->render('@Platform/Advert/add.html.twig');
 	}
 
+    public function editAction($id, Request $request)
+    {
+        // Ici, on récupérera l'annonce correspondante à $id
+
+        // Même mécanisme que pour l'ajout
+        if ($request->isMethod('POST'))
+        {
+            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
+            return $this->redirectToRoute('oc_platform_view', array('id' => 5));
+        }
+
+        return $this->render('@Platform/Advert/edit.html.twig');
+    }
+
+    public function deleteAction($id)
+    {
+        // Ici, on récupérera l'annonce correspondant à $id
+        // Ici, on gérera la suppression de l'annonce en question
+        return $this->render('@Platform/Advert/delete.html.twig');
+    }
 
 }
