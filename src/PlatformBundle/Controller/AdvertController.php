@@ -40,6 +40,21 @@ class AdvertController extends Controller
 		return new Response("L'url de l'annonce 5 est: {$url}, annonce 7: {$url2}");
 	}
 
+    public function menuAction()
+    {
+        $listAdverts = array
+        (
+            array('id' => 2, 'title' => 'Recherche développeur Symfony'),
+            array('id' => 5, 'title' => 'Mission de webmaster'),
+            array('id' => 9, 'title' => 'Offre de stage webdesigner')
+        );
+
+        // Tout l'intérêt est ici : le contrôleur passe les variables nécessaires au template !
+        return $this->render('@Platform/Advert/menu.html.twig', array
+        (
+            'listAdverts' => $listAdverts
+        ));
+    }
 
 	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/404
 	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/5
