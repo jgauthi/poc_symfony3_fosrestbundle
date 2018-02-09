@@ -148,12 +148,19 @@ class AdvertController extends Controller
 		$session->set('user_id', 91);
 		$userId = $session->get('user_id');
 
-		return $this->render('@Platform/Advert/view.html.twig', array
-		(
-			'id'		=>	$id,
-			'tag' 		=>	$tag,
-			'userId'	=>	$userId,
-		));
+        $advert = array(
+            'title'   => 'Recherche développpeur Symfony2',
+            'id'      => $id,
+            'author'  => 'Alexandre',
+            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
+            'date'    => new \Datetime(),
+        );
+
+        return $this->render('@Platform/Advert/view.html.twig', array(
+            'advert'    =>  $advert,
+            'tag' 		=>	$tag,
+            'userId'	=>	$userId,
+        ));
 	}
 
 	// On récupère tous les paramètres en arguments de la méthode
@@ -200,6 +207,7 @@ class AdvertController extends Controller
         return $this->render('@Platform/Advert/add.html.twig');
 	}
 
+    // http://localhost/mindsymfony/web/app_dev.php/platform/edit/5
     public function editAction($id, Request $request)
     {
         // Ici, on récupérera l'annonce correspondante à $id
@@ -211,7 +219,16 @@ class AdvertController extends Controller
             return $this->redirectToRoute('oc_platform_view', array('id' => 5));
         }
 
-        return $this->render('@Platform/Advert/edit.html.twig');
+        $advert = array
+        (
+            'title'   => 'Recherche développpeur Symfony',
+            'id'      => $id,
+            'author'  => 'Alexandre',
+            'content' => 'Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…',
+            'date'    => new \Datetime()
+        );
+
+        return $this->render('@Platform/Advert/edit.html.twig', array('advert' => $advert));
     }
 
     public function deleteAction($id)

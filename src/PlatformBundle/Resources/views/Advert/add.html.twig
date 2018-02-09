@@ -1,14 +1,17 @@
 {% extends "@Platform/layout.html.twig" %}
+{% block title %}Ajouter une annonce - {{ parent() }}{% endblock %}
 
-{% block body %}
+{% block ocplatform_body %}
 
     <h2>Ajouter une annonce</h2>
 
     {{ include("@Platform/Advert/form.html.twig") }}
 
     <p>
-        Attention : cette annonce sera ajoutée directement
-        sur la page d'accueil après validation du formulaire.
+        <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour à l'index
+        </a>
     </p>
 
 {% endblock %}
