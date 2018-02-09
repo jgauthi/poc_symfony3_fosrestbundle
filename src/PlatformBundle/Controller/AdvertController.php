@@ -35,9 +35,41 @@ class AdvertController extends Controller
 		$url = $this->get('router')->generate('oc_platform_view', array('id' => 5));
 
 		// Comme notre contrôleur hérite du contrôleur de base de Symfony, nous avons également accès à une méthode raccourcie pour générer des routes. Voici une alternative strictement équivalente :
-		$url2 = $this->generateUrl('oc_platform_view', array('id' => 7), UrlGeneratorInterface::ABSOLUTE_URL);
+        $url2 = $this->generateUrl('oc_platform_view', array('id' => 7), UrlGeneratorInterface::ABSOLUTE_URL);
 
-		return new Response("L'url de l'annonce 5 est: {$url}, annonce 7: {$url2}");
+		$random_msg = "L'url de l'annonce 5 est: {$url}, annonce 7: {$url2}";
+
+        // Notre liste d'annonce en dur
+        $listAdverts = array
+        (
+            array
+            (
+                'title'   => 'Recherche développpeur Symfony',
+                'id'      => 1,
+                'author'  => 'Alexandre',
+                'content' => 'Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…',
+                'date'    => new \Datetime()),
+            array
+            (
+                'title'   => 'Mission de webmaster',
+                'id'      => 2,
+                'author'  => 'Hugo',
+                'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
+                'date'    => new \Datetime()),
+            array
+            (
+                'title'   => 'Offre de stage webdesigner',
+                'id'      => 3,
+                'author'  => 'Mathieu',
+                'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
+                'date'    => new \Datetime())
+        );
+
+
+        return $this->render('@Platform/Advert/index.html.twig', array(
+            'random_msg' => $random_msg,
+            'listAdverts' => $listAdverts,
+        ));
 	}
 
     public function menuAction()
