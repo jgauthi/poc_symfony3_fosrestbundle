@@ -192,6 +192,7 @@ class AdvertController extends Controller
 		return $response;
 	}
 
+    // http://localhost/mindsymfony/web/app_dev.php/platform/add
 	public function addAction(Request $request)
 	{
         if($request->isMethod('POST'))
@@ -202,6 +203,17 @@ class AdvertController extends Controller
             // Puis on redirige vers la page de visualisation de cettte annonce
             return $this->redirectToRoute('oc_platform_view', array('id' => 5));
         }
+
+        // On récupère le service
+        $antispam = $this->container->get('platform.antispam');
+
+        // Je pars du principe que $text contient le texte d'un message quelconque
+        $text = '...';
+        if($antispam->isSpam($text))
+          throw new \Exception('Votre message a été détecté comme spam !');
+//            return new \Exception('Votre message a été détecté comme spam !');
+
+
 
         // Si on n'est pas en POST, alors on affiche le formulaire
         return $this->render('@Platform/Advert/add.html.twig');
