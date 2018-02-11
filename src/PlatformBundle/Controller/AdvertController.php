@@ -2,6 +2,7 @@
 
 namespace PlatformBundle\Controller;
 
+use PlatformBundle\Entity\Advert;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -194,26 +195,42 @@ class AdvertController extends Controller
 
     // http://localhost/mindsymfony/web/app_dev.php/platform/add
 	public function addAction(Request $request)
-	{
-        if($request->isMethod('POST'))
-        {
-            // Ici, on s'occupera de la création et de la gestion du formulaire
-            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-
-            // Puis on redirige vers la page de visualisation de cettte annonce
-            return $this->redirectToRoute('oc_platform_view', array('id' => 5));
-        }
+    {
+        $txt = "Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…";
 
         // On récupère le service
         $antispam = $this->container->get('platform.antispam');
+        if($antispam->isSpam($txt))
+            throw new \Exception('Votre message a été détecté comme spam !');
 
-        // Je pars du principe que $text contient le texte d'un message quelconque
-        $text = '...';
-        if($antispam->isSpam($text))
-          throw new \Exception('Votre message a été détecté comme spam !');
-//            return new \Exception('Votre message a été détecté comme spam !');
+        // Création de l'entité
+        $advert = new Advert();
+        $advert
+            ->setTitle('Recherche développeur Symfony.')
+            ->setAuthor('Alexandre')
+            ->setContent($txt);
 
+        // On peut ne pas définir ni la date ni la publication, car ces attributs sont définis automatiquement dans le constructeur
 
+        // On récupère l'EntityManager
+        $em = $this->getDoctrine()->getManager();
+
+        // Étape 1 : On « persiste » l'entité
+        $em->persist($advert);
+
+        // Étape 2 : Flush: Ouvre une transaction et enregistre toutes les entités qui t'ont été données depuis le(s) dernier(s) flush()
+        $em->flush();
+
+        if($request->isMethod('POST'))
+        {
+            $id = $advert->getId();
+
+            // Ici, on s'occupera de la création et de la gestion du formulaire
+            $request->getSession()->getFlashBag()->add('notice', "Annonce #{$id} bien enregistrée");
+
+            // Puis on redirige vers la page de visualisation de cettte annonce
+            return $this->redirectToRoute('oc_platform_view', array('id' => $id));
+        }
 
         // Si on n'est pas en POST, alors on affiche le formulaire
         return $this->render('@Platform/Advert/add.html.twig');
