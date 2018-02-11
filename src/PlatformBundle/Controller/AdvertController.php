@@ -3,6 +3,7 @@
 namespace PlatformBundle\Controller;
 
 use PlatformBundle\Entity\Advert;
+use PlatformBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -210,8 +211,15 @@ class AdvertController extends Controller
             ->setTitle('Recherche développeur Symfony.')
             ->setAuthor('Alexandre')
             ->setContent($txt);
+            // On peut ne pas définir ni la date ni la publication, car ces attributs sont définis automatiquement dans le constructeur
 
-        // On peut ne pas définir ni la date ni la publication, car ces attributs sont définis automatiquement dans le constructeur
+        // Création de l'entité Image
+        $image = new Image();
+        $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
+        $image->setAlt('Job de rêve');
+
+        // On lie l'image à l'annonce
+        $advert->setImage($image);
 
         // On récupère l'EntityManager
         $em = $this->getDoctrine()->getManager();

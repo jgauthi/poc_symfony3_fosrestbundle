@@ -4,6 +4,10 @@
 {% block ocplatform_body %}
 
 	<h2>#{{ advert.id }} {{ advert.title }}</h2>
+    {# On vérifie qu'une image soit bien associée à l'annonce #}
+    {% if advert.image is not null %}
+		<p><img src="{{ advert.image.url }}" alt="{{ advert.image.alt }}"></p>
+    {% endif %}
 	<i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
 
 	<div class="well">
