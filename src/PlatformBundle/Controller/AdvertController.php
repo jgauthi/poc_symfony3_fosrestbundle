@@ -4,6 +4,7 @@ namespace PlatformBundle\Controller;
 
 use PlatformBundle\Entity\Advert;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -149,13 +150,13 @@ class AdvertController extends Controller
 		$session->set('user_id', 91);
 		$userId = $session->get('user_id');
 
-        $advert = array(
-            'title'   => 'Recherche développpeur Symfony2',
-            'id'      => $id,
-            'author'  => 'Alexandre',
-            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-            'date'    => new \Datetime(),
-        );
+        // On récupère le repository & l'entité correspondante à l'id $id
+        $repository = $this->getDoctrine()->getManager()->getRepository('PlatformBundle:Advert');
+        $advert = $repository->find($id);
+
+        // $advert est donc une instance de PlatformBundle\Entity\Advert ou null si l'$id  n'existe pas
+        if (null === $advert)
+            throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 
         return $this->render('@Platform/Advert/view.html.twig', array(
             'advert'    =>  $advert,
