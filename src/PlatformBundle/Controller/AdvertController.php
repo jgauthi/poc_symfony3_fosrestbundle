@@ -3,6 +3,7 @@
 namespace PlatformBundle\Controller;
 
 use PlatformBundle\Entity\Advert;
+use PlatformBundle\Entity\Application;
 use PlatformBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -159,10 +160,17 @@ class AdvertController extends Controller
         if (null === $advert)
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 
+        // Liste des candidatures
+		$em = $this->getDoctrine()->getManager();
+        $listApplications = $em
+            ->getRepository('PlatformBundle:Application')
+            ->findBy(array('advert' => $advert));
+
         return $this->render('@Platform/Advert/view.html.twig', array(
-            'advert'    =>  $advert,
-            'tag' 		=>	$tag,
-            'userId'	=>	$userId,
+            'advert'            =>  $advert,
+            'tag' 		        =>	$tag,
+            'userId'	        =>	$userId,
+            'listApplications'  =>  $listApplications,
         ));
 	}
 
@@ -221,11 +229,21 @@ class AdvertController extends Controller
         // On lie l'image à l'annonce
         $advert->setImage($image);
 
+        // Candidature 1
+        $application1 = new Application();
+        $application1->setAuthor('Marine')->setContent('J\'ai toutes les qualités requises.')->setAdvert($advert);
+
+        // Candidature 2
+        $application2 = new Application();
+        $application2->setAuthor('Pierre')->setContent('Je suis très motivé.')->setAdvert($advert);
+
         // On récupère l'EntityManager
         $em = $this->getDoctrine()->getManager();
 
         // Étape 1 : On « persiste » l'entité
         $em->persist($advert);
+        $em->persist($application1);
+        $em->persist($application2);
 
         // Étape 2 : Flush: Ouvre une transaction et enregistre toutes les entités qui t'ont été données depuis le(s) dernier(s) flush()
         $em->flush();

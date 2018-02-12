@@ -29,5 +29,26 @@
 		</a>
 	</p>
 
+    {% for application in listApplications %}
+		{% if loop.first %}
+			<h4 style="margin-top: 30px;">{{ loop.length }} Candidatures pour cette annonce</h4>
+			<ul>
+		{% endif %}
+
+		<li>
+			De <strong>{{ application.author }}</strong>,
+			le {{ application.date|date('d/m/Y') }}:
+			<em>{{ application.content }}</em>
+		</li>
+
+		{% if loop.last %}
+			</ul>
+		{% endif %}
+
+	{% else %}
+		<p>Aucune Candidatures pour cette annonce.</p>
+	{% endfor %}
+
+
 	<p>Session utilisateur en cours: {{ userId }}, tag: {{ tag }}</p>
 {% endblock %}
