@@ -29,6 +29,17 @@
 		</a>
 	</p>
 
+
+	{% if not advert.categories.empty %}
+	<p>
+		Cette annonce est parue dans les catégories suivantes:
+		{% for category in advert.categories %}
+			{{ category.name }}{% if not loop.last %}, {% endif %}
+		{% endfor %}
+	</p>
+	{% endif %}
+
+
     {% for application in listApplications %}
 		{% if loop.first %}
 			<h4 style="margin-top: 30px;">{{ loop.length }} Candidatures pour cette annonce</h4>

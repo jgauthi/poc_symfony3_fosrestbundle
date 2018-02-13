@@ -266,7 +266,17 @@ class AdvertController extends Controller
     // http://localhost/mindsymfony/web/app_dev.php/platform/edit/5
     public function editAction($id, Request $request)
     {
-        // Ici, on récupérera l'annonce correspondante à $id
+        $em = $this->getDoctrine()->getManager();
+
+        $advert = $em->getRepository('PlatformBundle:Advert')->find($id);
+        if(null === $advert)
+        	throw new NotFoundHttpException("L'annonce {$id} n'existe pas.");
+
+		// La méthode findAll retourne toutes les catégories de la base de données
+		$listCategories = $em->getRepository('PlatformBundle:Category')->findAll();
+		foreach($listCategories as $category)
+			$advert->addCategory($category);
+		$em->flush();
 
         // Même mécanisme que pour l'ajout
         if ($request->isMethod('POST'))
@@ -275,23 +285,21 @@ class AdvertController extends Controller
             return $this->redirectToRoute('oc_platform_view', array('id' => 5));
         }
 
-        $advert = array
-        (
-            'title'   => 'Recherche développpeur Symfony',
-            'id'      => $id,
-            'author'  => 'Alexandre',
-            'content' => 'Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…',
-            'date'    => new \Datetime()
-        );
-
         return $this->render('@Platform/Advert/edit.html.twig', array('advert' => $advert));
     }
 
     public function deleteAction($id)
     {
-        // Ici, on récupérera l'annonce correspondant à $id
-        // Ici, on gérera la suppression de l'annonce en question
-        return $this->render('@Platform/Advert/delete.html.twig');
+    	$em = $this->getDoctrine()->getManager();
+    	$advert = $em->getRepository('PlatformBundle:Advert')->find($id);
+
+    	// Suppression des categories liés
+		foreach($advert->getCategories() as $category)
+			$advert->removeCategory($category);
+		$em->flush();
+
+		return new Response("Suppression Advert (todo...)");
+        // return $this->render('@Platform/Advert/delete.html.twig');
     }
 
 }
