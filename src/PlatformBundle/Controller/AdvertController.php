@@ -3,6 +3,7 @@
 namespace PlatformBundle\Controller;
 
 use PlatformBundle\Entity\Advert;
+use PlatformBundle\Entity\AdvertSkill;
 use PlatformBundle\Entity\Application;
 use PlatformBundle\Entity\Image;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -157,7 +158,7 @@ class AdvertController extends Controller
         $advert = $repository->find($id);
 
         // $advert est donc une instance de PlatformBundle\Entity\Advert ou null si l'$id  n'existe pas
-        if (null === $advert)
+        if(null === $advert)
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
 
         // Liste des candidatures
@@ -166,11 +167,17 @@ class AdvertController extends Controller
             ->getRepository('PlatformBundle:Application')
             ->findBy(array('advert' => $advert));
 
+        // Liste des compétences require pour l'annonce
+		$listSkills = $em
+			->getRepository('PlatformBundle:AdvertSkill')
+			->findBy(array('advert' => $advert));
+
         return $this->render('@Platform/Advert/view.html.twig', array(
             'advert'            =>  $advert,
             'tag' 		        =>	$tag,
             'userId'	        =>	$userId,
             'listApplications'  =>  $listApplications,
+			'listSkills'		=>	$listSkills,
         ));
 	}
 
@@ -237,8 +244,17 @@ class AdvertController extends Controller
         $application2 = new Application();
         $application2->setAuthor('Pierre')->setContent('Je suis très motivé.')->setAdvert($advert);
 
-        // On récupère l'EntityManager
-        $em = $this->getDoctrine()->getManager();
+		// On récupère l'EntityManager
+		$em = $this->getDoctrine()->getManager();
+
+		// Association de compétences à l'annonce
+		$listSkills = $em->getRepository('PlatformBundle:Skill')->findAll();
+		foreach($listSkills as $skill)
+		{
+			$advertSkill = new AdvertSkill();
+			$advertSkill->setAdvert($advert)->setSkill($skill)->setLevel('Expert');
+			$em->persist($advertSkill);
+		}
 
         // Étape 1 : On « persiste » l'entité
         $em->persist($advert);

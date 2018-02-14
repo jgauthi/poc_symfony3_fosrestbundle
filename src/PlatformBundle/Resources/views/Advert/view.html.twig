@@ -40,6 +40,17 @@
 	{% endif %}
 
 
+    {% if listAdvertSkills|length > 0 %}
+	<div>
+		Cette annonce requiert les compétences suivantes :
+		<ul>
+			{% for advertSkill in listAdvertSkills %}
+				<li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
+			{% endfor %}
+		</ul>
+	</div>
+    {% endif %}
+
     {% for application in listApplications %}
 		{% if loop.first %}
 			<h4 style="margin-top: 30px;">{{ loop.length }} Candidatures pour cette annonce</h4>
