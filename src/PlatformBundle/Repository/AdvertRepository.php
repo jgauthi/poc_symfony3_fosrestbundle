@@ -1,6 +1,9 @@
 <?php
-
 namespace PlatformBundle\Repository;
+
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * AdvertRepository
@@ -10,4 +13,73 @@ namespace PlatformBundle\Repository;
  */
 class AdvertRepository extends \Doctrine\ORM\EntityRepository
 {
+    // Equivalent findAll();
+    public function myFindALl()
+    {
+//        $queryBuilder = $this->_em->createQueryBuilder()
+//            ->select('advert')
+//            ->from($this->_entityName, 'advert');
+
+        $queryBuilder = $this->createQueryBuilder('advert');
+        $query = $queryBuilder->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    public function myFindOne($id)
+    {
+        $qb = $this->createQueryBuilder('advert');
+        $db->where('advert.id = :id')->setParamater('id', $id);
+        $this->whereCurrentYear($qb);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findByAuthorAndYear($author, $year)
+    {
+        $qb = $this->createQueryBuilder('advert');
+        $qb
+            ->where('advert.author = :author')
+            ->setParameter('author', $author)
+            ->andWhere('advert.date < :year')
+            ->setParameter('year', $year)
+            ->orderBy('advert.date', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function whereCurrentYear(QueryBuilder $qb)
+    {
+        $qb
+            ->andWhere('advert.date BETWEEN :start AND :end')
+            ->setParameter('start', new \DateTime(date('Y').'-01-01'))
+            ->setParameter('end', new \DateTime(date('Y').'-12-31'));
+    }
+
+    public function getAdvertWithApplications()
+    {
+        $db = $this->createQueryBuilder('advert')
+            ->leftJoin('advert.applications', 'app', 'WITH', 'app.author = :author')
+            ->setParameter('author', 'Pierre')
+            ->addSelect('app');
+
+        /* DQL Version :
+            SELECT *
+            FROM Advert advert
+            LEFT JOIN Application app ON (app.advert_id = advert.id AND YEAR(app.date) >= 2013)
+        */
+
+        return $db->getQuery()->getResult();
+    }
+
+    public function myFindDQL($id)
+    {
+        $query = $this->_em->createQuery('SELECT advert FROM PlatformBundle:Advert advert WHERE advert.id = :id');
+        $query->setParameter('id', $id);
+
+        // Utilisation de getSingleResult car la requête ne doit retourner qu'un seul résultat
+        return $query->getSingleResult();
+    }
+
 }

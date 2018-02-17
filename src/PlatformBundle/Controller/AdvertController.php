@@ -198,7 +198,14 @@ class AdvertController extends Controller
 	// http://localhost/mindsymfony/web/app_dev.php/platform/list
 	public function listAction()
 	{
-		$articles = array('list_ids' => array(5, 13, 14, 15, 404));
+		$articles = array
+        (
+            'list_ids'      => array(5, 13, 14, 15, 404),
+            'listsAdvert'   => null,
+        );
+
+		$listsAdvert = $this->getDoctrine()->getManager()->getRepository('PlatformBundle:Advert')->getAdvertWithApplications();
+        $articles['listsAdvert'] = $listsAdvert;
 
 		if(class_exists('Symfony\Component\HttpFoundation\JsonResponse'))
 			return new JsonResponse($articles);
