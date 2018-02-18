@@ -73,6 +73,21 @@ class AdvertRepository extends \Doctrine\ORM\EntityRepository
         return $db->getQuery()->getResult();
     }
 
+    public function getAdvertWithCategories($categoryNames)
+    {
+        $db = $this->createQueryBuilder('advert')
+            ->innerJoin('advert.categories', 'cat', 'WITH', 'cat.id IN (:cat)')
+            ->setParameter('cat', $categoryNames);
+
+        // Methode alternative IN
+        // $qb->where($qb->expr()->in('c.name', $categoryNames));
+
+        $query = $db->getQuery();
+        $result = $query->getResult();
+
+        return $result;
+    }
+
     public function myFindDQL($id)
     {
         $query = $this->_em->createQuery('SELECT advert FROM PlatformBundle:Advert advert WHERE advert.id = :id');
