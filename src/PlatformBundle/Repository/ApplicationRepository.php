@@ -10,4 +10,19 @@ namespace PlatformBundle\Repository;
  */
 class ApplicationRepository extends \Doctrine\ORM\EntityRepository
 {
+    // Récupérer les X dernières candidatures avec leur annonce associée
+    public function getApplicationsWithAdvert($limit)
+    {
+        $qb = $this->createQueryBuilder('app');
+
+        // On fait une jointure avec l'entité Advert avec pour alias « adv »
+        $qb
+            ->innerJoin('app.advert', 'adv')
+            ->addSelect('adv');
+
+        // Puis on ne retourne que $limit résultats
+        $qb->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
+    }
 }

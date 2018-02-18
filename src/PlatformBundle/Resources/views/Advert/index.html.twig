@@ -17,4 +17,15 @@
         {% endfor %}
     </ul>
 
+    <h3>Quelques candidatures</h3>
+    <ul>
+        {% for app in listApplication %}
+        <li>
+            {% dump(app) %}
+            [<a href="{{ path('oc_platform_view', {'id':app.advert.id}) }}">#{{ app.advert.id }}</a>] <strong>{{ app.author }}</strong>, le {{ app.date|date('d/m/Y') }}:
+            <em>{{ app.content }}</em>
+        </li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}

@@ -56,9 +56,17 @@ class AdvertController extends Controller
             ->getAdvertWithCategories($categories);
         dump($listAdverts);
 
+        $listApp = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('PlatformBundle:Application')
+            ->getApplicationsWithAdvert(2);
+        dump($listApp);
+
         return $this->render('@Platform/Advert/index.html.twig', array(
-            'random_msg' => $random_msg,
-            'listAdverts' => $listAdverts,
+            'random_msg'        => $random_msg,
+            'listAdverts'       => $listAdverts,
+            'listApplication'   => $listApp,
         ));
 	}
 
