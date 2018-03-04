@@ -17,3 +17,15 @@ services:
 #    platform.example:
 #        class: PlatformBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    platform.service.application_mailer:
+      class: PlatformBundle\Service\ApplicationMailer
+      arguments:
+          - "@mailer"
+
+    platform.doctrine_listener.application_creation:
+      class: PlatformBundle\DoctrineListener\ApplicationCreationListener
+      arguments:
+        - "@platform.service.application_mailer"
+      tags:
+        - { name: doctrine.event_listener, event: postPersist }
