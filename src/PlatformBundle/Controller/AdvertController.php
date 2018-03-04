@@ -289,9 +289,14 @@ class AdvertController extends Controller
         	throw new NotFoundHttpException("L'annonce {$id} n'existe pas.");
 
 		// La méthode findAll retourne toutes les catégories de la base de données
-		$listCategories = $em->getRepository('PlatformBundle:Category')->findAll();
-		foreach($listCategories as $category)
-			$advert->addCategory($category);
+        $listCategories = $advert->getCategories();
+        if($listCategories->isEmpty())
+        {
+            $listCategories = $em->getRepository('PlatformBundle:Category')->findAll();
+            foreach($listCategories as $category)
+                $advert->addCategory($category);
+        }
+
 		$em->flush();
 
         // Même mécanisme que pour l'ajout
