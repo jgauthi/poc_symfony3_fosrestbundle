@@ -33,7 +33,7 @@ class AdvertController extends Controller
 		return new Response($content);
 	}
 
-	public function indexAction()
+	public function indexAction($page)
 	{
 		// On veut récupérer l'url de l'annonce #5
 		// Arguments generate: nom de la route, paramètres
@@ -46,6 +46,8 @@ class AdvertController extends Controller
 
         // Notre liste d'annonce
         $repo = $this->getDoctrine()->getManager()->getRepository('PlatformBundle:Category');
+
+        /*
         $categories = $repo->findByName(array('Développement web', 'Développement mobile'));
         dump($categories);
 
@@ -55,6 +57,20 @@ class AdvertController extends Controller
             ->getRepository('PlatformBundle:Advert')
             ->getAdvertWithCategories($categories);
         dump($listAdverts);
+        */
+
+        if(empty($page) || $page < 1)
+            $page = 1;
+
+        $nbPerPage = 3;
+        $listAdverts = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('PlatformBundle:Advert')
+            ->getAdverts($page, $nbPerPage);
+
+        $nbPages = ceil(count($listAdverts) / $nbPerPage);
+        if($page > $nbPages)
+            throw $this->createNotFoundException("La page {$page} n'existe pas.");
 
         $listApp = $this
             ->getDoctrine()
@@ -67,16 +83,21 @@ class AdvertController extends Controller
             'random_msg'        => $random_msg,
             'listAdverts'       => $listAdverts,
             'listApplication'   => $listApp,
+            'nbPages'           => $nbPages,
+            'page'              => $page,
         ));
 	}
 
     public function menuAction()
     {
-        $listAdverts = array
+        $em = $this->getDoctrine()->getManager();
+        $limit = 3;
+        $listAdverts = $em->getRepository('PlatformBundle:Advert')->findBy
         (
-            array('id' => 2, 'title' => 'Recherche développeur Symfony'),
-            array('id' => 5, 'title' => 'Mission de webmaster'),
-            array('id' => 9, 'title' => 'Offre de stage webdesigner')
+            array(),                    // Pas de critère
+            array('date' => 'desc'),    // Trie par date récente
+            $limit,                     // Nombre d'annonces
+            0                           // A partir du 1er
         );
 
         // Tout l'intérêt est ici : le contrôleur passe les variables nécessaires au template !
@@ -152,7 +173,7 @@ class AdvertController extends Controller
 
         // $advert est donc une instance de PlatformBundle\Entity\Advert ou null si l'$id  n'existe pas
         if(null === $advert)
-            throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+            throw new NotFoundHttpException("L'annonce d'id #{$id} n'existe pas.");
 
         // Liste des candidatures
 		$em = $this->getDoctrine()->getManager();

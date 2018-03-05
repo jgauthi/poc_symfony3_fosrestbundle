@@ -15,15 +15,8 @@
 <div class="container">
     <div id="header" class="jumbotron">
         <h1>Ma plateforme d'annonces</h1>
-        <p>
-            Ce projet est propulsé par Symfony,
-            et construit grâce au MOOC OpenClassrooms et SensioLabs.
-        </p>
-        <p>
-            <a class="btn btn-primary btn-lg" href="https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2">
-                Participer au MOOC »
-            </a>
-        </p>
+        <p>Ce projet est propulsé par Symfony</p>
+        <p><a class="btn btn-primary btn-lg" href="{{ path('oc_platform_home', {'page': 1}) }}">Index</a></p>
     </div>
 
     <div class="row">
