@@ -12,6 +12,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AdvertController extends Controller
@@ -234,6 +240,7 @@ class AdvertController extends Controller
     // http://localhost/mindsymfony/web/app_dev.php/platform/add
 	public function addAction(Request $request)
     {
+		/*
         $txt = "Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…";
 
         // On récupère le service
@@ -284,20 +291,45 @@ class AdvertController extends Controller
 
         // Étape 2 : Flush: Ouvre une transaction et enregistre toutes les entités qui t'ont été données depuis le(s) dernier(s) flush()
         $em->flush();
+		*/
 
-        if($request->isMethod('POST'))
-        {
-            $id = $advert->getId();
+        // Construction du formulaire
+		$advert = new Advert();
+		$advert->setTitle(sprintf('Mon annonce (%d)', date('Y')));
+		$advert->setAuthor('John Doe');
 
-            // Ici, on s'occupera de la création et de la gestion du formulaire
-            $request->getSession()->getFlashBag()->add('notice', "Annonce #{$id} bien enregistrée");
+		$form = $this->get('form.factory')->createBuilder(FormType::class, $advert)
+			->add('date', DateType::class)
+			->add('title', textType::class)
+			->add('content', TextareaType::class)
+			->add('author', TextType::class)
+			->add('published', CheckboxType::class, array('required' => false))
+			->add('save', SubmitType::class)
+			->getForm();
 
-            // Puis on redirige vers la page de visualisation de cettte annonce
-            return $this->redirectToRoute('oc_platform_view', array('id' => $id));
-        }
+		if($request->isMethod('POST'))
+		{
+			$form->handleRequest($request);
+			if($form->isValid())
+			{
+				$em = $this->getDoctrine()->getManager();
+				$em->persist($advert);
+				$em->flush();
+
+				// Ici, on s'occupera de la création et de la gestion du formulaire
+				$id = $advert->getId();
+				$request->getSession()->getFlashBag()->add('notice', "Annonce #{$id} bien enregistrée");
+
+				// Puis on redirige vers la page de visualisation de cettte annonce
+				return $this->redirectToRoute('oc_platform_view', array('id' => $id));
+			}
+		}
 
         // Si on n'est pas en POST, alors on affiche le formulaire
-        return $this->render('@Platform/Advert/add.html.twig');
+        return $this->render('@Platform/Advert/add.html.twig', array
+		(
+			'form'	=>	$form->createView(),
+		));
 	}
 
     // http://localhost/mindsymfony/web/app_dev.php/platform/edit/5
