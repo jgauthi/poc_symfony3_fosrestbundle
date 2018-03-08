@@ -6,18 +6,13 @@ use PlatformBundle\Entity\Advert;
 use PlatformBundle\Entity\AdvertSkill;
 use PlatformBundle\Entity\Application;
 use PlatformBundle\Entity\Image;
+use PlatformBundle\Form\AdvertType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AdvertController extends Controller
@@ -298,14 +293,8 @@ class AdvertController extends Controller
 		$advert->setTitle(sprintf('Mon annonce (%d)', date('Y')));
 		$advert->setAuthor('John Doe');
 
-		$form = $this->get('form.factory')->createBuilder(FormType::class, $advert)
-			->add('date', DateType::class)
-			->add('title', textType::class)
-			->add('content', TextareaType::class)
-			->add('author', TextType::class)
-			->add('published', CheckboxType::class, array('required' => false))
-			->add('save', SubmitType::class)
-			->getForm();
+		$form = $this->get('form.factory')->create(AdvertType::class, $advert);
+		// alternative depuis le controlleur: $form = $this->createForm(AdvertType::class, $advert)
 
 		if($request->isMethod('POST'))
 		{
