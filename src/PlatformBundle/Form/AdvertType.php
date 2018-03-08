@@ -5,6 +5,7 @@ namespace PlatformBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -26,6 +27,12 @@ class AdvertType extends AbstractType
 			->add('author', TextType::class)
 			->add('published', CheckboxType::class, array('required' => false))
 			->add('image', ImageType::class)
+			->add('categories', CollectionType::class, array
+			(
+				'entry_type'	=>	CategoryType::class,
+				'allow_add'		=>	true,
+				'allow_delete'	=>	true,
+			))
 			->add('save', SubmitType::class);
 
     }/**
