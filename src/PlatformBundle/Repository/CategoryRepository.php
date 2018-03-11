@@ -10,4 +10,11 @@ namespace PlatformBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getLikeQueryBuilder($pattern)
+    {
+        return $this
+            ->createQueryBuilder('cat')
+            ->where('cat.name LIKE :pattern')
+            ->setParameter('pattern', $pattern);
+    }
 }
