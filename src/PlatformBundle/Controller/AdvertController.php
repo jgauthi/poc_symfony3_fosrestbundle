@@ -297,22 +297,20 @@ class AdvertController extends Controller
 		$form = $this->get('form.factory')->create(AdvertType::class, $advert);
 		// alternative depuis le controlleur: $form = $this->createForm(AdvertType::class, $advert)
 
-		if($request->isMethod('POST'))
+		if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
 		{
-			$form->handleRequest($request);
-			if($form->isValid())
-			{
-				$em = $this->getDoctrine()->getManager();
-				$em->persist($advert);
-				$em->flush();
+            $advert->getImage()->upload(); // Upload image
 
-				// Ici, on s'occupera de la création et de la gestion du formulaire
-				$id = $advert->getId();
-				$request->getSession()->getFlashBag()->add('notice', "Annonce #{$id} bien enregistrée");
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
 
-				// Puis on redirige vers la page de visualisation de cettte annonce
-				return $this->redirectToRoute('oc_platform_view', array('id' => $id));
-			}
+            // Ici, on s'occupera de la création et de la gestion du formulaire
+            $id = $advert->getId();
+            $request->getSession()->getFlashBag()->add('notice', "Annonce #{$id} bien enregistrée");
+
+            // Puis on redirige vers la page de visualisation de cettte annonce
+            return $this->redirectToRoute('oc_platform_view', array('id' => $id));
 		}
 
         // Si on n'est pas en POST, alors on affiche le formulaire

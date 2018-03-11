@@ -2,6 +2,8 @@
 namespace PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 /**
  * @ORM\Table(name="image")
@@ -25,6 +27,8 @@ class Image
      * @ORM\Column(name="alt", type="string", length=255)
      */
     private $alt;
+
+    private $file;
 
     /**
      * Get id
@@ -57,7 +61,11 @@ class Image
      */
     public function getUrl()
     {
-        return $this->url;
+        $url = $this->url;
+        if(!preg_match('#^http#', $url))
+            $url = str_replace(array('app.php', 'app_dev.php'), 'uploads/img/', $_SERVER['SCRIPT_NAME']).$url;
+
+        return $url;
     }
 
     /**
@@ -83,4 +91,36 @@ class Image
     {
         return $this->alt;
     }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+    }
+
+    public function getUploadDir()
+    {
+        return 'uploads/img';
+    }
+
+    public function getUploadRootDir()
+    {
+        return __DIR__.'/../../../web/'.$this->getUploadDir();
+    }
+
+    public function upload()
+    {
+        if(null === $this->file)
+            return;
+
+        $filename = $this->file->getClientOriginalName();
+        $this->file->move($this->getUploadRootDir(), $filename);
+
+        $this->setUrl($filename)->setAlt($filename);
+    }
+
 }
