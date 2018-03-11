@@ -6,6 +6,7 @@ use PlatformBundle\Entity\Advert;
 use PlatformBundle\Entity\AdvertSkill;
 use PlatformBundle\Entity\Application;
 use PlatformBundle\Entity\Image;
+use PlatformBundle\Form\AdvertEditType;
 use PlatformBundle\Form\AdvertType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -331,7 +332,7 @@ class AdvertController extends Controller
         	throw new NotFoundHttpException("L'annonce {$id} n'existe pas.");
 
 		// La méthode findAll retourne toutes les catégories de la base de données
-        $listCategories = $advert->getCategories();
+        /*$listCategories = $advert->getCategories();
         if($listCategories->isEmpty())
         {
             $listCategories = $em->getRepository('PlatformBundle:Category')->findAll();
@@ -339,16 +340,26 @@ class AdvertController extends Controller
                 $advert->addCategory($category);
         }
 
-		$em->flush();
+		$em->flush();*/
+
+        // Affichage du formulaire
+        $form = $this->get('form.factory')->create(AdvertEditType::class, $advert);
 
         // Même mécanisme que pour l'ajout
-        if ($request->isMethod('POST'))
+        if($request->isMethod('POST'))
         {
-            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
-            return $this->redirectToRoute('oc_platform_view', array('id' => 5));
+            $form->handleRequest($request);
+            if($form->isValid())
+            {
+                $em->persist($advert);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', "Annonce #{$id} bien modifiée.");
+                return $this->redirectToRoute('oc_platform_view', array('id' => $id));
+            }
         }
 
-        return $this->render('@Platform/Advert/edit.html.twig', array('advert' => $advert));
+        return $this->render('@Platform/Advert/edit.html.twig', array('advert' => $advert, 'form' => $form->createView()));
     }
 
     public function deleteAction($id)
