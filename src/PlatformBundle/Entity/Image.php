@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * @ORM\Table(name="image")
  * @ORM\Entity(repositoryClass="PlatformBundle\Repository\ImageRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Image
 {
@@ -29,6 +30,7 @@ class Image
     private $alt;
 
     private $file;
+    private $tmpFileName;
 
     /**
      * Get id
@@ -61,9 +63,20 @@ class Image
      */
     public function getUrl()
     {
-        $url = $this->url;
+        return $this->url;
+    }
+
+    public function getWebPath()
+    {
+        $url = $this->getUrl();
         if(!preg_match('#^http#', $url))
-            $url = str_replace(array('app.php', 'app_dev.php'), 'uploads/img/', $_SERVER['SCRIPT_NAME']).$url;
+        {
+            // Cas de figure où l'attribut url ne contient que l'extension de l'image
+            if(preg_match('#^[a-z]{2,4}$#i', $url))
+                $url = $this->getId().'.'.$url;
+
+            $url = $this->getUploadDir().'/'.$url;
+        }
 
         return $url;
     }
@@ -100,6 +113,16 @@ class Image
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
+
+        // Fichier déjà existant ?
+        if(null !== $this->url)
+        {
+            // Sauvegarde du nom de fichier pour le supprimer + tard si nécessaire
+            $this->tmpFileName = $this->url;
+
+            // Re-init valeurs
+            $this->url = $this->alt = null;
+        }
     }
 
     public function getUploadDir()
@@ -112,15 +135,63 @@ class Image
         return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
 
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        if(null === $this->file)
+            return;
+
+        // Le nom du fichier est son ID, il faut stocker l'extension
+        $this->url = $this->file->guessExtension();
+        $this->alt = $this->file->getClientOriginalName();
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
     public function upload()
     {
         if(null === $this->file)
             return;
 
-        $filename = $this->file->getClientOriginalName();
-        $this->file->move($this->getUploadRootDir(), $filename);
+        // Supprimer le fichier précédent
+        if(null !== $this->tmpFileName)
+        {
+            $oldFile = $this->getUploadRootDir()."/{$this->id}.{$this->tmpFileName}";
+            if(file_exists($oldFile))
+                unlink($oldFile);
+        }
 
-        $this->setUrl($filename)->setAlt($filename);
+        $filename = $this->file->getClientOriginalName();
+        $this->file->move
+        (
+            $this->getUploadRootDir(),
+            $this->id.'.'.$this->url
+        );
+
+//        $this->setUrl($filename)->setAlt($filename);
     }
 
+    /**
+     * @ORM\PreRemove()
+     */
+    public function preRemoveUpload()
+    {
+        // Sauvegarde temporaire du nom du fichier
+        $this->tmpFileName = $this->getUploadRootDir()."/{$this->id}.{$this->url}";
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        // En PostRemove, on n'a pas accès à l'id, on utilise notre nom sauvegardé
+        if(file_exists($this->tmpFileName))
+            unlink($this->tmpFileName);
+    }
 }
