@@ -5,6 +5,9 @@ namespace PlatformBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 /**
  * Advert
@@ -28,6 +31,7 @@ class Advert
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\Length(min=10)
      */
     private $title;
 
@@ -43,6 +47,7 @@ class Advert
      * @var string
      *
      * @ORM\Column(name="author", type="string", length=255)
+     * @Assert\Length(min=2)
      */
     private $author;
 
@@ -50,6 +55,7 @@ class Advert
      * @var string
      *
      * @ORM\Column(name="content", type="text", nullable=true)
+     * @Assert\NotBlank()
      */
     private $content;
 
@@ -57,6 +63,7 @@ class Advert
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
+     * @Assert\Datetime()
      */
     private $date;
 
@@ -73,6 +80,7 @@ class Advert
 	/**
 	 * @ORM\ManyToMany(targetEntity="PlatformBundle\Entity\Category", cascade={"persist"})
 	 * @ORM\JoinTable(name="advert_category")
+     * @Assert\Valid()
 	 */
 	private $categories;
 
@@ -414,5 +422,21 @@ class Advert
     public function getNbApplications()
     {
         return $this->nbApplications;
+    }
+
+    /**
+     * @Assert\Callback()
+     */
+    public function isContentValid(ExecutionContextInterface $context)
+    {
+        $blacklistWords = array('démotivation', 'abandon');
+
+        if(preg_match('#'. implode('|', $blacklistWords) .'#i', $this->getContent()))
+        {
+            $context
+                ->buildViolation('Contenu avec un mot banni')    // Message erreur
+                ->atPath('content')                                 // Attribut de l'objet
+                ->addViolation();                                        // Déclenche erreur
+        }
     }
 }
