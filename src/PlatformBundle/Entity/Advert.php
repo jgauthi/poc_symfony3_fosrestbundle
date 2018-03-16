@@ -66,7 +66,7 @@ class Advert
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
-     * @Assert\Datetime()
+     * @Assert\DateTime()
      */
     private $date;
 

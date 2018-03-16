@@ -31,6 +31,17 @@ class AdvertRepository extends \Doctrine\ORM\EntityRepository
         return new Paginator($query, true);
     }
 
+    public function getLastAdverts($limit = 5)
+    {
+        $query = $this->createQueryBuilder('advert')
+            ->orderBy('advert.date', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery();
+
+        $result = $query->getResult();
+        return $result;
+    }
+
     // Equivalent findAll();
     public function myFindALl($limit = null)
     {

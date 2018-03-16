@@ -81,6 +81,23 @@ class AdvertController extends Controller
             ->getApplicationsWithAdvert(2);
         dump($listApp);
 
+        // On vérifie si cette IP a déjà posté une candidature il y a moins de 15 secondes
+        $lastAdvert = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('PlatformBundle:Advert')
+            ->getLastAdverts(1);
+
+        if(!empty($lastAdvert[0]))
+        {
+            $currentDate = new \DateTime();
+            $date = $lastAdvert[0]->getDate();
+
+            $diff = $date->diff($currentDate);
+            dump($diff->d);
+        }
+
+
         return $this->render('@Platform/Advert/index.html.twig', array(
             'random_msg'        => $random_msg,
             'listAdverts'       => $listAdverts,
@@ -376,7 +393,7 @@ class AdvertController extends Controller
                 $advert->removeCategory($category);
 
             // Suppression des skills
-            foreach($advert->getS)
+            //foreach($advert->getS)
 
             $em->remove($advert);
             $em->flush();

@@ -10,5 +10,9 @@ class Antiflood extends Constraint
 {
     public $message = "Vous avez déjà posté un message il y a moins de 15 secondes, merci d'attendre un peu.";
 
+    // Utilisation du service
+    public function validatedBy()
+    {
+        return 'platform_antiflood';
+    }
 }
-
