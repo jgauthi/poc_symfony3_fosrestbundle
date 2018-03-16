@@ -347,7 +347,6 @@ class AdvertController extends Controller
             $form->handleRequest($request);
             if($form->isValid())
             {
-                $em->persist($advert);
                 $em->flush();
 
                 $request->getSession()->getFlashBag()->add('notice', "Annonce #{$id} bien modifiée.");
@@ -358,18 +357,40 @@ class AdvertController extends Controller
         return $this->render('@Platform/Advert/edit.html.twig', array('advert' => $advert, 'form' => $form->createView()));
     }
 
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
     	$em = $this->getDoctrine()->getManager();
     	$advert = $em->getRepository('PlatformBundle:Advert')->find($id);
 
-    	// Suppression des categories liés
-		foreach($advert->getCategories() as $category)
-			$advert->removeCategory($category);
-		$em->flush();
+    	if(null === $advert)
+    	    throw new NotFoundHttpException("L'annonce d'id {$id} n'existe pas.");
 
-		return new Response("Suppression Advert (todo...)");
-        // return $this->render('@Platform/Advert/delete.html.twig');
+        // On crée un formulaire vide, qui ne contiendra que le champ CSRF
+        // Cela permet de protéger la suppression d'annonce contre cette faille
+        $form = $this->get('form.factory')->create();
+
+        if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+        {
+            // Suppression des categories liés
+            foreach($advert->getCategories() as $category)
+                $advert->removeCategory($category);
+
+            // Suppression des skills
+            foreach($advert->getS)
+
+            $em->remove($advert);
+            $em->flush();
+
+            $request->getSession()->getFlashBah()->add('info', "L'annonce a bien été supprimé.");
+
+            return $this->redirectToRoute('oc_platform_home');
+        }
+
+        return $this->render('@Platform/Advert/delete.html.twig', array
+        (
+            'advert'    =>  $advert,
+            'form'      =>  $form->createView(),
+        ));
     }
 
 }
