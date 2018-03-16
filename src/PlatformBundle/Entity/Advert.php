@@ -5,9 +5,9 @@ namespace PlatformBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-
 
 /**
  * Advert
@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Table(name="advert")
  * @ORM\Entity(repositoryClass="PlatformBundle\Repository\AdvertRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="title", message="Une annonce existe déjà avec ce titre.")
  */
 class Advert
 {
@@ -30,7 +31,7 @@ class Advert
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, unique=true)
      * @Assert\Length(min=10)
      */
     private $title;
