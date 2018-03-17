@@ -8,13 +8,4 @@
         </a>
     </li>
     {% endfor %}
-    {% if app.user is empty %}
-    <li>
-        <a href="{{ path('login') }}" title="login: admin ou user, password: local">Login</a>
-    </li>
-    {% else %}
-        <li>
-            <a href="{{ path('logout') }}" title="logout current user '{{ app.user.username }}'">Logout</a>
-        </li>
-    {% endif %}
 </ul>

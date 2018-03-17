@@ -3,11 +3,9 @@
 namespace PlatformBundle\Controller;
 
 use PlatformBundle\Entity\Advert;
-use PlatformBundle\Entity\AdvertSkill;
-use PlatformBundle\Entity\Application;
-use PlatformBundle\Entity\Image;
 use PlatformBundle\Form\AdvertEditType;
 use PlatformBundle\Form\AdvertType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,6 +13,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 
 class AdvertController extends Controller
 {
@@ -308,6 +308,10 @@ class AdvertController extends Controller
         $em->flush();
 		*/
 
+		// Check, alternative à l'annotation @Security
+        if(!$this->get('security.authorization_checker')->isGranted('ROLE_AUTEUR'))
+            throw new AccessDeniedException('Accès limités aux auteurs.');
+
         // Construction du formulaire
 		$advert = new Advert();
 		$advert->setTitle(sprintf('Mon annonce (%d)', date('Y')));
@@ -338,6 +342,9 @@ class AdvertController extends Controller
 	}
 
     // http://localhost/mindsymfony/web/app_dev.php/platform/edit/5
+    /**
+     * @Security("has_role('ROLE_AUTEUR')")
+     */
     public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -376,6 +383,9 @@ class AdvertController extends Controller
         return $this->render('@Platform/Advert/edit.html.twig', array('advert' => $advert, 'form' => $form->createView()));
     }
 
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function deleteAction(Request $request, $id)
     {
     	$em = $this->getDoctrine()->getManager();

@@ -19,14 +19,18 @@
 			<i class="glyphicon glyphicon-chevron-left"></i>
 			Retour à la liste
 		</a>
+		{% if is_granted('ROLE_AUTEUR') %}
 		<a href="{{ path('oc_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
 			<i class="glyphicon glyphicon-edit"></i>
 			Modifier l'annonce
 		</a>
+		{% endif %}
+		{% if is_granted('ROLE_ADMIN') %}
 		<a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
 			<i class="glyphicon glyphicon-trash"></i>
 			Supprimer l'annonce
 		</a>
+		{% endif %}
 	</p>
 
 
