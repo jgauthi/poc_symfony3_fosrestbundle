@@ -118,11 +118,13 @@ class AdvertController extends Controller
             $limit,                     // Nombre d'annonces
             0                           // A partir du 1er
         );
+        $currentUser = $this->getUser();
 
         // Tout l'intérêt est ici : le contrôleur passe les variables nécessaires au template !
         return $this->render('@Platform/Advert/menu.html.twig', array
         (
-            'listAdverts' => $listAdverts
+            'listAdverts' => $listAdverts,
+        //  'currentUser' => $currentUser, // Non nécessaire, l'user courant est accessible via {{ app.user }}
         ));
     }
 
