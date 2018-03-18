@@ -14,6 +14,9 @@ services:
     PlatformBundle\DataFixtures\ORM\LoadSkill:
       tags: ['doctrine.fixture.orm']
 
+    PlatformBundle\DataFixtures\ORM\LoadAdvert:
+      tags: ['doctrine.fixture.orm']
+
 #    platform.example:
 #        class: PlatformBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]

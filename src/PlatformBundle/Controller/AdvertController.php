@@ -255,59 +255,6 @@ class AdvertController extends Controller
     // http://localhost/mindsymfony/web/app_dev.php/platform/add
 	public function addAction(Request $request)
     {
-		/*
-        $txt = "Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…";
-
-        // On récupère le service
-        $antispam = $this->container->get('platform.antispam');
-        if($antispam->isSpam($txt))
-            throw new \Exception('Votre message a été détecté comme spam !');
-
-        // Création de l'entité
-        $advert = new Advert();
-        $advert
-            ->setTitle('Recherche développeur Symfony.')
-            ->setAuthor('Alexandre')
-            ->setContent($txt);
-            // On peut ne pas définir ni la date ni la publication, car ces attributs sont définis automatiquement dans le constructeur
-
-        // Création de l'entité Image
-        $image = new Image();
-        $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
-        $image->setAlt('Job de rêve');
-
-        // On lie l'image à l'annonce
-        $advert->setImage($image);
-
-        // Candidature 1
-        $application1 = new Application();
-        $application1->setAuthor('Marine')->setContent('J\'ai toutes les qualités requises.')->setAdvert($advert);
-
-        // Candidature 2
-        $application2 = new Application();
-        $application2->setAuthor('Pierre')->setContent('Je suis très motivé.')->setAdvert($advert);
-
-		// On récupère l'EntityManager
-		$em = $this->getDoctrine()->getManager();
-
-		// Association de compétences à l'annonce
-		$listSkills = $em->getRepository('PlatformBundle:Skill')->findAll();
-		foreach($listSkills as $skill)
-		{
-			$advertSkill = new AdvertSkill();
-			$advertSkill->setAdvert($advert)->setSkill($skill)->setLevel('Expert');
-			$em->persist($advertSkill);
-		}
-
-        // Étape 1 : On « persiste » l'entité
-        $em->persist($advert);
-        $em->persist($application1);
-        $em->persist($application2);
-
-        // Étape 2 : Flush: Ouvre une transaction et enregistre toutes les entités qui t'ont été données depuis le(s) dernier(s) flush()
-        $em->flush();
-		*/
-
 		// Check, alternative à l'annotation @Security
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_AUTEUR'))
             throw new AccessDeniedException('Accès limités aux auteurs.');
