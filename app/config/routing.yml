@@ -2,13 +2,5 @@ platform:
     resource: "@PlatformBundle/Resources/config/routing.yml"
     prefix:   /platform
 
-login:
-  path: /login
-  defaults:
-    _controller: MyUserBundle:Security:login
-
-login_check:
-  path: /login_check
-
-logout:
-  path: /logout
+user:
+    resource: "@MyUserBundle/Resources/config/routing.yml"
