@@ -2,8 +2,7 @@
 # https://symfony.com/doc/current/security.html
 security:
   encoders:
-    Symfony\Component\Security\Core\User\User: plaintext
-    MyUserBundle\Entity\User: plaintext
+    MyUserBundle\Entity\User: sha512
 
   role_hierarchy:
     ROLE_ADMIN:       [ ROLE_AUTEUR, ROLE_MODERATEUR ]
@@ -12,11 +11,9 @@ security:
   # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
   providers:
     myuserprovider:
-      entity:
-        class: MyUserBundle\Entity\User
-        property: username
+      id: fos_user.user_provider.username
 
-  provider: in_memory
+  provider: myuserprovider
   firewalls:
     # disables authentication for assets and the profiler, adapt it according to your needs
     dev:
@@ -33,6 +30,8 @@ security:
       logout:
         path:       logout
         target:     login
+      remember_me:
+        secret:     %secret%
 
   access_control:
     - { path: ^/admin, roles: ROLE_ADMIN }

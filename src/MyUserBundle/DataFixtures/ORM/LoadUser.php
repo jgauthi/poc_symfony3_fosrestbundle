@@ -11,18 +11,21 @@ class LoadUser implements FixtureInterface
     {
         $listNames = array
         (
-            'admin'      =>  array('role' => array('ROLE_ADMIN'), 'salt' => ''),
-            'auteur'     =>  array('role' => array('ROLE_AUTEUR'), 'salt' => ''),
-            'user'       =>  array('role' => array('ROLE_USER'), 'salt' => ''),
+            'admin'      =>  array('role' => array('ROLE_ADMIN')),
+            'auteur'     =>  array('role' => array('ROLE_AUTEUR')),
+            'user'       =>  array('role' => array('ROLE_USER')),
         );
         $pass = 'local';
 
         foreach($listNames as $name => $info)
         {
             $user = new User();
-            $user->setUsername($name)->setPassword($pass);
-            $user->setSalt($info['salt']);
-            $user->setRoles($info['role']);
+            $user
+                ->setUsername($name)
+                ->setEmail($name.'@mindsymfony.dev')
+                ->setPlainPassword($pass)
+                ->setRoles($info['role'])
+                ->setEnabled(true);
 
             $manager->persist($user);
         }
