@@ -3,6 +3,7 @@
 security:
   encoders:
     Symfony\Component\Security\Core\User\User: plaintext
+    MyUserBundle\Entity\User: plaintext
 
   role_hierarchy:
     ROLE_ADMIN:       [ ROLE_AUTEUR, ROLE_MODERATEUR ]
@@ -10,11 +11,10 @@ security:
 
   # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
   providers:
-    in_memory:
-      memory:
-        users:
-          user:   { password: local, roles: [ 'ROLER_USER' ] }
-          admin:  { password: local, roles: [ 'ROLE_ADMIN' ] }
+    myuserprovider:
+      entity:
+        class: MyUserBundle\Entity\User
+        property: username
 
   provider: in_memory
   firewalls:
@@ -26,6 +26,7 @@ security:
     main:
       pattern: ^/
       anonymous: true
+      provider: myuserprovider
       form_login:
         login_path: login
         check_path: login_check
