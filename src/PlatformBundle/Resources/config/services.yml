@@ -3,8 +3,9 @@ services:
     class: PlatformBundle\Antispam\Antispam
     arguments:
       - "@mailer"
-      - %locale%
       - 50
+    calls:
+      - [ setLocale, [%locale%] ]
 
   platform.twig.antispam_extension:
     class: PlatformBundle\Twig\AntispamExtension
