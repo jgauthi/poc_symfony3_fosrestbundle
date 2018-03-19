@@ -11,7 +11,13 @@ services:
     arguments:
       - "@platform.antispam"
     tags:
-      - { name: twig.extension }
+      - { name: twig.runtime }
+
+  platform.form.ckeditor:
+    class: PlatformBundle\Form\CkeditorType
+    tags:
+      - { name: form.type, alias: ckeditor }
+
 
   # Emplacement spécifique pour des datafixtures
   # sinon, le chemin officiel pour stocker est src/DataFixtures/
