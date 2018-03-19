@@ -19,6 +19,17 @@ services:
     tags:
       - { name: form.type, alias: ckeditor }
 
+  platform.service.beta.html_adder:
+    class: PlatformBundle\Service\Beta\BetaHTMLAdder
+
+  platform.service.beta.listener:
+    class: PlatformBundle\Service\Beta\BetaListener
+    arguments:
+      - "@platform.service.beta.html_adder"
+      - "2018-07-01"
+    tags:
+      - { name: kernel.event_listener, event: kernel.response, method: processBeta }
+
 
   # Emplacement spécifique pour des datafixtures
   # sinon, le chemin officiel pour stocker est src/DataFixtures/
