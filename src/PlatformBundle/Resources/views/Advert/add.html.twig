@@ -1,16 +1,16 @@
 {% extends "@Platform/layout.html.twig" %}
-{% block title %}Ajouter une annonce - {{ parent() }}{% endblock %}
+{% block title %}{{ 'Ajouter une annonce'|trans }} - {{ parent() }}{% endblock %}
 
 {% block ocplatform_body %}
 
-    <h2>Ajouter une annonce</h2>
+    <h2>{{ 'Ajouter une annonce'|trans }}</h2>
 
     {{ include("@Platform/Advert/form.html.twig") }}
 
     <p>
         <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
             <i class="glyphicon glyphicon-chevron-left"></i>
-            Retour à l'index
+            {{ 'Retour à l\'index'|trans }}
         </a>
     </p>
 

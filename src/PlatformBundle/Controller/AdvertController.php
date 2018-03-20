@@ -379,4 +379,12 @@ class AdvertController extends Controller
         ));
     }
 
+
+    public function translationAction($name)
+    {
+        return $this->render('@Platform/Advert/translation.html.twig', array
+        (
+            'name'  =>  $name,
+        ));
+    }
 }

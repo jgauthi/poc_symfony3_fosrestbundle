@@ -1,9 +1,9 @@
 {% extends "@Platform/layout.html.twig" %}
-{% block title %}Accueil - {{ parent() }}{% endblock %}
+{% block title %}{{ 'Accueil'|trans }} - {{ parent() }}{% endblock %}
 
 {% block ocplatform_body %}
 
-    <h2>Liste des annonces</h2>
+    <h2>{{ 'Liste des annonces'|trans }}</h2>
     <p><em>{{ random_msg }}</em></p>
     <ul>
         {% for advert in listAdverts %}
@@ -13,7 +13,7 @@
                 le {{ advert.date|date('d/m/Y') }}
             </li>
         {% else %}
-            <li>Pas d'annonce pour le moment.</li>
+            <li>{% trans %}Pas d'annonce pour le moment.{% endtrans %}</li>
         {% endfor %}
     </ul>
     <ul class="pagination">
@@ -26,7 +26,7 @@
     </ul>
 
 
-    <h3>Quelques candidatures</h3>
+    <h3>{{ 'Quelques candidatures'|trans }}</h3>
     <ul>
         {% for app in listApplication %}
         <li>

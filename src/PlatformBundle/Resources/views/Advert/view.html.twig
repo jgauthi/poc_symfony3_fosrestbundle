@@ -1,5 +1,5 @@
 {% extends "@Platform/layout.html.twig" %}
-{% block title %}Lecture d'une annonce #{{ advert.id }} - {{ parent() }}{% endblock %}
+{% block title %}{{ 'Lecture d\'une annonce'|trans }} #{{ advert.id }} - {{ parent() }}{% endblock %}
 
 {% block ocplatform_body %}
 
@@ -17,18 +17,18 @@
 	<p>
 		<a href="{{ path('oc_platform_home') }}" class="btn btn-default">
 			<i class="glyphicon glyphicon-chevron-left"></i>
-			Retour à la liste
+			{{ 'Retour à la liste'|trans }}
 		</a>
 		{% if is_granted('ROLE_AUTEUR') %}
 		<a href="{{ path('oc_platform_edit', {'id': advert.id}) }}" class="btn btn-default">
 			<i class="glyphicon glyphicon-edit"></i>
-			Modifier l'annonce
+			{{ 'Modifier l\'annonce'|trans }}
 		</a>
 		{% endif %}
 		{% if is_granted('ROLE_ADMIN') %}
 		<a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
 			<i class="glyphicon glyphicon-trash"></i>
-			Supprimer l'annonce
+			{{ 'Supprimer l\'annonce'|trans }}
 		</a>
 		{% endif %}
 	</p>
