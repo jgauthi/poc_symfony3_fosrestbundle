@@ -3,6 +3,8 @@
 namespace PlatformBundle\Controller;
 
 use PlatformBundle\Entity\Advert;
+use PlatformBundle\Event\PlatformEvents;
+use PlatformBundle\Event\MessagePostEvent;
 use PlatformBundle\Form\AdvertEditType;
 use PlatformBundle\Form\AdvertType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -269,6 +271,14 @@ class AdvertController extends Controller
 
 		if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
 		{
+            // Evèvenement bigbrother, check message before save
+		    $event = new MessagePostEvent($advert->getContent(), $this->getUser());
+            $this->get('event_dispatcher')->dispatch(PlatformEvents::POST_MESSAGE, $event); // On déclenche l'évènement
+
+            // On récupère ce qui a été modifié par le ou les listeners, ici le message
+            $advert->setContent($event->getMessage());
+
+            // Sauvegarde
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
             $em->flush();

@@ -14,6 +14,19 @@ services:
     tags:
       - { name: twig.runtime }
 
+  platform.service.bigbrother.message_notificator:
+    class: PlatformBundle\Service\Bigbrother\MessageNotificator
+    arguments:
+      - "@mailer"
+
+  platform.service.bigbrother.message_listener:
+    class: PlatformBundle\Service\Bigbrother\MessageListener
+    arguments:
+      - "@platform.service.bigbrother.message_notificator"
+      - ["john", "alexandre", "pierre"]
+    tags:
+      - { name: kernel.event_listener, event: platform.post_message, method: processMessage }
+
   platform.form.ckeditor:
     class: PlatformBundle\Form\CkeditorType
     tags:
@@ -28,7 +41,7 @@ services:
       - "@platform.service.beta.html_adder"
       - "2018-07-01"
     tags:
-      - { name: kernel.event_listener, event: kernel.response, method: processBeta }
+      - { name: kernel.event_listener, event: kernel.response, method: processBeta, priority: 2 }
 
 
   # Emplacement spécifique pour des datafixtures
