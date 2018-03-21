@@ -1,6 +1,11 @@
 platform:
-    resource: "@PlatformBundle/Resources/config/routing.yml"
-    prefix:   /platform
+  resource: "@PlatformBundle/Resources/config/routing.yml"
+  prefix:   /{_locale}/platform
+  requirements:
+    _locale: en|fr
 
 user:
-    resource: "@MyUserBundle/Resources/config/routing.yml"
+  resource: "@MyUserBundle/Resources/config/routing.yml"
+  prefix:   /{_locale}
+  requirements:
+    _locale: en|fr

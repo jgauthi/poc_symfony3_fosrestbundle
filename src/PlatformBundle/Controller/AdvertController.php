@@ -130,10 +130,10 @@ class AdvertController extends Controller
         ));
     }
 
-	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/404
-	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/5
-	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/5?tag=developer
-	// http://localhost/mindsymfony/web/app_dev.php/platform/advert/13 ou 14 ou 15
+	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/404
+	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/5
+	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/5?tag=developer
+	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/13 ou 14 ou 15
 	public function viewAction($id, Request $request)
 	{
 		// L'annonce n'existe pas (ne pas oublier le use Symfony\Component\HttpFoundation\Response)
@@ -219,8 +219,8 @@ class AdvertController extends Controller
 	}
 
 	// On récupère tous les paramètres en arguments de la méthode
-	// http://localhost/mindsymfony/web/app_dev.php/platform/2012/symfony.xml
-	// http://localhost/mindsymfony/web/app_dev.php//platform/2014/webmaster
+	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/2012/symfony.xml
+	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/2014/webmaster
 	public function viewSlugAction($slug, $year, $_format)
 	{
 		// Le paramètre {_format}
@@ -232,7 +232,7 @@ class AdvertController extends Controller
 		);
 	}
 
-	// http://localhost/mindsymfony/web/app_dev.php/platform/list
+	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/list
 	public function listAction()
 	{
 		$articles = array
@@ -254,7 +254,7 @@ class AdvertController extends Controller
 		return $response;
 	}
 
-    // http://localhost/mindsymfony/web/app_dev.php/platform/add
+    // http://localhost/mindsymfony/web/app_dev.php/fr/platform/add
 	public function addAction(Request $request)
     {
 		// Check, alternative à l'annotation @Security
@@ -298,7 +298,7 @@ class AdvertController extends Controller
 		));
 	}
 
-    // http://localhost/mindsymfony/web/app_dev.php/platform/edit/5
+    // http://localhost/mindsymfony/web/app_dev.php/fr/platform/edit/5
     /**
      * @Security("has_role('ROLE_AUTEUR')")
      */
@@ -379,7 +379,7 @@ class AdvertController extends Controller
         ));
     }
 
-
+    // http://localhost/mindsymfony/web/app_dev.php/fr/traduction/Alice
     public function translationAction($name)
     {
         return $this->render('@Platform/Advert/translation.html.twig', array

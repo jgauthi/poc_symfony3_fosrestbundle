@@ -14,6 +14,8 @@ _main:
     resource: routing.yml
 
 platform_translation:
-  path: /traduction/{name}
+  path: /{_locale}/traduction/{name}
   defaults:
     _controller: PlatformBundle:Advert:translation
+  requirements:
+    _locale: en|fr
