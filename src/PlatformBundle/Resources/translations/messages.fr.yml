@@ -1,10 +1,9 @@
-Hello: Bonjour
+Hello: Bonjour %name% !
 'Ajouter une annonce': 'Ajouter une annonce'
 'Retour à l''index': 'Retour à l''index'
 'Supprimer une annonce': 'Supprimer une annonce'
 'Retour à l''annonce': 'Retour à l''annonce'
 'Modifier une annonce': 'Modifier une annonce'
-advert.already_publish: 'Vous éditez une annonce déjà existante, merci de ne pas changer l''esprit général de l''annonce déjà publiée'
 Accueil: Accueil
 'Liste des annonces': 'Liste des annonces'
 'Pas d''annonce pour le moment.': 'Pas d''annonce pour le moment.'
@@ -13,3 +12,12 @@ Accueil: Accueil
 'Retour à la liste': 'Retour à la liste'
 'Modifier l''annonce': 'Modifier l''annonce'
 'Supprimer l''annonce': 'Supprimer l''annonce'
+advert:
+  already_publish: 'Vous éditez une annonce déjà existante, merci de ne pas changer l''esprit général de l''annonce déjà publiée'
+  byauthor: 'par %author%'
+  catlist: 'Cette annonce est parue dans les catégories suivantes:'
+  confirm_delete: 'Etes-vous certain de vouloir supprimer l''annonce "%title%" ?'
+  no_application: 'Aucune Candidatures pour cette annonce.'
+  thedate: 'le %date%'
+  skill_require: 'Cette annonce requiert les compétences suivantes :'
+

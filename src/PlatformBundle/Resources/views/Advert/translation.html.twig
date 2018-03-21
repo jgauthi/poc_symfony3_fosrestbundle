@@ -2,6 +2,6 @@
 {% block title %}Traduction - {{ parent() }}{% endblock %}
 
 {% block ocplatform_body %}
-    {{ 'Hello'|trans }} {{ name }}!
+    {{ 'Hello'|trans({'%name%': name}) }}
 
 {% endblock %}

@@ -8,7 +8,7 @@
     {% if advert.image is not null %}
 		<p><img src="{{ asset(advert.image.WebPath) }}" alt="{{ advert.image.alt }}" style="max-width: 500px; height: auto;"></p>
     {% endif %}
-	<i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
+	<i>{{ 'advert.byauthor'|trans({'%author%': advert.author}) }}, {{ 'advert.thedate'|trans({'%date%': advert.date|date('d/m/Y')}) }}</i>
 
 	<div class="well">
         {{ advert.content }}
@@ -36,7 +36,7 @@
 
 	{% if not advert.categories.empty %}
 	<p>
-		Cette annonce est parue dans les catégories suivantes:
+		{{ 'advert.catlist'|trans }}
 		{% for category in advert.categories %}
 			{{ category.name }}{% if not loop.last %}, {% endif %}
 		{% endfor %}
@@ -46,7 +46,7 @@
 
     {% if listAdvertSkills|length > 0 %}
 	<div>
-		Cette annonce requiert les compétences suivantes :
+		{{ 'advert.skill_require'|trans }}
 		<ul>
 			{% for advertSkill in listAdvertSkills %}
 				<li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
@@ -62,8 +62,8 @@
 		{% endif %}
 
 		<li>
-			De <strong>{{ application.author }}</strong>,
-			le {{ application.date|date('d/m/Y') }}:
+            <strong>{{ 'advert.byauthor'|trans({'%author%': application.author}) }}</strong>,
+            {{ 'advert.thedate'|trans({'%date%': application.date|date('d/m/Y')}) }}
 			<em>{{ application.content }}</em>
 		</li>
 
@@ -72,7 +72,7 @@
 		{% endif %}
 
 	{% else %}
-		<p>Aucune Candidatures pour cette annonce.</p>
+		<p>{{ 'advert.no_application'|trans }}</p>
 	{% endfor %}
 
 

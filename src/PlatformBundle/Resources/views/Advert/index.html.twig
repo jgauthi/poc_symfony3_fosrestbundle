@@ -9,8 +9,8 @@
         {% for advert in listAdverts %}
             <li>
                 <a href="{{ path('oc_platform_view', {'id': advert.id}) }}">{{ advert.title }}</a>
-                par {{ advert.author }},
-                le {{ advert.date|date('d/m/Y') }}
+                {{ 'advert.byauthor'|trans({'%author%': advert.author}) }},
+                {{ 'advert.thedate'|trans({'%date%': advert.date|date('d/m/Y')}) }}
             </li>
         {% else %}
             <li>{% trans %}Pas d'annonce pour le moment.{% endtrans %}</li>
@@ -31,7 +31,8 @@
         {% for app in listApplication %}
         <li>
             {% dump(app) %}
-            [<a href="{{ path('oc_platform_view', {'id':app.advert.id}) }}">#{{ app.advert.id }}</a>] <strong>{{ app.author }}</strong>, le {{ app.date|date('d/m/Y') }}:
+            [<a href="{{ path('oc_platform_view', {'id':app.advert.id}) }}">#{{ app.advert.id }}</a>]
+            <strong>{{ app.author }}</strong>, {{ 'advert.thedate'|trans({'%date%': app.date|date('d/m/Y')}) }}:
             <em>{{ app.content }}</em>
         </li>
         {% endfor %}

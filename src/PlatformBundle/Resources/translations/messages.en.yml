@@ -1,10 +1,9 @@
-Hello: Hi
+Hello: Hi %name%!
 'Ajouter une annonce': 'Edit an advert'
 'Retour à l''index': 'Comeback'
 'Supprimer une annonce': 'Delete an advert'
 'Retour à l''annonce': 'Comeback'
 'Modifier une annonce': 'Edit an advert'
-'advert.already_publish': '...Vous éditez une annonce déjà existante, merci de ne pas changer l''esprit général de l''annonce déjà publiée'
 Accueil: Home
 'Liste des annonces': 'Advert list'
 'Pas d''annonce pour le moment.': 'No advert in current time'
@@ -13,3 +12,11 @@ Accueil: Home
 'Retour à la liste': 'Comeback'
 'Modifier l''annonce': 'Edit application'
 'Supprimer l''annonce': 'Delete application'
+advert:
+  already_publish: 'You are editing an already existing advert, please do not change the general spirit of the ad already published'
+  byauthor: 'by %author%'
+  catlist: 'This advert has been published in the following categories:'
+  confirm_delete: 'Are you sure you want to delete the advert "%title%" ?'
+  no_application: 'No applications for this ad.'
+  thedate: 'the %date%'
+  skill_require: 'This advert requires the following skills:'

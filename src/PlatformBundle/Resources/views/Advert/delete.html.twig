@@ -7,7 +7,7 @@
 {% block ocplatform_body %}
 
     <h2>{{ 'Supprimer une annonce'|trans }}</h2>
-    <p>Etes-vous certain de vouloir supprimer l'annonce "{{ advert.title }}" ?</p>
+    <p>{{ 'advert.confirm_delete'|trans({'%title%', advert.title }) }}</p>
 
     {# On met l'id de l'annonce dans la route de l'action du formulaire #}
     <form action="{{ path('oc_platform_delete', {'id': advert.id}) }}" method="post">
