@@ -5,6 +5,7 @@ Hello: Hi %name%!
 'Retour à l''annonce': 'Comeback'
 'Modifier une annonce': 'Edit an advert'
 Accueil: Home
+'Aujourd''hui nous sommes le %date% et il est %time% !': Today we are the %date% and it is %time%!
 'Liste des annonces': 'Advert list'
 'Pas d''annonce pour le moment.': 'No advert in current time'
 'Quelques candidatures': 'Some applications'

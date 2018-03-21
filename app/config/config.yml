@@ -77,6 +77,12 @@ fos_user:
 #    form:
 #      type: AppBundle\Form\RegistrationType
 
+services:
+  twig.extension.intl:
+    class: Twig_Extensions_Extension_Intl
+    tags:
+      - { name: twig.extension }
+
 # Stof\DoctrineExtensionsBundle configuration
 stof_doctrine_extensions:
     orm:

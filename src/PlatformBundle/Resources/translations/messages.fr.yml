@@ -5,6 +5,7 @@ Hello: Bonjour %name% !
 'Retour à l''annonce': 'Retour à l''annonce'
 'Modifier une annonce': 'Modifier une annonce'
 Accueil: Accueil
+'Aujourd''hui nous sommes le %date% et il est %time% !': Aujourd'hui nous sommes le %date% et il est %time% !
 'Liste des annonces': 'Liste des annonces'
 'Pas d''annonce pour le moment.': 'Pas d''annonce pour le moment.'
 'Quelques candidatures': 'Quelques candidatures'

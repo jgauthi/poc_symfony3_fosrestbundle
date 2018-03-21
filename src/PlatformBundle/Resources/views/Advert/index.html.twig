@@ -3,6 +3,10 @@
 
 {% block ocplatform_body %}
 
+    {% trans with {'%date%': 'now'|localizeddate('full', 'none'), '%time%': 'now'|localizeddate('none', 'short')} %}
+        Aujourd'hui nous sommes le %date% et il est %time% !
+    {% endtrans %}
+
     <h2>{{ 'Liste des annonces'|trans }}</h2>
     <p><em>{{ random_msg }}</em></p>
     <ul>
