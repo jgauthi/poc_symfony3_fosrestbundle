@@ -4,7 +4,7 @@ Hello: Bonjour
 'Supprimer une annonce': 'Supprimer une annonce'
 'Retour à l''annonce': 'Retour à l''annonce'
 'Modifier une annonce': 'Modifier une annonce'
-'Vous éditez une annonce déjà existante, merci de ne pas changer l''esprit général de l''annonce déjà publiée': 'Vous éditez une annonce déjà existante, merci de ne pas changer l''esprit général de l''annonce déjà publiée'
+advert.already_publish: 'Vous éditez une annonce déjà existante, merci de ne pas changer l''esprit général de l''annonce déjà publiée'
 Accueil: Accueil
 'Liste des annonces': 'Liste des annonces'
 'Pas d''annonce pour le moment.': 'Pas d''annonce pour le moment.'
