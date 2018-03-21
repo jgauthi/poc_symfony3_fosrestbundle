@@ -74,7 +74,10 @@ class AdvertController extends Controller
 
         $nbPages = ceil(count($listAdverts) / $nbPerPage);
         if($page > $nbPages)
-            throw $this->createNotFoundException("La page {$page} n'existe pas.");
+        {
+            $translator = $this->get('translator');
+            throw $this->createNotFoundException($translator->trans("La page %page% n''existe pas.", array('%page%', $page)));
+        }
 
         $listApp = $this
             ->getDoctrine()
@@ -137,10 +140,11 @@ class AdvertController extends Controller
 	public function viewAction($id, Request $request)
 	{
 		// L'annonce n'existe pas (ne pas oublier le use Symfony\Component\HttpFoundation\Response)
-		if($id == 404)
+		$translator = $this->get('translator');
+        if($id == 404)
 		{
 			$response = new Response();
-			$response->setContent("L'annonce {$id} n'existe pas.");
+			$response->setContent($translator->trans('advert.no_exist', array('%id%' => $id)));
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
 
 			return $response;
@@ -196,7 +200,7 @@ class AdvertController extends Controller
 
         // $advert est donc une instance de PlatformBundle\Entity\Advert ou null si l'$id  n'existe pas
         if(null === $advert)
-            throw new NotFoundHttpException("L'annonce d'id #{$id} n'existe pas.");
+            throw new NotFoundHttpException($translator->trans('advert.no_exist', array('%id%' => $id)));
 
         // Liste des candidatures
 		$em = $this->getDoctrine()->getManager();
@@ -257,9 +261,11 @@ class AdvertController extends Controller
     // http://localhost/mindsymfony/web/app_dev.php/fr/platform/add
 	public function addAction(Request $request)
     {
+        $translator = $this->get('translator');
+
 		// Check, alternative à l'annotation @Security
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_AUTEUR'))
-            throw new AccessDeniedException('Accès limités aux auteurs.');
+            throw new AccessDeniedException($translator->trans('advert.admin.author_require'));
 
         // Construction du formulaire
 		$advert = new Advert();
@@ -285,7 +291,7 @@ class AdvertController extends Controller
 
             // Ici, on s'occupera de la création et de la gestion du formulaire
             $id = $advert->getId();
-            $request->getSession()->getFlashBag()->add('notice', "Annonce #{$id} bien enregistrée");
+            $request->getSession()->getFlashBag()->add('notice', $translator->trans('advert.admin.save_confirm', array('%id%' => $id)));
 
             // Puis on redirige vers la page de visualisation de cettte annonce
             return $this->redirectToRoute('oc_platform_view', array('id' => $id));
@@ -305,10 +311,11 @@ class AdvertController extends Controller
     public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $translator = $this->get('translator');
 
         $advert = $em->getRepository('PlatformBundle:Advert')->find($id);
         if(null === $advert)
-        	throw new NotFoundHttpException("L'annonce {$id} n'existe pas.");
+        	throw new NotFoundHttpException($translator->trans('advert.no_exist', array('%id%' => $id)));
 
 		// La méthode findAll retourne toutes les catégories de la base de données
         /*$listCategories = $advert->getCategories();
@@ -332,7 +339,7 @@ class AdvertController extends Controller
             {
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', "Annonce #{$id} bien modifiée.");
+                $request->getSession()->getFlashBag()->add('notice', $translator->trans('advert.admin.edit_confirm_ok', array('%id%' => $id)));
                 return $this->redirectToRoute('oc_platform_view', array('id' => $id));
             }
         }
@@ -367,7 +374,8 @@ class AdvertController extends Controller
             $em->remove($advert);
             $em->flush();
 
-            $request->getSession()->getFlashBah()->add('info', "L'annonce a bien été supprimé.");
+            $translator = $this->get('translator');
+            $request->getSession()->getFlashBah()->add('info', $translator->trans('advert.confirm_delete_true'));
 
             return $this->redirectToRoute('oc_platform_home');
         }
