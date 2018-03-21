@@ -17,7 +17,8 @@ advert:
   byauthor: 'par %author%'
   catlist: 'Cette annonce est parue dans les catégories suivantes:'
   confirm_delete: 'Etes-vous certain de vouloir supprimer l''annonce "%title%" ?'
+  display_nb_app: '[0,1]Une candidature pour cette annonce|[2,+Inf]Il y a %count% candidatures pour cette annonce'
   no_application: 'Aucune Candidatures pour cette annonce.'
-  thedate: 'le %date%'
   skill_require: 'Cette annonce requiert les compétences suivantes :'
+  thedate: 'le %date%'
 

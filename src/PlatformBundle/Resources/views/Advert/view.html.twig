@@ -57,7 +57,7 @@
 
     {% for application in listApplications %}
 		{% if loop.first %}
-			<h4 style="margin-top: 30px;">{{ loop.length }} Candidatures pour cette annonce</h4>
+			<h4 style="margin-top: 30px;">{{ 'advert.display_nb_app'|transchoice(loop.length) }}</h4>
 			<ul>
 		{% endif %}
 
