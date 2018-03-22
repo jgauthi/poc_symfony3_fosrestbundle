@@ -1,46 +1,50 @@
 hello_the_world:
-    path:     /hello
-    defaults: { _controller: PlatformBundle:Advert:hello }
+  path:     /hello
+  defaults: { _controller: PlatformBundle:Advert:hello }
 
 oc_platform_home:
-    path:      /{page}
-    defaults:
-        _controller: PlatformBundle:Advert:index
-        page:        1
-    requirements:
-        page: \d*
+  path:      /{page}
+  defaults:
+      _controller: PlatformBundle:Advert:index
+      page:        1
+  requirements:
+      page: \d*
 
 oc_platform_view:
-    path:      /advert/{id}
-    defaults: { _controller: PlatformBundle:Advert:view }
-    requirements:
-        id: \d+
+  path:      /advert/{id}
+  defaults: { _controller: PlatformBundle:Advert:view }
+  requirements:
+      id: \d+
 
 oc_platform_list:
-    path:      /list
-    defaults: { _controller: PlatformBundle:Advert:list }
+  path:      /list
+  defaults: { _controller: PlatformBundle:Advert:list }
 
 oc_platform_view_slug:
-    path:      /{year}/{slug}.{_format}
-    defaults:
-        _controller: PlatformBundle:Advert:viewSlug
-        _format:      html
-    requirements:
-        year: \d{4}
-        _format: html|xml
+  path:      /{year}/{slug}.{_format}
+  defaults:
+      _controller: PlatformBundle:Advert:viewSlug
+      _format:      html
+  requirements:
+      year: \d{4}
+      _format: html|xml
 
 oc_platform_add:
-    path:      /add
-    defaults: { _controller: PlatformBundle:Advert:add }
+  path:      /add
+  defaults: { _controller: PlatformBundle:Advert:add }
 
 oc_platform_edit:
-    path:      /edit/{id}
-    defaults: { _controller: PlatformBundle:Advert:edit }
-    requirements:
-        id: \d+
+  path:      /edit/{id}
+  defaults: { _controller: PlatformBundle:Advert:edit }
+  requirements:
+      id: \d+
 
 oc_platform_delete:
-    path:      /delete/{advert_id}
-    defaults: { _controller: PlatformBundle:Advert:delete }
-    requirements:
-        id: \d+
+  path:      /delete/{advert_id}
+  defaults: { _controller: PlatformBundle:Advert:delete }
+  requirements:
+      id: \d+
+
+oc_platform_paramconverter:
+  path:     /customparamconverter/{json}
+  defaults: { _controller: PlatformBundle:Advert:ParamConverter }

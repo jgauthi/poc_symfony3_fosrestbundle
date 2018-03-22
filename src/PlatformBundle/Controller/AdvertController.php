@@ -378,4 +378,15 @@ class AdvertController extends Controller
             'name'  =>  $name,
         ));
     }
+
+    /**
+     * @param $json
+     * @return Response
+     * @ParamConverter("json")
+     */
+    // http://localhost/mindsymfony/web/app_dev.php/fr/platform/customparamconverter/{"a":1,"b":2,"c":3}
+    public function ParamConverterAction($json)
+    {
+        return new Response(var_export($json, true));
+    }
 }
