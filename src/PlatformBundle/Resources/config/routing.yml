@@ -40,7 +40,7 @@ oc_platform_edit:
         id: \d+
 
 oc_platform_delete:
-    path:      /delete/{id}
+    path:      /delete/{advert_id}
     defaults: { _controller: PlatformBundle:Advert:delete }
     requirements:
         id: \d+

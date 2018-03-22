@@ -7,6 +7,7 @@ use PlatformBundle\Event\PlatformEvents;
 use PlatformBundle\Event\MessagePostEvent;
 use PlatformBundle\Form\AdvertEditType;
 use PlatformBundle\Form\AdvertType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -137,8 +138,10 @@ class AdvertController extends Controller
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/5
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/5?tag=developer
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/13 ou 14 ou 15
-	public function viewAction($id, Request $request)
+	public function viewAction(Advert $advert, Request $request)
 	{
+	    $id = $advert->getId();
+
 		// L'annonce n'existe pas (ne pas oublier le use Symfony\Component\HttpFoundation\Response)
 		$translator = $this->get('translator');
         if($id == 404)
@@ -193,14 +196,6 @@ class AdvertController extends Controller
 		$session = $request->getSession();
 		$session->set('user_id', 91);
 		$userId = $session->get('user_id');
-
-        // On récupère le repository & l'entité correspondante à l'id $id
-        $repository = $this->getDoctrine()->getManager()->getRepository('PlatformBundle:Advert');
-        $advert = $repository->find($id);
-
-        // $advert est donc une instance de PlatformBundle\Entity\Advert ou null si l'$id  n'existe pas
-        if(null === $advert)
-            throw new NotFoundHttpException($translator->trans('advert.no_exist', array('%id%' => $id)));
 
         // Liste des candidatures
 		$em = $this->getDoctrine()->getManager();
@@ -306,17 +301,45 @@ class AdvertController extends Controller
 
     // http://localhost/mindsymfony/web/app_dev.php/fr/platform/edit/5
     /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
+     */
+    public function deleteAction(Request $request, Advert $advert)
+    {
+        // On crée un formulaire vide, qui ne contiendra que le champ CSRF
+        // Cela permet de protéger la suppression d'annonce contre cette faille
+        $form = $this->get('form.factory')->create();
+
+        if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
+        {
+            // Suppression des categories liés
+            foreach($advert->getCategories() as $category)
+                $advert->removeCategory($category);
+
+            // Suppression des skills
+            //foreach($advert->getS)
+
+            $em->remove($advert);
+            $em->flush();
+
+            $translator = $this->get('translator');
+            $request->getSession()->getFlashBah()->add('info', $translator->trans('advert.confirm_delete_true'));
+
+            return $this->redirectToRoute('oc_platform_home');
+        }
+
+        return $this->render('@Platform/Advert/delete.html.twig', array
+        (
+            'advert'    =>  $advert,
+            'form'      =>  $form->createView(),
+        ));
+    }
+
+    /**
      * @Security("has_role('ROLE_AUTEUR')")
      */
-    public function editAction($id, Request $request)
+    public function editAction(Advert $advert, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $translator = $this->get('translator');
-
-        $advert = $em->getRepository('PlatformBundle:Advert')->find($id);
-        if(null === $advert)
-        	throw new NotFoundHttpException($translator->trans('advert.no_exist', array('%id%' => $id)));
-
 		// La méthode findAll retourne toutes les catégories de la base de données
         /*$listCategories = $advert->getCategories();
         if($listCategories->isEmpty())
@@ -345,46 +368,6 @@ class AdvertController extends Controller
         }
 
         return $this->render('@Platform/Advert/edit.html.twig', array('advert' => $advert, 'form' => $form->createView()));
-    }
-
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-    	$em = $this->getDoctrine()->getManager();
-    	$advert = $em->getRepository('PlatformBundle:Advert')->find($id);
-
-    	if(null === $advert)
-    	    throw new NotFoundHttpException("L'annonce d'id {$id} n'existe pas.");
-
-        // On crée un formulaire vide, qui ne contiendra que le champ CSRF
-        // Cela permet de protéger la suppression d'annonce contre cette faille
-        $form = $this->get('form.factory')->create();
-
-        if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
-        {
-            // Suppression des categories liés
-            foreach($advert->getCategories() as $category)
-                $advert->removeCategory($category);
-
-            // Suppression des skills
-            //foreach($advert->getS)
-
-            $em->remove($advert);
-            $em->flush();
-
-            $translator = $this->get('translator');
-            $request->getSession()->getFlashBah()->add('info', $translator->trans('advert.confirm_delete_true'));
-
-            return $this->redirectToRoute('oc_platform_home');
-        }
-
-        return $this->render('@Platform/Advert/delete.html.twig', array
-        (
-            'advert'    =>  $advert,
-            'form'      =>  $form->createView(),
-        ));
     }
 
     // http://localhost/mindsymfony/web/app_dev.php/fr/traduction/Alice
