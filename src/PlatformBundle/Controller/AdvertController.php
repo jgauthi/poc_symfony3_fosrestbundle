@@ -135,6 +135,7 @@ class AdvertController extends Controller
     }
 
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/404
+    // http://localhost/mindsymfony/web/fr/platform/404
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/5
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/5?tag=developer
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/13 ou 14 ou 15
