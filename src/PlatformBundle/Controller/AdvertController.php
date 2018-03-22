@@ -38,6 +38,7 @@ class AdvertController extends Controller
 		return new Response($content);
 	}
 
+	//  http://localhost/mindsymfony/web/app_dev.php/fr/platform/
 	public function indexAction($page)
 	{
 		// On veut récupérer l'url de l'annonce #5

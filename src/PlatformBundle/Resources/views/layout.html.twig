@@ -1,6 +1,13 @@
 {% extends "base.html.twig" %}
 {% block title %}Annonces - {{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets filter='cssrewrite, ?scssphp' 'bundles/platform/css/*' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block body %}
 
     {# On affiche tous les messages flash dont le nom est « info » #}
@@ -15,5 +22,14 @@
 
     {# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
     {% block ocplatform_body %}{% endblock %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts filter='jsqueeze' 'bundles/platform/js/main.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
 {% endblock %}
