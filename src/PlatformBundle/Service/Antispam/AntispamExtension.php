@@ -1,7 +1,5 @@
 <?php
-namespace PlatformBundle\Twig;
-
-use PlatformBundle\Antispam\Antispam;
+namespace PlatformBundle\Service\Antispam;
 
 class AntispamExtension extends \Twig_Extension
 {

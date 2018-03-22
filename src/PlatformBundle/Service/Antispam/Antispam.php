@@ -1,5 +1,5 @@
 <?php
-namespace PlatformBundle\Antispam;
+namespace PlatformBundle\Service\Antispam;
 
 class Antispam
 {
