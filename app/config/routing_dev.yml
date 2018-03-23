@@ -13,6 +13,11 @@ _errors:
 _main:
     resource: routing.yml
 
+# URL: http://localhost/mindsymfony/web/app_dev.php/_console
+coresphere_console:
+  resource: .
+  type: extra
+
 platform_translation:
   path: /{_locale}/traduction/{name}
   defaults:
