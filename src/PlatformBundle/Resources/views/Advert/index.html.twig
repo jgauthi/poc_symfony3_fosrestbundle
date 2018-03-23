@@ -34,7 +34,7 @@
     <ul>
         {% for app in listApplication %}
         <li>
-            {% dump(app) %}
+            {# {% dump(app) %} #}
             [<a href="{{ path('oc_platform_view', {'id':app.advert.id}) }}">#{{ app.advert.id }}</a>]
             <strong>{{ app.author }}</strong>, {{ 'advert.thedate'|trans({'%date%': app.date|date('d/m/Y')}) }}:
             <em>{{ app.content }}</em>
