@@ -8,6 +8,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    cache_type: file_system
 
 framework:
     #esi: ~
@@ -117,6 +118,6 @@ assetic:
 doctrine_cache:
   providers:
     my_markdown_cache:
-      type: file_system
-      # directory: /tmp/doctrine_cache
+      type: %cache_type%
+      # directory: %kernel.cache_dir%/markdown_cache
 
