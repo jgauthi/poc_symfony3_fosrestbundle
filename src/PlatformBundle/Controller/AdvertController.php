@@ -29,7 +29,17 @@ class AdvertController extends Controller
         {
             // Parser un texte en markdown
             $markdownTxt = '**Octopuses** can change the color of their body in just *three-tenths* of a second!';
-            $markdownTxt = $this->get('markdown.parser')->transform($markdownTxt);
+            $cacheKey = md5($markdownTxt);
+
+            // Utiliser un système de cache
+            $cache = $this->get('doctrine_cache.providers.my_markdown_cache');
+            if(!$cache->contains($cacheKey))
+            {
+                $markdownTxt = $this->get('markdown.parser')->transform($markdownTxt);
+                sleep(1); // fake how slow this could be
+                $cache->save($cacheKey, $markdownTxt);
+            }
+            else $markdownTxt = $cache->fetch($cacheKey);
             
             $content = $this->get('twig')->render('@Platform/Advert/hello.html.twig', array
             (

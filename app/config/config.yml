@@ -113,3 +113,10 @@ assetic:
     jsqueeze:   ~
     scssphp:
       formatter: 'Leafo\ScssPhp\Formatter\Compressed'
+
+doctrine_cache:
+  providers:
+    my_markdown_cache:
+      type: file_system
+      # directory: /tmp/doctrine_cache
+
