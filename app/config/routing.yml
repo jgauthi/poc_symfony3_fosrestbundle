@@ -1,3 +1,10 @@
+homepage:
+  path: /
+  defaults:
+    _controller: FrameworkBundle:Redirect:redirect
+    route: oc_platform_home
+    permanent: true
+
 platform:
   resource: "@PlatformBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/platform
