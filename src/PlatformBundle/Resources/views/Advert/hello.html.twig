@@ -2,5 +2,6 @@
 
 {% block body %}
 	<p>Hello World <em>{{ nom }}</em> !</p>
+	<p>Formatage de nombre, version config FR: {{ hight_int|number_format }}, version localisé: {{ hight_int|localizednumber }}</p>
 	<p>Accès à <a href="{{ path('oc_platform_view', { 'id': advert_id }) }}">l'annonce {{ advert_id }}</a></p>
 {% endblock %}

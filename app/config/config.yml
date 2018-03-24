@@ -42,6 +42,10 @@ twig:
       - 'bootstrap_3_layout.html.twig'
     globals:
       webmaster: '%app_webmaster%'
+    number_format:
+        decimals: 0
+        decimal_point: ,
+        thousands_separator: ' '
 
 # Doctrine Configuration
 doctrine:

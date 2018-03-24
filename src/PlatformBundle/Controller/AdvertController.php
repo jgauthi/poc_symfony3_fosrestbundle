@@ -21,11 +21,14 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class AdvertController extends Controller
 {
+    // http://localhost/mindsymfony/web/app_dev.php/fr/platform/hello
+    // http://localhost/mindsymfony/web/app_dev.php/en/platform/hello
 	public function helloAction()
 	{
 		$content = $this->get('twig')->render('@Platform/Advert/hello.html.twig', array
 		(
 			'advert_id'	=>	5,
+			'hight_int' =>  99999.10,
 			'nom' 		=> 'John doe',
 		));
 
