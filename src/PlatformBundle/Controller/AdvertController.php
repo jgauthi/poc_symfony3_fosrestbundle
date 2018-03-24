@@ -25,18 +25,29 @@ class AdvertController extends Controller
     // http://localhost/mindsymfony/web/app_dev.php/en/platform/hello
 	public function helloAction()
 	{
-		$content = $this->get('twig')->render('@Platform/Advert/hello.html.twig', array
-		(
-			'advert_id'	=>	5,
-			'hight_int' =>  99999.10,
-			'nom' 		=> 'John doe',
-		));
+        try
+        {
+            // Parser un texte en markdown
+            $markdownTxt = '**Octopuses** can change the color of their body in just *three-tenths* of a second!';
+            $markdownTxt = $this->get('markdown.parser')->transform($markdownTxt);
+            
+            $content = $this->get('twig')->render('@Platform/Advert/hello.html.twig', array
+            (
+                'advert_id'     => 5,
+                'hight_int'     => 99999.10,
+                'nom'           => 'John doe',
+                'markdownTxt'   => $markdownTxt,
+            ));
+        }
+        catch (\Twig_Error_Loader $e) {}
+        catch (\Twig_Error_Runtime $e) {}
+        catch (\Twig_Error_Syntax $e) {}
+        
+        /*
+          Cette syntaxe $this->get('mon_service') depuis les contrôleurs retourne un objet dont le nom est "mon_service" , cet objet permet ensuite d'effectuer quelques actions. Par exemple ici l'objet "twig" permet de récupérer le contenu d'un template grâce à sa méthode render.
 
-		/*
-		  Cette syntaxe $this->get('mon_service') depuis les contrôleurs retourne un objet dont le nom est "mon_service" , cet objet permet ensuite d'effectuer quelques actions. Par exemple ici l'objet "twig" permet de récupérer le contenu d'un template grâce à sa méthode render.
-
-		  Ces objets, appelés services, sont une fonctionnalité phare de Symfony, que nous étudions très en détails dans la prochaine partie de ce cours. Je vais vous demander un peu de patience, en attendant vous pouvez les utiliser sans forcément comprendre d'où ils viennent.
-		*/
+          Ces objets, appelés services, sont une fonctionnalité phare de Symfony, que nous étudions très en détails dans la prochaine partie de ce cours. Je vais vous demander un peu de patience, en attendant vous pouvez les utiliser sans forcément comprendre d'où ils viennent.
+        */
 
 		return new Response($content);
 	}
