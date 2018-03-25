@@ -10,7 +10,12 @@ class LoadSkill implements FixtureInterface
 {
 	public function load(ObjectManager $manager)
 	{
-        $objects = Fixtures::load(__DIR__ . '/LoadSkill.yml', $manager);
+        $objects = Fixtures::load
+        (
+            __DIR__ . '/LoadSkill.yml',
+            $manager,
+            array('providers' => array($this))
+        );
 
 	    /*
 		// Liste des noms de compétences à ajouter
@@ -30,6 +35,31 @@ class LoadSkill implements FixtureInterface
 		$manager->flush();
 	    */
 	}
+
+	public function custom_skill()
+    {
+        static $names = array
+        (
+            'PHP', 'Symfony',
+            'Wordpress', 'Typo3',
+            'C++', 'Java',
+            'Javscript', 'jQuery',
+            'Photoshop', 'Fireworks',
+            'Blender', 'Shell script',
+            'Bloc-note', 'PhpStorm',
+            'Ruby', 'Rails',
+            'Présentation',
+            'Fixture', 'Generation',
+        );
+
+        $key = array_rand($names);
+
+        // Return a uniq random value
+        $value = $names[$key];
+        unset($names[$key]);
+
+        return $value;
+    }
 }
 
 ?>

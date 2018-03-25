@@ -2,5 +2,5 @@
 # More info on function: https://github.com/fzaninotto/Faker
 PlatformBundle\Entity\Skill:
   skill_{1..10}:
-    name: <text(10,20)>
+    name: <custom_skill()>
     content: <words(3, true)>
