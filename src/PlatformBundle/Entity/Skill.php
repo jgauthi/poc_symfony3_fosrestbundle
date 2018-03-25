@@ -28,6 +28,12 @@ class Skill
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="text", nullable=true)
+     */
+    private $content;
 
     /**
      * Get id
@@ -61,5 +67,29 @@ class Skill
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     *
+     * @return Skill
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
     }
 }
