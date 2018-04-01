@@ -50,7 +50,7 @@ services:
 
   platform.service.markdown_transformer:
     class: PlatformBundle\Service\MarkdownTransformer
-    arguments: [ '@markdown.parser' ]
+    arguments: [ '@markdown.parser', '@doctrine_cache.providers.my_markdown_cache' ]
 
 
   # Emplacement spécifique pour des datafixtures
