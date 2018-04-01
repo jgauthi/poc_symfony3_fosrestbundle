@@ -48,6 +48,10 @@ services:
     tags:
       - { name: request.param_converter }
 
+  platform.service.markdown_transformer:
+    class: PlatformBundle\Service\MarkdownTransformer
+    arguments: [ '@markdown.parser' ]
+
 
   # Emplacement spécifique pour des datafixtures
   # sinon, le chemin officiel pour stocker est src/DataFixtures/

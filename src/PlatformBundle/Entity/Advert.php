@@ -89,6 +89,7 @@ class Advert
 
 	/**
 	 * @ORM\OneToMany(targetEntity="PlatformBundle\Entity\Application", mappedBy="advert")
+     * @ORM\OrderBy({"date" = "DESC"})
 	 */
 	private $applications;
 
