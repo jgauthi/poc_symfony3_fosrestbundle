@@ -1,14 +1,14 @@
 services:
   platform.service.antispam:
-    class: PlatformBundle\Service\Antispam\Antispam
+    class: PlatformBundle\Service\Antispam
     arguments:
       - "@mailer"
       - 50
     calls:
       - [ setLocale, [%locale%] ]
 
-  platform.service.antispam_extension:
-    class: PlatformBundle\Service\Antispam\AntispamExtension
+  platform.twig.antispam_extension:
+    class: PlatformBundle\Twig\AntispamExtension
     arguments:
       - "@platform.service.antispam"
     tags:
@@ -51,6 +51,17 @@ services:
   platform.service.markdown_transformer:
     class: PlatformBundle\Service\MarkdownTransformer
     arguments: [ '@markdown.parser', '@doctrine_cache.providers.my_markdown_cache' ]
+    autowire: true
+
+  platform.twig.markdown_extension:
+    class: PlatformBundle\Twig\MarkdownExtension
+    # arguments: ['@platform.service.markdown_transformer'] # Not require with autowire
+    autowire: true
+    tags:
+      - { name: twig.extension }
+
+  # ALIAS class
+  PlatformBundle\Service\MarkdownTransformer: '@platform.service.markdown_transformer'
 
 
   # Emplacement spécifique pour des datafixtures
