@@ -12,7 +12,7 @@
 
     {# On affiche tous les messages flash dont le nom est « info » #}
     {% for message in app.session.flashbag.get('info') %}
-        <p>Message flash : {{ message }}</p>
+        <div class="alert alert-info"><p>Message flash : {{ message }}</p></div>
     {% endfor %}
 
     {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}

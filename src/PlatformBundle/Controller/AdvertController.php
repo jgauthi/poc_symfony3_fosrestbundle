@@ -292,7 +292,7 @@ class AdvertController extends Controller
 
             // Ici, on s'occupera de la création et de la gestion du formulaire
             $id = $advert->getId();
-            $request->getSession()->getFlashBag()->add('notice', $translator->trans('advert.admin.save_confirm', array('%id%' => $id)));
+            $this->addFlash('notice', $translator->trans('advert.admin.save_confirm', array('%id%' => $id)));
 
             // Puis on redirige vers la page de visualisation de cettte annonce
             return $this->redirectToRoute('oc_platform_view', array('id' => $id));
@@ -318,6 +318,8 @@ class AdvertController extends Controller
 
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
         {
+            // dump($form->getData());
+
             // Suppression des categories liés
             foreach($advert->getCategories() as $category)
                 $advert->removeCategory($category);
@@ -366,10 +368,13 @@ class AdvertController extends Controller
             $form->handleRequest($request);
             if($form->isValid())
             {
+				$em = $this->getDoctrine()->getManager();
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', $translator->trans('advert.admin.edit_confirm_ok', array('%id%' => $id)));
-                return $this->redirectToRoute('oc_platform_view', array('id' => $id));
+				$translator = $this->get('translator');
+                $request->getSession()->getFlashBag()->add('notice', $translator->trans('advert.admin.edit_confirm_ok', array('%id%' => $advert->getId())));
+
+                return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
             }
         }
 
