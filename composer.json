@@ -1,6 +1,6 @@
 {
-    "name": "jgauthier/mindsymfony",
-    "license": "proprietary",
+    "name": "jgauthi/symfony3_learning",
+    "license": "Beerware",
     "type": "project",
     "autoload": {
         "psr-4": {

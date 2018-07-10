@@ -1,33 +1,54 @@
-mindsymfony
+Symfony Learning
 ===========
-A Symfony project created on January 26, 2018, 10:57 am.
-
-## Installation
-Commande lines:
-
-```bash
-git clone git@bitbucket.org:gauthij/mindsymfony.git
-git-install-hook-pre-commit.sh
-git-install-config-github-email.sh
-composer install
-php bin/console assets:install --symlink
-php bin/console doctrine:schema:update --force
-php bin/console doctrine:fixtures:load
-droit-linux-www.sh
-````
-
-For the asset symlink install, launch a terminal on administrator in windows environment.
-
+A Symfony project created on January 26, 2018, to learn the framework :-).
 
 ## Prerequisites
 
-* La version de PHP doit être supérieure ou égale à PHP 5.5.9 ;
-* L'extension SQLite 3 doit être activée ;
-* L'extension JSON doit être activée ;
-* L'extension Ctype doit être activée ;
-* Le paramètre _date.timezone_ doit être défini dans le php.ini.
+* The PHP version must be greater than or equal to PHP 5.5.9
+* The SQLite 3 extension must be enabled
+* The JSON extension must be enabled
+* The Ctype extension must be enabled
+* The date.timezone parameter must be defined in php.ini
 
---> [more info](https://symfony.com/doc/3.4/reference/requirements.html)
+More information on [symfony website](https://symfony.com/doc/3.4/reference/requirements.html).
+
+## Features developed in bundles
+
+* **PlatformBundle**: Online advert management
+    * Controller
+        * List / add / edit / delete advert
+        * List of applications for an advert
+    * Generate data Fixture (entity)
+        * Advert
+        * Category
+        * Skill
+    * Services
+        * Antispam: Check if the messages are more than 50 characters, otherwise it will be considered like spam.
+        * ApplicationMailer: Send an mail to author's advert when a candidate register.
+        * Beta: Displays a yellow banner indicating the number of days remaining before the end of the beta.
+        * Bigbrother: Send an email to admin if some users post a message.
+        * CustomParamConverter: Display param converter from url request.
+        * MarkdownTransformer: Convert markdown to html. 
+* **MyUserBundle**: User management with the fos/user-bundle
+    * Controller
+        * Login / logout / forgotten password...
+        * Role management
+    * Generate data Fixture (entity)
+        * Some users with role (admin, author, user)
+
+## Installation
+Command lines:
+
+```bash
+git clone git@github.com:jgauthi/symfony3_learning.git
+composer install
+
+php bin/console assets:install --symlink
+php bin/console doctrine:schema:update --force
+php bin/console doctrine:fixtures:load
+````
+
+For the asset symlink install, launch a terminal on administrator in windows environment.
 
 ## Prepare deploy prod
 
@@ -38,7 +59,7 @@ For the asset symlink install, launch a terminal on administrator in windows env
 ## Deploy on prod
 
 * Delete manualy "var/*/" content before send file (ftp)
-* Chmod 777 recursive on prod, on folder: "var/"
+* Chmod 755 recursive on prod, on folder: "var/"
 * You can edit web/app_dev.php with personal IP to access dev environment on prod.
 * If an 500 error occurs, check log on "var/logs/prod"
 
