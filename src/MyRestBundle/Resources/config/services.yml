@@ -1,0 +1,4 @@
+services:
+#    my_rest.example:
+#        class: MyRestBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

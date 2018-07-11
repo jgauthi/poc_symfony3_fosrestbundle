@@ -1,0 +1,5 @@
+api:
+    resource: "@MyRestBundle/Controller/ApiController.php"
+    #type:     rest
+    type:     annotation
+    prefix:   /v1

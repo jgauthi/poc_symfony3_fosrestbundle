@@ -16,3 +16,9 @@ user:
   prefix:   /{_locale}
   requirements:
     _locale: en|fr
+
+rest_api:
+  resource: "@MyRestBundle/Resources/config/routing.yml"
+  prefix:   /{_locale}/api
+  requirements:
+    _locale: en|fr
