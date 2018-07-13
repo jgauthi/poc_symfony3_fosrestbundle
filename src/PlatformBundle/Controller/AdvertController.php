@@ -181,7 +181,7 @@ class AdvertController extends Controller
 		// --> Avec cette façon d'accéder aux paramètres, vous n'avez pas besoin de tester leur existence.
 		$tag = $request->query->get('tag');
 		if(preg_match('#^(dev|debug)#', $tag))
-			dump($request);
+			dump($request, $advert);
 
 		/*
 			$_GET 							--> $request->query->get('tag')

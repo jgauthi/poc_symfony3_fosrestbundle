@@ -87,6 +87,11 @@ fos_user:
 #    form:
 #      type: AppBundle\Form\RegistrationType
 
+# Rest API
+fos_rest:
+    routing_loader:
+        include_format: false
+
 services:
   twig.extension.intl:
     class: Twig_Extensions_Extension_Intl
