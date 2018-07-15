@@ -327,11 +327,12 @@ class AdvertController extends Controller
             // Suppression des skills
             //foreach($advert->getS)
 
+            $em = $this->get('doctrine.orm.entity_manager');
             $em->remove($advert);
             $em->flush();
 
             $translator = $this->get('translator');
-            $request->getSession()->getFlashBah()->add('info', $translator->trans('advert.confirm_delete_true'));
+            $request->getSession()->getFlashBag()->add('info', $translator->trans('advert.confirm_delete_true'));
 
             return $this->redirectToRoute('oc_platform_home');
         }

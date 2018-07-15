@@ -1,0 +1,14 @@
+# Specifics rules to add avert with API
+PlatformBundle\Entity\Advert:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: title
+  properties:
+    title:
+      - NotBlank: ~
+      - Type: string
+    author:
+      - NotBlank: ~
+      - Type: string
+    content:
+      - NotBlank: ~
+      - Type: string

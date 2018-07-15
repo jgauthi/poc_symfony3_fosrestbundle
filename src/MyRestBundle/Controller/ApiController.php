@@ -4,6 +4,8 @@ namespace MyRestBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
+use MyRestBundle\Form\AdvertType;
+use PlatformBundle\Entity\Advert;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -93,5 +95,27 @@ class ApiController extends Controller
             ->findAll();
 
         return $applications;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\Post("/advert")
+     */
+    public function postAdvertAction(Request $request)
+    {
+        $advert = new Advert();
+
+        $form = $this->createForm(AdvertType::class, $advert);
+        $form->submit($request->request->all()); // Validation des données
+
+        if($form->isValid())
+        {
+            $em = $this->get('doctrine.orm.entity_manager');
+            $em->persist($advert);
+            $em->flush();
+
+            return $advert;
+        }
+        else return $form;
     }
 }
