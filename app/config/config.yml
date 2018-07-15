@@ -90,7 +90,7 @@ fos_user:
 # Rest API
 fos_rest:
     routing_loader:
-        include_format: false
+      include_format: false
 
 services:
   twig.extension.intl:

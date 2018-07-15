@@ -3,6 +3,8 @@
 namespace MyRestBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\ViewHandler;
+use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -23,7 +25,7 @@ class ApiController extends Controller
 			->findAll();
 
 		$formatted = [];
-		foreach ($advert_list as $advert) {
+		foreach($advert_list as $advert) {
 			$dateCreation = $advert->getDate();
 
 			$dateUpdate = $advert->getUpdatedAt();
@@ -31,8 +33,8 @@ class ApiController extends Controller
 
 			$categories = $advert->getCategories();
 			$cat_list = [];
-			if (!empty($categories))
-				foreach ($categories as $cat)
+			if(!empty($categories))
+				foreach($categories as $cat)
 					$cat_list[] = $cat->getName();
 
 			$formatted[] = [
@@ -47,7 +49,12 @@ class ApiController extends Controller
 			];
 		}
 
-		return new JsonResponse($formatted);
+		// Utilisation du view handler du bundle Fos rest
+        $viewHandler = $this->get('fos_rest.view_handler');
+		$view = View::create($formatted);
+		$view->setFormat('json');
+
+		return $viewHandler->handle($view);
 	}
 
 	/**
