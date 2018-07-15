@@ -3,7 +3,6 @@
 namespace MyRestBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\View\ViewHandler;
 use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -15,7 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiController extends Controller
 {
 	/**
-	 * @Rest\Get("/adverts")
+	 * @Rest\View()
+     * @Rest\Get("/adverts")
 	 * example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/adverts
 	 */
 	public function getAdvertsAction()
@@ -24,7 +24,7 @@ class ApiController extends Controller
 			->getRepository('PlatformBundle:Advert')
 			->findAll();
 
-		$formatted = [];
+		/*$formatted = [];
 		foreach($advert_list as $advert) {
 			$dateCreation = $advert->getDate();
 
@@ -47,17 +47,25 @@ class ApiController extends Controller
 				'published' => $advert->getPublished(),
 				'categories' => $cat_list,
 			];
-		}
 
 		// Utilisation du view handler du bundle Fos rest
         $viewHandler = $this->get('fos_rest.view_handler');
-		$view = View::create($formatted);
+		$view = View::create($advert_list);
 		$view->setFormat('json');
 
 		return $viewHandler->handle($view);
+
+		}*/
+
+		// To avoid "circular reference error", add on entity class:
+        // use Symfony\Component\Serializer\Annotation\MaxDepth;
+        // @MaxDepth(1) on get method who return collection value
+
+		return $advert_list;
 	}
 
 	/**
+     * @Rest\View()
 	 * @Rest\Get("/advert/{advert_id}")
 	 * example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/advert/1
 	 */
@@ -68,31 +76,22 @@ class ApiController extends Controller
 			->find($request->get('advert_id'));
 
 		if(empty($advert))
-			return new JsonResponse(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+		    return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
 
-		$dateCreation = $advert->getDate();
-
-		$dateUpdate = $advert->getUpdatedAt();
-		$dateUpdate = ((!empty($dateUpdate)) ? $dateUpdate->format('Y-m-d') : null);
-
-		$categories = $advert->getCategories();
-		$cat_list = [];
-		if(!empty($categories))
-			foreach($categories as $cat)
-				$cat_list[] = $cat->getName();
-
-		$formatted[] = [
-			'id' => $advert->getId(),
-			'title' => $advert->getTitle(),
-			'author' => $advert->getAuthor(),
-			'content' => $advert->getContent(),
-			'date' => $dateCreation->format('Y-m-d'),
-			'updatedAt' => $dateUpdate,
-			'published' => $advert->getPublished(),
-			'categories' => $cat_list,
-		];
-
-		return new JsonResponse($formatted);
+        return $advert;
 	}
 
+	/**
+	 * @Rest\View()
+     * @Rest\Get("/applications")
+     * @example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/applications
+     */
+	public function getApplicationsAction()
+    {
+        $applications = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('PlatformBundle:Application')
+            ->findAll();
+
+        return $applications;
+    }
 }

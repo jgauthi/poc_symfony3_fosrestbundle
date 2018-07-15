@@ -89,8 +89,14 @@ fos_user:
 
 # Rest API
 fos_rest:
-    routing_loader:
-      include_format: false
+  routing_loader:
+    include_format: false
+  view:
+    view_response_listener: true
+  format_listener:
+    rules:
+      - { path: '^/[a-z]{2}/api/v[0-9]/', priorities: ['json'], fallback_format: json, prefer_extension: false }
+      - { path: '^/', stop: true }
 
 services:
   twig.extension.intl:

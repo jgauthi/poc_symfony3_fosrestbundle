@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use PlatformBundle\Validator\Antiflood;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -331,11 +332,12 @@ class Advert
     /**
      * Get applications
      *
+     * @MaxDepth(1)
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getApplications()
     {
-        return $this->applications;
+//        return $this->applications;
     }
 
     /**

@@ -2,6 +2,7 @@
 namespace PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Table(name="advert_application")
@@ -102,6 +103,7 @@ class Application
     /**
      * Get advert
      *
+     * @MaxDepth(1)
      * @return \PlatformBundle\Entity\Advert
      */
     public function getAdvert()
