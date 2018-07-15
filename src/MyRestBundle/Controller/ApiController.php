@@ -110,6 +110,9 @@ class ApiController extends Controller
 
         if($form->isValid())
         {
+            // Annonce à confirmer par un admin
+            $advert->setPublished(false);
+
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($advert);
             $em->flush();
@@ -117,5 +120,25 @@ class ApiController extends Controller
             return $advert;
         }
         else return $form;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\Delete("/advert/{id}")
+    */
+    public function removeAdvertAction(Request $request)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $advert = $em->getRepository('PlatformBundle:Advert')
+            ->find($request->get('id'));
+
+        if(empty($advert))
+            return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+
+        elseif(true === $advert->getPublished())
+            return View::create(['message' => 'You can\'t delete un published advert'], Response::HTTP_BAD_REQUEST);
+
+        $em->remove($advert);
+        $em->flush();
     }
 }

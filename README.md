@@ -35,6 +35,14 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
         * Role management
     * Generate data Fixture (entity)
         * Some users with role (admin, author, user)
+* **MyRestApi**: Add Rest API implementation with fos/rest-bundle
+    * Controller
+        * Get advert or application data
+        * Post advert with validation data
+        * Delete advert
+    * Todolist (in progress)
+        * Update advert
+        * Security
 
 ## Installation
 Command lines:
