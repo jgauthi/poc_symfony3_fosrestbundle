@@ -39,7 +39,8 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
     * Controller
         * [GET] Get advert or application data
         * [POST] Add advert with validation data
-        * [PUT] Update advert
+        * [PATCH] Update some fields in advert
+        * [PUT] Update all fields in advert
         * [DELETE] Remove advert
     * Todolist (in progress)
         * Security
