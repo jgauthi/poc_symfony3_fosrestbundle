@@ -123,6 +123,31 @@ class ApiController extends Controller
     }
 
     /**
+     * @Rest\View()
+     * @Rest\Put("/advert/{id}")
+    */
+    public function updateAdvertAction(Request $request)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $advert = $em->getRepository('PlatformBundle:Advert')->find($request->get('id'));
+
+        if(empty($advert))
+            return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+
+        $form = $this->createForm(AdvertType::class, $advert);
+        $form->submit($request->request->all());
+
+        if($form->isValid())
+        {
+            $em->merge($advert);
+            $em->flush();
+
+            return $advert;
+        }
+        else return $form;
+    }
+
+    /**
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
      * @Rest\Delete("/advert/{id}")
     */

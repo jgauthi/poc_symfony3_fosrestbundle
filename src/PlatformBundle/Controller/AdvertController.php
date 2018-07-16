@@ -229,7 +229,7 @@ class AdvertController extends Controller
 	public function viewSlugAction($slug, $year, $_format)
 	{
 		// Le paramètre {_format}
-		// Lorsqu'il est utilisé, alors un header avec le Content-type correspondant est ajouté à la réponse retournée.
+		// Lorsqu'il est utilisé, alors un header avec le ConteupdatedAtnt-type correspondant est ajouté à la réponse retournée.
 		// Exemple : vous appelez/platform/2014/webmaster.xml et le Kernel sait que la réponse retournée par le contrôleur est du XML, grâce au paramètre "_format" contenu dans la route. Ainsi, avant d'envoyer la réponse à notre navigateur, le header Content-type: application/xml sera ajouté.
 
 		return new Response(
