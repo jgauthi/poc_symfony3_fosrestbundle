@@ -24,8 +24,8 @@ class LoadAdvert implements FixtureInterface
                 'image'         => 'http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg',
                 'application'   => array
                 (
-                    array('author' => 'Marine', 'content' => 'J\'ai toutes les qualités requises.'),
-                    array('author' => 'Pierre', 'content' => 'Je suis très motivé.'),
+                    array('author' => 'Marine', 'content' => 'J\'ai toutes les qualités requises.', 'city' => 'Paris', 'salaryClaim' => 2500),
+                    array('author' => 'Pierre', 'content' => 'Je suis très motivé.', 'city' => 'Angoulême', 'salaryClaim' => 2498),
                 ),
             ),
             array
@@ -36,8 +36,8 @@ class LoadAdvert implements FixtureInterface
                 'image'         => null,
                 'application'   => array
                 (
-                    array('author' => 'Corvo', 'content' => 'Disponible.'),
-                    array('author' => 'Emily', 'content' => 'En attente de réponse.'),
+                    array('author' => 'Corvo', 'content' => 'Disponible.', 'city' => 'Dunwall', 'salaryClaim' => 3000),
+                    array('author' => 'Emily', 'content' => 'En attente de réponse.', 'city' => 'Dunwall', 'salaryClaim' => 4000),
                 ),
             ),
             array
@@ -78,6 +78,8 @@ class LoadAdvert implements FixtureInterface
                 $application
                     ->setAuthor($candidate['author'])
                     ->setContent($candidate['content'])
+                    ->setCity($candidate['city'])
+                    ->setSalaryClaim($candidate['salaryClaim'])
                     ->setAdvert($advert);
 
                 $em->persist($application);

@@ -37,11 +37,12 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
         * Some users with role (admin, author, user)
 * **MyRestApi**: Add Rest API implementation with fos/rest-bundle
     * Controller
-        * [GET] Get advert or application data
-        * [POST] Add advert with validation data
-        * [PATCH] Update some fields in advert
-        * [PUT] Update all fields in advert
-        * [DELETE] Remove advert
+        * CRUD
+            * [GET] Get advert or application data
+            * [POST] Add advert with validation data
+            * [PATCH] Update some fields in advert
+            * [PUT] Update all fields in advert
+            * [DELETE] Remove advert
     * Todolist (in progress)
         * Security
 
@@ -53,7 +54,7 @@ git clone git@github.com:jgauthi/symfony3_learning.git
 composer install
 
 php bin/console assets:install --symlink
-php bin/console doctrine:schema:update --force
+php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ````
 

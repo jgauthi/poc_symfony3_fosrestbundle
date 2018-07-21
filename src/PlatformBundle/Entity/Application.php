@@ -29,6 +29,16 @@ class Application
     private $content;
 
     /**
+     * @ORM\Column(name="city", type="string", length=100)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(name="salaryClaim", type="integer")
+     */
+    private $salaryClaim;
+
+    /**
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
@@ -125,5 +135,53 @@ class Application
     public function decrease()
     {
         $this->getAdvert()->decreaseApplication();
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     *
+     * @return Application
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set salaryClaim
+     *
+     * @param integer $salaryClaim
+     *
+     * @return Application
+     */
+    public function setSalaryClaim($salaryClaim)
+    {
+        $this->salaryClaim = $salaryClaim;
+
+        return $this;
+    }
+
+    /**
+     * Get salaryClaim
+     *
+     * @return integer
+     */
+    public function getSalaryClaim()
+    {
+        return $this->salaryClaim;
     }
 }

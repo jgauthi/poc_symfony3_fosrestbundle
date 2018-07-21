@@ -62,7 +62,8 @@
 		{% endif %}
 
 		<li>
-            <strong>{{ 'advert.byauthor'|trans({'%author%': application.author}) }}</strong>,
+            <strong>{{ 'advert.byauthor'|trans({'%author%': application.author}) }}</strong>
+			(réside à {{ application.city }}),
             {{ 'advert.thedate'|trans({'%date%': application.date|date('d/m/Y')}) }}
 			<em>{{ application.content }}</em>
 		</li>
