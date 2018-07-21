@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiAdvertController extends Controller
 {
 	/**
-	 * @Rest\View()
+	 * @Rest\View(serializerGroups={"advert"})
      * @Rest\Get("/adverts")
 	 * example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/adverts
 	 */
@@ -64,7 +64,7 @@ class ApiAdvertController extends Controller
 	}
 
 	/**
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"advert", "advert_additional_info"})
 	 * @Rest\Get("/advert/{advert_id}")
 	 * example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/advert/1
 	 */
@@ -81,7 +81,7 @@ class ApiAdvertController extends Controller
 	}
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"advert"})
      * @Rest\Post("/advert")
      */
     public function postAdvertAction(Request $request)
@@ -106,7 +106,7 @@ class ApiAdvertController extends Controller
     }
 
     /**
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"advert"})
      * @Rest\Put("/advert/{id}")
      */
     public function updateAdvertAction(Request $request)
@@ -115,7 +115,7 @@ class ApiAdvertController extends Controller
     }
 
     /**
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"advert"})
      * @Rest\Patch("/advert/{id}")
      */
     public function patchAdvertAction(Request $request)
@@ -145,7 +145,7 @@ class ApiAdvertController extends Controller
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT, serializerGroups={"advert"})
      * @Rest\Delete("/advert/{id}")
     */
     public function removeAdvertAction(Request $request)

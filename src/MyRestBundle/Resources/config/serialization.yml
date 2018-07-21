@@ -1,0 +1,20 @@
+PlatformBundle\Entity\Advert:
+  attributes:
+    id: { groups: ['advert', 'application'] }
+    title: { groups: ['advert', 'application'] }
+    slug: { groups: ['advert_additional_info'] }
+    author: { groups: ['advert', 'application'] }
+    content: { groups: ['advert'] }
+    date: { groups: ['advert', 'application'] }
+    nbApplications: { groups: ['advert'] }
+    updatedAt: { groups: ['advert_additional_info'] }
+    published: { groups: ['advert_additional_info'] }
+
+PlatformBundle\Entity\Application:
+  attributes:
+    id: { groups: ['advert', 'application'] }
+    author: { groups: ['advert', 'application'] }
+    content: { groups: ['advert', 'application'] }
+    date: { groups: ['advert', 'application'] }
+    city: { groups: ['advert', 'application'] }
+    salaryClaim: { groups: ['advert', 'application'] }

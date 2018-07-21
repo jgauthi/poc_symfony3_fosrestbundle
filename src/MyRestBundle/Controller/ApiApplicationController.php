@@ -14,7 +14,7 @@ class ApiApplicationController extends Controller
 {
 	/**
      * Get Last applications with advert
-	 * @Rest\View()
+	 * @Rest\View(serializerGroups={"application"})
      * @Rest\Get("/applications")
      * @example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/applications
      */
@@ -32,7 +32,7 @@ class ApiApplicationController extends Controller
     }
 
     /**
-     * @Rest\View()
+     * @Rest\View(serializerGroups={"application"})
      * @Rest\Get("/advert/{id}/application")
     */
     public function getApplicationAction(Request $request)
@@ -51,7 +51,7 @@ class ApiApplicationController extends Controller
     }
 
     /**
-     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"application"})
      * @Rest\Post("/advert/{id}/application")
     */
     public function postApplicationAction(Request $request)
