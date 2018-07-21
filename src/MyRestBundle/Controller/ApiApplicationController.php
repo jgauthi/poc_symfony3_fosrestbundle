@@ -5,7 +5,7 @@ namespace MyRestBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use MyRestBundle\Form\ApplicationType;
-use PlatformBundle\Entity\Advert;
+use PlatformBundle\Entity\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,5 +29,52 @@ class ApiApplicationController extends Controller
             ->getApplicationsWithAdvert($limit);
 
         return $applications;
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Get("/advert/{id}/application")
+    */
+    public function getApplicationAction(Request $request)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $advert = $em->getRepository('PlatformBundle:Advert')
+            ->find($request->get('id'));
+
+        if(empty($advert))
+            return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+
+        $application = $em->getRepository("PlatformBundle:Application")
+            ->findBy(['advert' => $advert]);
+
+        return $application;
+    }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\Post("/advert/{id}/application")
+    */
+    public function postApplicationAction(Request $request)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $advert = $em->getRepository('PlatformBundle:Advert')
+            ->find($request->get('id'));
+
+        if(empty($advert))
+            return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+
+        $application = new application();
+        $application->setAdvert($advert);
+
+        $form = $this->createForm(ApplicationType::class, $application);
+        $form->submit($request->request->all());
+
+        if(!$form->isValid())
+            return $form;
+
+        $em->persist($application);
+        $em->flush();
+
+        return $application;
     }
 }

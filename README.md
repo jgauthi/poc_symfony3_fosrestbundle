@@ -39,7 +39,7 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
     * Controller
         * CRUD
             * [GET] Get advert or application data
-            * [POST] Add advert with validation data
+            * [POST] Add advert or application with validation data
             * [PATCH] Update some fields in advert
             * [PUT] Update all fields in advert
             * [DELETE] Remove advert

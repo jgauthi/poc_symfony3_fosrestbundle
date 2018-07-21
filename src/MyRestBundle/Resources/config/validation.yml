@@ -12,3 +12,16 @@ PlatformBundle\Entity\Advert:
     content:
       - NotBlank: ~
       - Type: string
+
+PlatformBundle\Entity\Application:
+  properties:
+    author:
+      - NotBlank: ~
+      - Type: string
+    content:
+      - NotBlank: ~
+      - Type: string
+    city:
+      - Choice: [Paris, Dunwall, Angoulême, Nice]
+    salaryClaim:
+      - GreaterThanOrEqual: 1500
