@@ -7,13 +7,10 @@ use FOS\RestBundle\View\View;
 use MyRestBundle\Form\AdvertType;
 use PlatformBundle\Entity\Advert;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiController extends Controller
+class ApiAdvertController extends Controller
 {
 	/**
 	 * @Rest\View()
@@ -82,20 +79,6 @@ class ApiController extends Controller
 
         return $advert;
 	}
-
-	/**
-	 * @Rest\View()
-     * @Rest\Get("/applications")
-     * @example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/applications
-     */
-	public function getApplicationsAction()
-    {
-        $applications = $this->get('doctrine.orm.entity_manager')
-            ->getRepository('PlatformBundle:Application')
-            ->findAll();
-
-        return $applications;
-    }
 
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)

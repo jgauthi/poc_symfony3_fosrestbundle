@@ -15,13 +15,10 @@ class ApplicationRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('app');
 
-        // On fait une jointure avec l'entité Advert avec pour alias « adv »
-        $qb
-            ->innerJoin('app.advert', 'adv')
-            ->addSelect('adv');
+        $qb->innerJoin('app.advert', 'adv')->addSelect('adv');
 
-        // Puis on ne retourne que $limit résultats
-        $qb->setMaxResults($limit);
+        $qb->orderBy('app.date', 'DESC')
+            ->setMaxResults($limit);
 
         return $qb->getQuery()->getResult();
     }
