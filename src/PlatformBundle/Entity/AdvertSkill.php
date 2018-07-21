@@ -30,7 +30,7 @@ class AdvertSkill
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="PlatformBundle\Entity\Advert")
-	 * @ORM\JoinColumn(nullable=false)
+	 * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
 	 */
 	private $advert;
 

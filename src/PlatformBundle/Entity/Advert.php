@@ -89,7 +89,7 @@ class Advert
 	private $categories;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="PlatformBundle\Entity\Application", mappedBy="advert")
+	 * @ORM\OneToMany(targetEntity="PlatformBundle\Entity\Application", mappedBy="advert", cascade={"persist", "remove"})
      * @ORM\OrderBy({"date" = "DESC"})
 	 */
 	private $applications;
