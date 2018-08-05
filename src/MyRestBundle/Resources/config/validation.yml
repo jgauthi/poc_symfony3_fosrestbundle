@@ -25,3 +25,13 @@ PlatformBundle\Entity\Application:
       - Choice: [Paris, Dunwall, Angoulême, Nice]
     salaryClaim:
       - GreaterThanOrEqual: 1500
+
+# User Rest API Auth
+MyRestBundle\Entity\Credentials:
+  properties:
+    login:
+      - NotBlank: ~
+      - Type: string
+    password:
+      - NotBlank: ~
+      - Type: string

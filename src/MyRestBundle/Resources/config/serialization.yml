@@ -18,3 +18,25 @@ PlatformBundle\Entity\Application:
     date: { groups: ['advert', 'application'] }
     city: { groups: ['advert', 'application'] }
     salaryClaim: { groups: ['advert', 'application'] }
+
+MyUserBundle\Entity\User:
+  attributes:
+    id:
+      groups: ['user', 'preference', 'auth-token']
+    username:
+      groups: ['user', 'preference', 'auth-token']
+    email:
+      groups: ['user', 'preference', 'auth-token']
+    roles:
+      groups: ['user']
+
+MyRestBundle\Entity\AuthToken:
+  attributes:
+    id:
+      groups: ['auth-token']
+    value:
+      groups: ['auth-token']
+    createdAt:
+      groups: ['auth-token']
+    user:
+      groups: ['auth-token']

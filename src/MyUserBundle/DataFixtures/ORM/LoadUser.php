@@ -11,9 +11,10 @@ class LoadUser implements FixtureInterface
     {
         $listNames = array
         (
-            'admin'      =>  array('role' => array('ROLE_ADMIN')),
-            'auteur'     =>  array('role' => array('ROLE_AUTEUR')),
-            'user'       =>  array('role' => array('ROLE_USER')),
+            'admin'         =>  array('role' => array('ROLE_ADMIN')),
+            'auteur'        =>  array('role' => array('ROLE_AUTEUR')),
+            'some_api_user' =>  array('role' => array('ROLE_AUTEUR', 'ROLE_API_ACCESS')),
+            'user'          =>  array('role' => array('ROLE_USER')),
         );
         $pass = 'local';
 
