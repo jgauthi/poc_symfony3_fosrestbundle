@@ -1,16 +1,15 @@
 <?php
 
-namespace PlatformBundle\Tests\Controller;
+namespace Tests\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class AdvertController extends WebTestCase
 {
-    public function testIndex()
+    public function testHello()
     {
         $client = static::createClient();
-
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/fr/platform/hello');
 
         $this->assertContains('Hello World', $client->getResponse()->getContent());
     }

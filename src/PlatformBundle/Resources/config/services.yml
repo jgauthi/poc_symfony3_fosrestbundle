@@ -52,6 +52,7 @@ services:
     class: PlatformBundle\Service\MarkdownTransformer
     arguments: [ '@markdown.parser', '@doctrine_cache.providers.my_markdown_cache' ]
     autowire: true
+    public: true
 
   platform.twig.markdown_extension:
     class: PlatformBundle\Twig\MarkdownExtension

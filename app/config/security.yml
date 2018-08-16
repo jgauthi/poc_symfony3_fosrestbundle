@@ -31,7 +31,7 @@ security:
         path:       fos_user_security_logout
         target:     fos_user_security_login
       remember_me:
-        secret:     %secret%
+        secret:     '%secret%'
 
   access_control:
     - { path: ^/admin, roles: ROLE_ADMIN }

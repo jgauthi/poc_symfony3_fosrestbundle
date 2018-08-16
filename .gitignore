@@ -17,5 +17,6 @@
 /web/css/
 /web/js/
 /web/bundles/
+/web/test-coverage/
 .idea
 web/uploads/

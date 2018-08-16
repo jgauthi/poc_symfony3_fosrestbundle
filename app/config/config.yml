@@ -137,6 +137,6 @@ assetic:
 doctrine_cache:
   providers:
     my_markdown_cache:
-      type: %cache_type%
+      type: '%cache_type%'
       # directory: %kernel.cache_dir%/markdown_cache
 
