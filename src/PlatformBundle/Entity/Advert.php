@@ -201,10 +201,13 @@ class Advert
      *
      * @return Advert
      */
-    public function setDate($date)
+    public function setDate(\DateTime $date)
     {
-        $this->date = $date;
+        $dateCreationPlatform = \DateTime::createFromFormat('Y-m-d H:i', '2018-01-23 19:05');
+        if($date < $dateCreationPlatform)
+            throw new \LogicException('L\'annonce ne peut être créer avant le '. $dateCreationPlatform->format('d/m/Y'));
 
+        $this->date = $date;
         return $this;
     }
 
@@ -337,7 +340,7 @@ class Advert
      */
     public function getApplications()
     {
-//        return $this->applications;
+        return $this->applications;
     }
 
     /**
