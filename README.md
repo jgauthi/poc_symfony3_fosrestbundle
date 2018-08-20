@@ -29,6 +29,10 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
         * Bigbrother: Send an email to admin if some users post a message.
         * CustomParamConverter: Display param converter from url request.
         * MarkdownTransformer: Convert markdown to html. 
+    * Test units
+        * Advert entity
+        * Application entity
+        * **Todolist (in progress)**: Use MOCK on Test units
 * **MyUserBundle**: User management with the fos/user-bundle
     * Controller
         * Login / logout / forgotten password...
@@ -43,8 +47,11 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
             * [PATCH] Update some fields in advert
             * [PUT] Update all fields in advert
             * [DELETE] Remove advert
-    * Todolist (in progress)
-        * Security
+    * Security: Authentication by token _(X-Auth-Token)_
+    * **Todolist (in progress)**
+        * Support Query String
+        * Support JMSSerializer
+        * Documentation with Swagger
 
 ## Installation
 Command lines:
