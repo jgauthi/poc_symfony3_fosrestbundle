@@ -42,7 +42,7 @@ class ApiApplicationController extends Controller
             ->find($request->get('id'));
 
         if(empty($advert))
-            return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Advert not found');
 
         $application = $em->getRepository("PlatformBundle:Application")
             ->findBy(['advert' => $advert]);
@@ -61,7 +61,7 @@ class ApiApplicationController extends Controller
             ->find($request->get('id'));
 
         if(empty($advert))
-            return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Advert not found');
 
         $application = new application();
         $application->setAdvert($advert);

@@ -75,7 +75,7 @@ class ApiAdvertController extends Controller
 			->find($request->get('advert_id'));
 
 		if(empty($advert))
-		    return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Advert not found');
 
         return $advert;
 	}
@@ -129,7 +129,7 @@ class ApiAdvertController extends Controller
         $advert = $em->getRepository('PlatformBundle:Advert')->find($request->get('id'));
 
         if(empty($advert))
-            return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Advert not found');
 
         $form = $this->createForm(AdvertType::class, $advert);
         $form->submit($request->request->all(), $allFieldsRequire);
@@ -155,7 +155,7 @@ class ApiAdvertController extends Controller
             ->find($request->get('id'));
 
         if(empty($advert))
-            return View::create(['message' => 'Advert not found'], Response::HTTP_NOT_FOUND);
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Advert not found');
 
         elseif(true === $advert->getPublished())
             return View::create(['message' => 'You can\'t delete un published advert'], Response::HTTP_BAD_REQUEST);
