@@ -1,4 +1,20 @@
 services:
-#    my_rest.example:
-#        class: MyRestBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+  auth_token_user_provider:
+    class: MyRestBundle\Security\AuthTokenUserProvider
+    arguments: ["@auth_token_repository", "@user_repository"]
+    public:    false
+
+  auth_token_repository:
+    class:   Doctrine\ORM\EntityManager
+    factory: ["@doctrine.orm.entity_manager", "getRepository"]
+    arguments: ["MyRestBundle:AuthToken"]
+
+  user_repository:
+    class:   Doctrine\ORM\EntityManager
+    factory: ["@doctrine.orm.entity_manager", "getRepository"]
+    arguments: ["MyUserBundle:User"]
+
+  auth_token_authenticator:
+    class:     MyRestBundle\Security\AuthTokenAuthenticator
+    arguments: ["@security.http_utils"]
+    public:    false

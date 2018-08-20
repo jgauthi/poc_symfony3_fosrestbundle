@@ -102,7 +102,7 @@ fos_rest:
       - { path: '^/[a-z]{2}/api/v[0-9]/', priorities: ['json','xml'], fallback_format: 'json', prefer_extension: false }
       - { path: '^/', stop: true }
   body_listener:
-      enabled: true
+    enabled: true
 
 services:
   twig.extension.intl:
