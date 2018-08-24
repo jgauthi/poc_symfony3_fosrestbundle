@@ -14,7 +14,7 @@ class LoadAdvert implements FixtureInterface
 	public function load(ObjectManager $em)
 	{
 		// Liste des noms de catégorie à ajouter
-		$liste = array
+        $liste = array
 		(
             array
             (
@@ -27,6 +27,7 @@ class LoadAdvert implements FixtureInterface
                     array('author' => 'Marine', 'content' => 'J\'ai toutes les qualités requises.', 'city' => 'Paris', 'salaryClaim' => 2500),
                     array('author' => 'Pierre', 'content' => 'Je suis très motivé.', 'city' => 'Angoulême', 'salaryClaim' => 2498),
                 ),
+                'categories'    => array('Développement web', 'Intégration'),
             ),
             array
             (
@@ -39,6 +40,7 @@ class LoadAdvert implements FixtureInterface
                     array('author' => 'Corvo', 'content' => 'Disponible.', 'city' => 'Dunwall', 'salaryClaim' => 3000),
                     array('author' => 'Emily', 'content' => 'En attente de réponse.', 'city' => 'Dunwall', 'salaryClaim' => 4000),
                 ),
+                'categories'    => null,
             ),
             array
             (
@@ -47,6 +49,7 @@ class LoadAdvert implements FixtureInterface
                 'content'       => "Recherche ingénieur en intelligence artificiel",
                 'image'         => 'http://localhost/dev/asset/img/specimen/animaux.jpg',
                 'application'   => null,
+                'categories'    => array('Réseau'),
             ),
 		);
         $listSkills = $em->getRepository('PlatformBundle:Skill')->findAll();
@@ -70,6 +73,18 @@ class LoadAdvert implements FixtureInterface
                 // On lie l'image à l'annonce
                 $advert->setImage($image);
             }
+
+            // Association de Catégories
+            $catRepo = $em->getRepository('PlatformBundle:Category');
+            if(!empty($info['categories'])) foreach($info['categories'] as $advert_cat)
+            {
+                $category = $catRepo->findOneBy(['name' => $advert_cat]);
+                if(empty($category))
+                    continue;
+
+                $advert->addCategory($category);
+            }
+
             $em->persist($advert);
 
             if(!empty($info['application'])) foreach($info['application'] as $candidate)
@@ -86,10 +101,10 @@ class LoadAdvert implements FixtureInterface
             }
 
             // Association de compétences à l'annonce
-            foreach($listSkills as $skill)
+            foreach(array_rand($listSkills, rand(2,4)) as $key)
             {
                 $advertSkill = new AdvertSkill();
-                $advertSkill->setAdvert($advert)->setSkill($skill)->setLevel('Expert');
+                $advertSkill->setAdvert($advert)->setSkill($listSkills[$key])->setLevel('Expert');
                 $em->persist($advertSkill);
             }
 		}
