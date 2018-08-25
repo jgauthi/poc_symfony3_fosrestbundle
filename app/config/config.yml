@@ -103,6 +103,8 @@ fos_rest:
       - { path: '^/', stop: true }
   body_listener:
     enabled: true
+  param_fetcher_listener:
+    enabled: true
   exception:
     enabled: true
     messages:

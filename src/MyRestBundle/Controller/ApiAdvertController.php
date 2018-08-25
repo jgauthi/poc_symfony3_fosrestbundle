@@ -3,6 +3,7 @@
 namespace MyRestBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
 use MyRestBundle\Form\AdvertType;
 use PlatformBundle\Entity\Advert;
@@ -16,13 +17,36 @@ class ApiAdvertController extends Controller
 	/**
 	 * @Rest\View(serializerGroups={"advert"})
      * @Rest\Get("/adverts")
-	 * example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/adverts
+     * @Rest\QueryParam(name="offset", requirements="\d+", default="", description="Index début pagination")
+     * @Rest\QueryParam(name="limit", requirements="\d+", default="", description="Index de fin de pagination")
+     * @Rest\QueryParam(name="order", requirements="(asc|desc)", nullable=true, description="Ordre de trie (basé sur le titre)")
+	 * example url: http://127.0.0.1/mindsymfony/web/app_dev.php/fr/api/v1/adverts?offset=1&limit=3&order=desc
 	 */
-	public function getAdvertsAction()
+	public function getAdvertsAction(Request $request, ParamFetcher $paramFetcher)
 	{
-		$advert_list = $this->get('doctrine.orm.entity_manager')
+	    // Avec l'annotation QueryParam, le Param Fetcher Listener injecte automatiquement le param fetcher à notre méthode
+	    $offset = $paramFetcher->get('offset');
+	    $limit = $paramFetcher->get('limit');
+	    $orderByTitle = $paramFetcher->get('order');
+
+	    /*$advert_list = $this->get('doctrine.orm.entity_manager')
 			->getRepository('PlatformBundle:Advert')
-			->findAll();
+			->findAll();*/
+
+	    $qb = $this->get('doctrine.orm.entity_manager')->createQueryBuilder();
+	    $qb->select('advert')->from('PlatformBundle:Advert', 'advert');
+
+	    if(!empty($offset))
+	        $qb->setFirstResult($offset);
+
+	    if(!empty($limit))
+	        $qb->setMaxResults($limit);
+
+	    if(!empty($orderByTitle) && in_array($orderByTitle, ['asc', 'desc']))
+	        $qb->orderBy('advert.title', $orderByTitle);
+
+	    $advert_list = $qb->getQuery()->getResult();
+
 
 		/*$formatted = [];
 		foreach($advert_list as $advert) {
@@ -84,7 +108,7 @@ class ApiAdvertController extends Controller
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"advert"})
      * @Rest\Post("/advert")
-     * @Example-JSON-Send-to-API:
+     * Example-JSON-Send-to-API:
         {
             "title": "Publication via API Raw",
             "content": "Lorem ipsu dolor color...",

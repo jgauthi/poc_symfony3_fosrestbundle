@@ -38,7 +38,7 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
         * Login / logout / forgotten password...
         * Role management
     * Generate data Fixture (entity)
-        * Some users with role (admin, author, user)
+        * Some users with role (admin, author, api access, user)
 * **MyRestApi**: Add Rest API implementation with fos/rest-bundle
     * Controller
         * CRUD
@@ -47,9 +47,10 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
             * [PATCH] Update some fields in advert
             * [PUT] Update all fields in advert
             * [DELETE] Remove advert
-    * Security: Authentication by token _(X-Auth-Token)_
+    * Features / Configuration used
+        * Query String (QueryParam & ParamFetcher)
+        * Security: Authentication by token _(X-Auth-Token)_
     * **Todolist (in progress)**
-        * Support Query String
         * Support JMSSerializer
         * Documentation with Swagger
 
