@@ -97,10 +97,11 @@ fos_rest:
     formats:
       json: true
       xml: true
+  zone:
+    - { path: '^/[a-z]{2}/api/' }
   format_listener:
     rules:
       - { path: '^/[a-z]{2}/api/v[0-9]/', priorities: ['json','xml'], fallback_format: 'json', prefer_extension: false }
-      - { path: '^/', stop: true }
   body_listener:
     enabled: true
   param_fetcher_listener:

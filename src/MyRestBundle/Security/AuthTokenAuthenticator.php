@@ -5,34 +5,28 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\SimplePreAuthenticatorInterface;
-use Symfony\Component\Security\Http\HttpUtils;
 
 class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {
     // Durée de validité du token en secondes, 12h
     const TOKEN_VALIDITY_DURATION = 12 * 3600;
 
-    protected $httpUtils;
-
-    public function __construct(HttpUtils $httpUtils)
-    {
-        $this->httpUtils = $httpUtils;
-    }
-
     public function createToken(Request $request, $providerKey)
     {
-        // Si la requête est une création de token, aucune vérification n'est effectuée
-        if($request->getMethod() === "POST" && preg_match('#/[a-z]{2}/api/v[0-9]/auth-tokens$#i', $request->getRequestUri())) {
+        $autorisedPaths = [
+            'get_applications', // Liste applications
+            'post_auth_tokens', // Création d'un token (connexion)
+        ];
+
+        $currentRoute = $request->attributes->get('_route');
+        if(in_array($currentRoute, $autorisedPaths))
             return;
-        }
 
         $authTokenHeader = $request->headers->get('X-Auth-Token');
-
         if(!$authTokenHeader) {
             throw new BadCredentialsException('X-Auth-Token header is required');
         }

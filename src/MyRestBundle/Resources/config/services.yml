@@ -16,5 +16,4 @@ services:
 
   auth_token_authenticator:
     class:     MyRestBundle\Security\AuthTokenAuthenticator
-    arguments: ["@security.http_utils"]
     public:    false
