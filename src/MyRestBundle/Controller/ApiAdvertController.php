@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use MyRestBundle\Form\AdvertType;
 use PlatformBundle\Entity\Advert;
+use PlatformBundle\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,20 +84,53 @@ class ApiAdvertController extends Controller
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"advert"})
      * @Rest\Post("/advert")
+     * @Example-JSON-Send-to-API:
+        {
+            "title": "Publication via API Raw",
+            "content": "Lorem ipsu dolor color...",
+            "author": "JohnDoe",
+            "categories": [
+                "Développement web",
+                "Dev OPS",
+                "Intégration"
+            ]
+        }
      */
     public function postAdvertAction(Request $request)
     {
         $advert = new Advert();
+        $em = $this->get('doctrine.orm.entity_manager');
+
+        $post_data = $request->request->all();
+        if(isset($post_data['categories']))
+        {
+            $categories = $post_data['categories'];
+            unset($post_data['categories']);
+        }
+        else $categories = null;
 
         $form = $this->createForm(AdvertType::class, $advert);
-        $form->submit($request->request->all()); // Validation des données
+        $form->submit($post_data); // Validation des données
 
         if($form->isValid())
         {
             // Annonce à confirmer par un admin
             $advert->setPublished(false);
 
-            $em = $this->get('doctrine.orm.entity_manager');
+            $catRepo = $em->getRepository('PlatformBundle:Category');
+            if(!empty($categories) && is_array($categories)) foreach($categories as $catName)
+            {
+                $category = $catRepo->findOneBy(['name' => $catName]);
+                if(empty($category))
+                {
+                    $category = new Category();
+                    $category->setName($catName);
+                    $em->persist($category);
+                }
+
+                $advert->addCategory($category);
+            }
+
             $em->persist($advert);
             $em->flush();
 

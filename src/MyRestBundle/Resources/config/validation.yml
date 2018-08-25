@@ -12,6 +12,16 @@ PlatformBundle\Entity\Advert:
     content:
       - NotBlank: ~
       - Type: string
+    categories:
+      - Valid: ~
+
+PlatformBundle\Entity\Category:
+#  constraints:
+#    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: name
+  properties:
+    name:
+      - NotBlank: ~
+      - Type: string
 
 PlatformBundle\Entity\Application:
   properties:

@@ -7,8 +7,14 @@ PlatformBundle\Entity\Advert:
     content: { groups: ['advert'] }
     date: { groups: ['advert', 'application'] }
     nbApplications: { groups: ['advert'] }
+    categories: { groups: ['advert', 'category'] }
     updatedAt: { groups: ['advert_additional_info'] }
     published: { groups: ['advert_additional_info'] }
+
+PlatformBundle\Entity\Category:
+  attributes:
+    id: { groups: ['advert', 'category'] }
+    name: { groups: ['advert', 'category'] }
 
 PlatformBundle\Entity\Application:
   attributes:
