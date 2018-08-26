@@ -5,6 +5,7 @@ namespace MyRestBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use MyRestBundle\Form\ApplicationType;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PlatformBundle\Entity\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,10 +14,19 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiApplicationController extends Controller
 {
 	/**
-     * Get Last applications with advert
 	 * @Rest\View(serializerGroups={"application"})
      * @Rest\Get("/applications")
      * @example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/applications
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     section="Application",
+     *     description="Récupère la liste des candidatures",
+     *     output= { "class"=Application::class, "collection"=true, "groups"={"application"} },
+     *     headers={
+     *         { "name"="X-Auth-Token", "required"=false, "description"="Authorization key" },
+     *    }
+     * )
      */
 	public function getApplicationsAction(Request $request)
     {
@@ -34,6 +44,24 @@ class ApiApplicationController extends Controller
     /**
      * @Rest\View(serializerGroups={"application"})
      * @Rest\Get("/advert/{id}/application")
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     section="Application",
+     *     description="Récupère une candiature",
+     *     output="PlatformBundle\Entity\Application",
+     *     requirements={
+     *         {
+     *             "name"="id",
+     *             "dataType"="integer",
+     *             "requirements"="\d+",
+     *             "description"="Identifiant de l'annonce"
+     *         }
+     *     },
+     *     headers={
+     *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
+     *    }
+     * )
     */
     public function getApplicationAction(Request $request)
     {
@@ -53,6 +81,32 @@ class ApiApplicationController extends Controller
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"application"})
      * @Rest\Post("/advert/{id}/application")
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     section="Application",
+     *     description="Ajouter une candidature",
+     *     input="MyRestBundle\Form\ApplicationType",
+     *     statusCodes = {
+     *        201 = "Création avec succès",
+     *        400 = "Formulaire invalide"
+     *    },
+     *    responseMap={
+     *         201 = {"class"=Application::class, "groups"={"application"}},
+     *         400 = { "class"=Application::class, "form_errors"=true, "name" = ""}
+     *    },
+     *    requirements={
+     *         {
+     *             "name"="id",
+     *             "dataType"="integer",
+     *             "requirements"="\d+",
+     *             "description"="Identifiant de l'annonce"
+     *         }
+     *    },
+     *    headers={
+     *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
+     *    }
+     * )
     */
     public function postApplicationAction(Request $request)
     {

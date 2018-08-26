@@ -2,6 +2,7 @@
 namespace MyRestBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use MyRestBundle\Form\CredentialsType;
 use MyRestBundle\Entity\AuthToken;
 use MyRestBundle\Entity\Credentials;
@@ -15,6 +16,21 @@ class AuthTokenController extends Controller
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"auth-token"})
      * @Rest\Post("/auth-tokens")
+     *
+     * @ApiDoc(
+     *    resource=true,
+     *    section="Token",
+     *    description="Crée un token d'authentification",
+     *    input="MyRestBundle\Form\CredentialsType.php",
+     *    statusCodes = {
+     *        201 = "Création avec succès",
+     *        400 = "Formulaire invalide"
+     *    },
+     *    responseMap={
+     *         201 = {"class"=AuthToken::class, "groups"={"auth-token"}},
+     *         400 = { "class"=CredentialsType::class, "fos_rest_form_errors"=true, "name" = ""}
+     *    }
+     * )
      */
     public function postAuthTokensAction(Request $request)
     {
@@ -60,6 +76,27 @@ class AuthTokenController extends Controller
     /**
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
      * @Rest\Delete("/auth-tokens/{id}")
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     section="Token",
+     *     description="Supprimer un token lié à un utilisateur",
+     *     statusCodes = {
+     *          200 = "Suppression avec succès",
+     *          400 = "Formulaire invalide"
+     *    },
+     *    requirements={
+     *         {
+     *             "name"="id",
+     *             "dataType"="integer",
+     *             "requirements"="\d+",
+     *             "description"="Identifiant du token"
+     *         }
+     *    },
+     *    headers={
+     *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
+     *    }
+     * )
     */
     public function removeAuthTokenAction(Request $request)
     {

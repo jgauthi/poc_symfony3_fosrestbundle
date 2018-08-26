@@ -49,10 +49,10 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
             * [DELETE] Remove advert
     * Features / Configuration used
         * Query String (QueryParam & ParamFetcher)
+        * API Documentation: Using [NelmioApiDocBundle](https://symfony.com/doc/2.x/bundles/NelmioApiDocBundle/index.html) v2.x to generate online doc with Annotations (ApiDoc & FosRest).
         * Security: Authentication by token _(X-Auth-Token)_
     * **Todolist (in progress)**
-        * Support JMSSerializer
-        * Documentation with Swagger
+        * Versioning
 
 ## Installation
 Command lines:
