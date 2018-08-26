@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
 use MyRestBundle\Form\AdvertType;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PlatformBundle\Entity\Advert;
 use PlatformBundle\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,7 +16,12 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiAdvertController extends Controller
 {
 	/**
-	 * @Rest\View(serializerGroups={"advert"})
+	 * @ApiDoc(
+     *     resource=true,
+     *     description="Récupère la liste des annonces"
+     * )
+     *
+     * @Rest\View(serializerGroups={"advert"})
      * @Rest\Get("/adverts")
      * @Rest\QueryParam(name="offset", requirements="\d+", default="", description="Index début pagination")
      * @Rest\QueryParam(name="limit", requirements="\d+", default="", description="Index de fin de pagination")
@@ -89,6 +95,11 @@ class ApiAdvertController extends Controller
 	}
 
 	/**
+     * @ApiDoc(
+     *     resource=true,
+     *     description="Récupère une annonce"
+     * )
+     *
      * @Rest\View(serializerGroups={"advert", "advert_additional_info"})
 	 * @Rest\Get("/advert/{advert_id}")
 	 * example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/advert/1

@@ -24,6 +24,7 @@
             <h3>Les annonces</h3>
             <ul class="nav nav-pills nav-stacked">
                 <li><a href="{{ path('oc_platform_home') }}">Accueil</a></li>
+                <li><a href="{{ path('nelmio_api_doc_index') }}">Api doc</a></li>
                 {% if app.user is empty %}
                     <li>
                         <a href="{{ path('fos_user_security_login') }}" title="login: admin ou user, password: local">Login</a>

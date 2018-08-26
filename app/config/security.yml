@@ -23,6 +23,10 @@ security:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
 
+    apidoc:
+      pattern: ^/[a-z]{2}/api/doc/
+      security: false
+
     api:
       pattern: ^/[a-z]{2}/api/v[0-9]/
       stateless: true
