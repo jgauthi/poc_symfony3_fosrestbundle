@@ -1,10 +1,9 @@
-Symfony Learning
+POC Symfony 3 FosRestBundle
 ===========
-A Symfony project created on January 26, 2018, to learn the framework :-).
 
 ## Prerequisites
 
-* The PHP version must be greater than or equal to PHP 5.5.9
+* The PHP version must be greater than or equal to PHP 7.2
 * The SQLite 3 extension must be enabled
 * The JSON extension must be enabled
 * The Ctype extension must be enabled
@@ -58,11 +57,13 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
 Command lines:
 
 ```bash
-git clone git@github.com:jgauthi/symfony3_learning.git
-docker-compose exec php composer install
+git clone git@github.com:jgauthi/poc_symfony3_fosrestbundle.git
+composer install
 
 docker-compose exec php php bin/console assets:install --symlink
 docker-compose exec php php bin/console doctrine:migrations:migrate
+
+# Optionnal
 docker-compose exec php php bin/console doctrine:fixtures:load
 ````
 
