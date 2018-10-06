@@ -8,8 +8,8 @@ class AdvertController extends WebTestCase
     public function testHello()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/fr/platform/hello');
+        $crawler = $client->request('GET', '/fr/platform');
 
-        $this->assertContains('Hello World', $client->getResponse()->getContent());
+        $this->assertContains('Liste des annonces', $client->getResponse()->getContent());
     }
 }

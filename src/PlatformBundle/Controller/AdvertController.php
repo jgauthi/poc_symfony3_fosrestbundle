@@ -10,65 +10,17 @@ use PlatformBundle\Form\AdvertType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 class AdvertController extends Controller
 {
-    // http://localhost/mindsymfony/web/app_dev.php/fr/platform/hello
-    // http://localhost/mindsymfony/web/app_dev.php/en/platform/hello
-	public function helloAction()
-	{
-		$markdownTxt = '**Octopuses** can change the color of their body in just *three-tenths* of a second!';
-
-		$markdownParser = $this->get('platform.service.markdown_transformer');
-		$markdownHtml = $markdownParser->parse($markdownTxt);
-
-		$content = $this->get('twig')->render('@Platform/Advert/hello.html.twig', array
-		(
-			'advert_id'     => 5,
-			'hight_int'     => 99999.10,
-			'nom'           => 'John doe',
-            'markdownTxt'	=> $markdownTxt,
-            'markdownHtml'	=> $markdownHtml,
-		));
-
-		return new Response($content);
-	}
-
 	//  http://localhost/mindsymfony/web/app_dev.php/fr/platform/
 	public function indexAction($page)
 	{
-		// On veut récupérer l'url de l'annonce #5
-		// Arguments generate: nom de la route, paramètres
-		$url = $this->get('router')->generate('oc_platform_view', array('id' => 5));
-
-		// Comme notre contrôleur hérite du contrôleur de base de Symfony, nous avons également accès à une méthode raccourcie pour générer des routes. Voici une alternative strictement équivalente :
-        $url2 = $this->generateUrl('oc_platform_view', array('id' => 7), UrlGeneratorInterface::ABSOLUTE_URL);
-
-		$random_msg = "L'url de l'annonce 5 est: {$url}, annonce 7: {$url2}";
-
-        // Notre liste d'annonce
-        $repo = $this->getDoctrine()->getManager()->getRepository('PlatformBundle:Category');
-
-        /*
-        $categories = $repo->findByName(array('Développement web', 'Développement mobile'));
-        dump($categories);
-
-        $listAdverts = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('PlatformBundle:Advert')
-            ->getAdvertWithCategories($categories);
-        dump($listAdverts);
-        */
-
         if(empty($page) || $page < 1)
             $page = 1;
 
@@ -90,27 +42,8 @@ class AdvertController extends Controller
             ->getManager()
             ->getRepository('PlatformBundle:Application')
             ->getApplicationsWithAdvert(2);
-        dump($listApp);
-
-        // On vérifie si cette IP a déjà posté une candidature il y a moins de 15 secondes
-        $lastAdvert = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('PlatformBundle:Advert')
-            ->getLastAdverts(1);
-
-        if(!empty($lastAdvert[0]))
-        {
-            $currentDate = new \DateTime();
-            $date = $lastAdvert[0]->getDate();
-
-            $diff = $date->diff($currentDate);
-            dump($diff->d);
-        }
-
 
         return $this->render('@Platform/Advert/index.html.twig', array(
-            'random_msg'        => $random_msg,
             'listAdverts'       => $listAdverts,
             'listApplication'   => $listApp,
             'nbPages'           => $nbPages,
@@ -129,13 +62,10 @@ class AdvertController extends Controller
             $limit,                     // Nombre d'annonces
             0                           // A partir du 1er
         );
-        $currentUser = $this->getUser();
 
-        // Tout l'intérêt est ici : le contrôleur passe les variables nécessaires au template !
         return $this->render('@Platform/Advert/menu.html.twig', array
         (
             'listAdverts' => $listAdverts,
-        //  'currentUser' => $currentUser, // Non nécessaire, l'user courant est accessible via {{ app.user }}
         ));
     }
 
@@ -146,57 +76,11 @@ class AdvertController extends Controller
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/13 ou 14 ou 15
 	public function viewAction(Advert $advert, Request $request)
 	{
-	    $id = $advert->getId();
-
-		// L'annonce n'existe pas (ne pas oublier le use Symfony\Component\HttpFoundation\Response)
-		$translator = $this->get('translator');
-        if($id == 404)
-		{
-			$response = new Response();
-			$response->setContent($translator->trans('advert.no_exist', array('%id%' => $id)));
-			$response->setStatusCode(Response::HTTP_NOT_FOUND);
-
-			return $response;
-		}
-		// Revenir à la homepage
-		elseif($id == 13)
-		{
-			$url = $this->get('router')->generate('oc_platform_home');
-			return new RedirectResponse($url);
-		}
-		// (alternative) passer par la méthode raccourci (ne nécessite pas le use RedirectResponse)
-		elseif($id == 14)
-		{
-			$url = $this->get('router')->generate('oc_platform_home');
-			return $this->redirect($url);
-		}
-		// (alternative) passer par la méthode raccourci en indiquant la vue (ne nécessite pas le use RedirectResponse)
-		elseif($id == 15)
-			return $this->redirectToRoute('oc_platform_home');
-
-		// Pour debugguer les redirections: "intercept_redirects" à true dans "app/config/config_dev.yml"
-
-
 		// Vous avez accès à la requête HTTP via $request (ne pas oublier le use)
 		// --> Avec cette façon d'accéder aux paramètres, vous n'avez pas besoin de tester leur existence.
 		$tag = $request->query->get('tag');
 		if(preg_match('#^(dev|debug)#', $tag))
 			dump($request, $advert);
-
-		/*
-			$_GET 							--> $request->query->get('tag')
-			$_POST 							--> $request->request->get('tag')
-			$_COOKIE 						--> $request->cookies->get('tag')
-			$_SERVER						--> $request->server->get('REQUEST_URI')
-			$_SERVER['HTTP_*']				--> $request->headers->get('USER_AGENT')
-			$id	(alternative)				--> $request->attributes->get('id')
-
-			$request->isMethod('POST')		--> Vérifier la méthode HTTP en cours
-			$request->isXmlHttpRequest()	--> Si Ajax
-
-			Pour en savoir plus:
-			http://api.symfony.com/3.0/Symfony/Component/HttpFoundation/Request.html
-		*/
 
 		// User en cours
 		$session = $request->getSession();
@@ -223,36 +107,31 @@ class AdvertController extends Controller
         ));
 	}
 
-	// On récupère tous les paramètres en arguments de la méthode
-	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/2012/symfony.xml
-	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/2014/webmaster
-	public function viewSlugAction($slug, $year, $_format)
-	{
-		// Le paramètre {_format}
-		// Lorsqu'il est utilisé, alors un header avec le ConteupdatedAtnt-type correspondant est ajouté à la réponse retournée.
-		// Exemple : vous appelez/platform/2014/webmaster.xml et le Kernel sait que la réponse retournée par le contrôleur est du XML, grâce au paramètre "_format" contenu dans la route. Ainsi, avant d'envoyer la réponse à notre navigateur, le header Content-type: application/xml sera ajouté.
-
-		return new Response(
-			"On pourrait afficher l'annonce correspondant au slug '{$slug}', créée en {$year} et au format {$_format}."
-		);
-	}
-
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/list
 	public function listAction()
 	{
-		$articles = array
-        (
-            'list_ids'      => array(5, 13, 14, 15, 404),
-            'listsAdvert'   => null,
-        );
+		$articles = ['list_ids' => [], 'listsAdvert' => []];
+        $markdownParser = $this->get('platform.service.markdown_transformer');
 
-		$listsAdvert = $this->getDoctrine()->getManager()->getRepository('PlatformBundle:Advert')->getAdvertWithApplications();
-        $articles['listsAdvert'] = $listsAdvert;
+        $listsAdvert = $this->getDoctrine()->getManager()->getRepository('PlatformBundle:Advert')->getAdvertWithApplications();
+        foreach($listsAdvert as $advert)
+        {
+            $id = $advert->getId();
 
+            $articles['list_ids'][] = $id;
+            $articles['listsAdvert'][$id] = [
+                'author'            =>  $advert->getAuthor(),
+                'title'             =>  $advert->getTitle(),
+                'content'           =>  $markdownParser->parse( $advert->getContent() ),
+                'nbApplications'    =>  $advert->getNbApplications(),
+                'published'         =>  $advert->getPublished(),
+            ];
+        }
+
+        // dump($articles); return new Response(); // Debug
 		if(class_exists('Symfony\Component\HttpFoundation\JsonResponse'))
 			return new JsonResponse($articles);
 
-		// Alternative manuel
 		$response = new Response(json_encode($articles));
 		$response->headers->set('Content-Type', 'application/json');
 
@@ -274,8 +153,6 @@ class AdvertController extends Controller
 		$advert->setAuthor('John Doe');
 
 		$form = $this->get('form.factory')->create(AdvertType::class, $advert);
-		// alternative depuis le controlleur: $form = $this->createForm(AdvertType::class, $advert)
-
 		if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
 		{
             // Evèvenement bigbrother, check message before save
@@ -318,14 +195,9 @@ class AdvertController extends Controller
 
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
         {
-            // dump($form->getData());
-
             // Suppression des categories liés
             foreach($advert->getCategories() as $category)
                 $advert->removeCategory($category);
-
-            // Suppression des skills
-            //foreach($advert->getS)
 
             $em = $this->get('doctrine.orm.entity_manager');
             $em->remove($advert);
@@ -349,17 +221,6 @@ class AdvertController extends Controller
      */
     public function editAction(Advert $advert, Request $request)
     {
-		// La méthode findAll retourne toutes les catégories de la base de données
-        /*$listCategories = $advert->getCategories();
-        if($listCategories->isEmpty())
-        {
-            $listCategories = $em->getRepository('PlatformBundle:Category')->findAll();
-            foreach($listCategories as $category)
-                $advert->addCategory($category);
-        }
-
-		$em->flush();*/
-
         // Affichage du formulaire
         $form = $this->get('form.factory')->create(AdvertEditType::class, $advert);
 

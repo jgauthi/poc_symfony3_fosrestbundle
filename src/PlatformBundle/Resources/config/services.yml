@@ -27,10 +27,10 @@ services:
     tags:
       - { name: kernel.event_listener, event: platform.post_message, method: processMessage }
 
-  platform.form.ckeditor:
-    class: PlatformBundle\Form\CkeditorType
+  platform.form.markdown:
+    class: PlatformBundle\Form\MarkdownType
     tags:
-      - { name: form.type, alias: ckeditor }
+      - { name: form.type, alias: markdown }
 
   platform.service.beta.html_adder:
     class: PlatformBundle\Service\Beta\BetaHTMLAdder

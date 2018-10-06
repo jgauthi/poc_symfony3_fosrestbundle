@@ -31,7 +31,7 @@ class ApplicationTest extends TestCase
        $date = new \DateTime;
        $date->setDate(2018, 7, 15);
 
-       $this->assertEquals($date, $application->getDate());
+       $this->assertEquals($date->format('Y-m-d'), $application->getDate()->format('Y-m-d'));
    }
 
     /**

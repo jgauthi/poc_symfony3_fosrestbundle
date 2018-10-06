@@ -11,7 +11,8 @@
 	<i>{{ 'advert.byauthor'|trans({'%author%': advert.author}) }}, {{ 'advert.thedate'|trans({'%date%': advert.date|date('d/m/Y')}) }}</i>
 
 	<div class="well">
-        {{ advert.content }}
+        {# advert.content|raw #}
+        {{ advert.content|mardownify }}
 	</div>
 
 	<p>
@@ -65,7 +66,7 @@
             <strong>{{ 'advert.byauthor'|trans({'%author%': application.author}) }}</strong>
 			(réside à {{ application.city }}),
             {{ 'advert.thedate'|trans({'%date%': application.date|date('d/m/Y')}) }}
-			<em>{{ application.content }}</em>
+			<em>{{ application.content|mardownify }}</em>
 		</li>
 
 		{% if loop.last %}

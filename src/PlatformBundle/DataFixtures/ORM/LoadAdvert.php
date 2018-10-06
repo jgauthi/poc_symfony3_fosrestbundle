@@ -20,7 +20,7 @@ class LoadAdvert implements FixtureInterface
             (
                 'title'         => 'Recherche développeur Symfony',
                 'author'        => 'Eglantine',
-                'content'       => "Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…",
+                'content'       => "Nous recherchons un **développeur Symfony** débutant sur Lyon. Blabla…",
                 'image'         => 'http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg',
                 'application'   => array
                 (
@@ -46,7 +46,7 @@ class LoadAdvert implements FixtureInterface
             (
                 'title'         => 'Développement d\'une Super IA, recherche ingénieur',
                 'author'        => 'Cave Johnson',
-                'content'       => "Recherche ingénieur en intelligence artificiel",
+                'content'       => "Recherche ingénieur en _intelligence artificiel_",
                 'image'         => 'http://localhost/dev/asset/img/specimen/animaux.jpg',
                 'application'   => null,
                 'categories'    => array('Réseau'),

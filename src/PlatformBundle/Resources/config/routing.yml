@@ -1,7 +1,3 @@
-hello_the_world:
-  path:     /hello
-  defaults: { _controller: PlatformBundle:Advert:hello }
-
 oc_platform_home:
   path:      /{page}
   defaults:
@@ -19,15 +15,6 @@ oc_platform_view:
 oc_platform_list:
   path:      /list
   defaults: { _controller: PlatformBundle:Advert:list }
-
-oc_platform_view_slug:
-  path:      /{year}/{slug}.{_format}
-  defaults:
-      _controller: PlatformBundle:Advert:viewSlug
-      _format:      html
-  requirements:
-      year: \d{4}
-      _format: html|xml
 
 oc_platform_add:
   path:      /add
