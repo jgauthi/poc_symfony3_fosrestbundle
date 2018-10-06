@@ -40,7 +40,7 @@ class Skill
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -52,7 +52,7 @@ class Skill
      *
      * @return Skill
      */
-    public function setName($name)
+    public function setName($name): Skill
     {
         $this->name = $name;
 
@@ -64,7 +64,7 @@ class Skill
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -76,7 +76,7 @@ class Skill
      *
      * @return Skill
      */
-    public function setContent($content)
+    public function setContent($content): Skill
     {
         $this->content = $content;
 
@@ -88,7 +88,7 @@ class Skill
      *
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }

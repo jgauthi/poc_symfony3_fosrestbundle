@@ -36,7 +36,7 @@ class Category
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -48,7 +48,7 @@ class Category
      *
      * @return Category
      */
-    public function setName($name)
+    public function setName($name): Category
     {
         $this->name = $name;
 
@@ -60,7 +60,7 @@ class Category
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

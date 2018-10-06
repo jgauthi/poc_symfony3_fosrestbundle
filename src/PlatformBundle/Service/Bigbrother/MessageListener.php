@@ -14,7 +14,7 @@ class MessageListener
         $this->listUsers   = $listUsers;
     }
 
-    public function processMessage(MessagePostEvent $event)
+    public function processMessage(MessagePostEvent $event): void
     {
         // On active la surveillance si l'auteur du message est dans la liste
         if(in_array($event->getUser()->getUsername(), $this->listUsers))

@@ -1,82 +1,71 @@
 <?php
 namespace PlatformBundle\DataFixtures\ORM;
 
-use PlatformBundle\Entity\Advert;
-use PlatformBundle\Entity\AdvertSkill;
-use PlatformBundle\Entity\Application;
-use PlatformBundle\Entity\Image;
+use PlatformBundle\Entity\{Advert, AdvertSkill, Application, Image};
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadAdvert implements FixtureInterface
 {
-	// Dans l'argument de la méthode load, l'objet $manager est l'EntityManager
-	public function load(ObjectManager $em)
+	// In the load method argument, the $manager object is the EntityManager
+	public function load(ObjectManager $em): void
 	{
-		// Liste des noms de catégorie à ajouter
-        $liste = array
-		(
-            array
-            (
+		// List of category names to add
+        $liste = [
+            [
                 'title'         => 'Recherche développeur Symfony',
                 'author'        => 'Eglantine',
                 'content'       => "Nous recherchons un **développeur Symfony** débutant sur Lyon. Blabla…",
                 'image'         => 'http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg',
-                'application'   => array
-                (
-                    array('author' => 'Marine', 'content' => 'J\'ai toutes les qualités requises.', 'city' => 'Paris', 'salaryClaim' => 2500),
-                    array('author' => 'Pierre', 'content' => 'Je suis très motivé.', 'city' => 'Angoulême', 'salaryClaim' => 2498),
-                ),
-                'categories'    => array('Développement web', 'Intégration'),
-            ),
-            array
-            (
+                'application'   => [
+                    ['author' => 'Marine', 'content' => 'J\'ai toutes les qualités requises.', 'city' => 'Paris', 'salaryClaim' => 2500],
+                    ['author' => 'Pierre', 'content' => 'Je suis très motivé.', 'city' => 'Angoulême', 'salaryClaim' => 2498],
+                ],
+                'categories'    => ['Développement web', 'Intégration'],
+            ],
+            [
                 'title'         => 'Poste de CP en cours',
                 'author'        => 'Delilah',
                 'content'       => "Lorem ipsou",
                 'image'         => null,
-                'application'   => array
-                (
-                    array('author' => 'Corvo', 'content' => 'Disponible.', 'city' => 'Dunwall', 'salaryClaim' => 3000),
-                    array('author' => 'Emily', 'content' => 'En attente de réponse.', 'city' => 'Dunwall', 'salaryClaim' => 4000),
-                ),
+                'application'   => [
+                    ['author' => 'Corvo', 'content' => 'Disponible.', 'city' => 'Dunwall', 'salaryClaim' => 3000],
+                    ['author' => 'Emily', 'content' => 'En attente de réponse.', 'city' => 'Dunwall', 'salaryClaim' => 4000],
+                ],
                 'categories'    => null,
-            ),
-            array
-            (
+            ],
+            [
                 'title'         => 'Développement d\'une Super IA, recherche ingénieur',
                 'author'        => 'Cave Johnson',
                 'content'       => "Recherche ingénieur en _intelligence artificiel_",
                 'image'         => 'http://localhost/dev/asset/img/specimen/animaux.jpg',
                 'application'   => null,
-                'categories'    => array('Réseau'),
-            ),
-		);
+                'categories'    => ['Réseau'],
+            ],
+		];
         $listSkills = $em->getRepository('PlatformBundle:Skill')->findAll();
 
-		foreach($liste as $info)
+		foreach($liste as ['title' => $title, 'author' => $author, 'content' => $content, 'image' => $imageUrl, 'categories' => $categories, 'application' => $application])
 		{
             $advert = new Advert();
             $advert
-                ->setTitle($info['title'])
-                ->setAuthor($info['author'])
-                ->setContent($info['content']);
-            // On peut ne pas définir ni la date ni la publication, car ces attributs sont définis automatiquement dans le constructeur
+                ->setTitle($title)
+                ->setAuthor($author)
+                ->setContent($content);
+            // You can't set the date or the publication because these attributes are defined automatically in the constructor
 
-            // Création de l'entité Image
-            if(!empty($info['image']))
+            // Create image entity
+            if(!empty($imageUrl))
             {
                 $image = new Image();
-                $image->setUrl($info['image']);
-                $image->setAlt(basename($info['image']));
-
-                // On lie l'image à l'annonce
+                $image->setUrl($imageUrl);
+                $image->setAlt(basename($imageUrl));
                 $advert->setImage($image);
             }
 
-            // Association de Catégories
+            // Add categories
             $catRepo = $em->getRepository('PlatformBundle:Category');
-            if(!empty($info['categories'])) foreach($info['categories'] as $advert_cat)
+            if(!empty($categories)) foreach($categories as $advert_cat)
             {
                 $category = $catRepo->findOneBy(['name' => $advert_cat]);
                 if(empty($category))
@@ -87,7 +76,7 @@ class LoadAdvert implements FixtureInterface
 
             $em->persist($advert);
 
-            if(!empty($info['application'])) foreach($info['application'] as $candidate)
+            if(!empty($application)) foreach($application as $candidate)
             {
                 $application = new Application();
                 $application
@@ -100,7 +89,7 @@ class LoadAdvert implements FixtureInterface
                 $em->persist($application);
             }
 
-            // Association de compétences à l'annonce
+            // Association of skills with the announcement
             foreach(array_rand($listSkills, rand(2,4)) as $key)
             {
                 $advertSkill = new AdvertSkill();

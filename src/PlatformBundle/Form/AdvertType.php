@@ -4,16 +4,16 @@ namespace PlatformBundle\Form;
 
 use PlatformBundle\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-// use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\{
+    AbstractType,
+    FormBuilderInterface,
+    Extension\Core\Type\CheckboxType,
+    Extension\Core\Type\DateType,
+    Extension\Core\Type\SubmitType,
+    Extension\Core\Type\TextType,
+    FormEvent,
+    FormEvents,
+};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdvertType extends AbstractType
@@ -21,7 +21,7 @@ class AdvertType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $cat_pattern = 'D%';
 
@@ -49,7 +49,7 @@ class AdvertType extends AbstractType
             ))
 			->add('save', SubmitType::class);
 
-        // On ajoute une fonction qui va écouter un évènement
+        // We add a function that will listen to an event
         $builder->addEventListener
         (
             FormEvents::POST_SET_DATA,
@@ -59,7 +59,7 @@ class AdvertType extends AbstractType
                 if(null === $advert)
                     return;
 
-                // Si l'annonce n'est pas publiée, ou si elle n'existe pas encore en base (id est null)
+                // If the ad is not published, or if it does not exist in base (id is null)
                 if(!$advert->getPublished() || null === $advert->getId())
                      $event->getForm()->add('published', CheckboxType::class, array('required' => false));
                 else $event->getForm()->remove('published');
@@ -69,7 +69,7 @@ class AdvertType extends AbstractType
     }/**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class' => 'PlatformBundle\Entity\Advert'
@@ -79,7 +79,7 @@ class AdvertType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'platformbundle_advert';
     }

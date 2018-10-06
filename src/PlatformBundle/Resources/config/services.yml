@@ -44,7 +44,7 @@ services:
       - { name: kernel.event_listener, event: kernel.response, method: processBeta, priority: 2 }
 
   platform.service.customparamconverter.json:
-    class: PlatformBundle\Service\CustomParamConverter\JsonParamConverter
+    class: PlatformBundle\Service\JsonParamConverter
     tags:
       - { name: request.param_converter }
 

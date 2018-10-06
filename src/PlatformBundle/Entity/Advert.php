@@ -8,8 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use PlatformBundle\Validator\Antiflood;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\{Constraints as Assert, Context\ExecutionContextInterface};
 
 /**
  * Advert
@@ -17,7 +16,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Table(name="advert")
  * @ORM\Entity(repositoryClass="PlatformBundle\Repository\AdvertRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields="title", message="Une annonce existe déjà avec ce titre.")
+ * @UniqueEntity(fields="title", message="An advert already exists with this title.")
  */
 class Advert
 {
@@ -117,7 +116,7 @@ class Advert
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -129,7 +128,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setTitle($title)
+    public function setTitle($title): Advert
     {
         $this->title = $title;
 
@@ -141,7 +140,7 @@ class Advert
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -153,7 +152,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setAuthor($author)
+    public function setAuthor($author): Advert
     {
         $this->author = $author;
 
@@ -177,7 +176,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setContent($content)
+    public function setContent($content): Advert
     {
         $this->content = $content;
 
@@ -189,7 +188,7 @@ class Advert
      *
      * @return string
      */
-    public function getContent()
+    public function getContent(): ?string
     {
         return $this->content;
     }
@@ -201,11 +200,11 @@ class Advert
      *
      * @return Advert
      */
-    public function setDate(\DateTime $date)
+    public function setDate(\DateTime $date): Advert
     {
         $dateCreationPlatform = \DateTime::createFromFormat('Y-m-d H:i', '2018-01-23 19:05');
         if($date < $dateCreationPlatform)
-            throw new \LogicException('L\'annonce ne peut être créer avant le '. $dateCreationPlatform->format('d/m/Y'));
+            throw new \LogicException('The advert can\'t be created before the '. $dateCreationPlatform->format('d/m/Y'));
 
         $this->date = $date;
         return $this;
@@ -216,7 +215,7 @@ class Advert
      *
      * @return \DateTime
      */
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
@@ -228,7 +227,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setPublished($published)
+    public function setPublished($published): Advert
     {
         $this->published = $published;
 
@@ -240,7 +239,7 @@ class Advert
      *
      * @return boolean
      */
-    public function getPublished()
+    public function getPublished(): bool
     {
         return $this->published;
     }
@@ -252,7 +251,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setImage(\PlatformBundle\Entity\Image $image = null)
+    public function setImage(Image $image = null): Advert
     {
         $this->image = $image;
 
@@ -264,7 +263,7 @@ class Advert
      *
      * @return \PlatformBundle\Entity\Image
      */
-    public function getImage()
+    public function getImage(): ?\PlatformBundle\Entity\Image
     {
         return $this->image;
     }
@@ -276,7 +275,7 @@ class Advert
      *
      * @return Advert
      */
-    public function addCategory(\PlatformBundle\Entity\Category $category)
+    public function addCategory(Category $category): Advert
     {
         $this->categories[] = $category;
 
@@ -288,7 +287,7 @@ class Advert
      *
      * @param \PlatformBundle\Entity\Category $category
      */
-    public function removeCategory(\PlatformBundle\Entity\Category $category)
+    public function removeCategory(Category $category): void
     {
         $this->categories->removeElement($category);
     }
@@ -298,7 +297,7 @@ class Advert
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCategories()
+    public function getCategories(): \Doctrine\Common\Collections\Collection
     {
         return $this->categories;
     }
@@ -310,7 +309,7 @@ class Advert
      *
      * @return Advert
      */
-    public function addApplication(\PlatformBundle\Entity\Application $application)
+    public function addApplication(Application $application): Advert
     {
         $this->applications[] = $application;
 
@@ -324,12 +323,12 @@ class Advert
      *
      * @param \PlatformBundle\Entity\Application $application
      */
-    public function removeApplication(\PlatformBundle\Entity\Application $application)
+    public function removeApplication(Application $application): void
     {
         $this->applications->removeElement($application);
 
-		// Et si notre relation était facultative (nullable=true, ce qui n'est pas notre cas ici attention) :
-		// $application->setAdvert(null);
+        // And if our relationship was optional (nullable = true, which is not our case here attention):
+        // $application->setAdvert(null);
     }
 
     /**
@@ -338,7 +337,7 @@ class Advert
      * @MaxDepth(1)
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getApplications()
+    public function getApplications(): \Doctrine\Common\Collections\Collection
     {
         return $this->applications;
     }
@@ -346,17 +345,17 @@ class Advert
     /**
      * @ORM\PreUpdate
      */
-    public function updateDate()
+    public function updateDate(): void
     {
         $this->updatedAt = new \DateTime();
     }
 
-    public function increaseApplication()
+    public function increaseApplication(): void
     {
         $this->nbApplications++;
     }
 
-    public function decreaseApplication()
+    public function decreaseApplication(): void
     {
         $this->nbApplications--;
     }
@@ -368,7 +367,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setSlug($slug)
+    public function setSlug($slug): Advert
     {
         $this->slug = $slug;
 
@@ -380,7 +379,7 @@ class Advert
      *
      * @return string
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -392,7 +391,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt($updatedAt): Advert
     {
         $this->updatedAt = $updatedAt;
 
@@ -404,7 +403,7 @@ class Advert
      *
      * @return \DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -416,7 +415,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setNbApplications($nbApplications)
+    public function setNbApplications($nbApplications): Advert
     {
         $this->nbApplications = $nbApplications;
 
@@ -428,7 +427,7 @@ class Advert
      *
      * @return integer
      */
-    public function getNbApplications()
+    public function getNbApplications(): int
     {
         return $this->nbApplications;
     }
@@ -436,16 +435,16 @@ class Advert
     /**
      * @Assert\Callback()
      */
-    public function isContentValid(ExecutionContextInterface $context)
+    public function isContentValid(ExecutionContextInterface $context): void
     {
-        $blacklistWords = array('démotivation', 'abandon');
+        $blacklistWords = array('demotivating', 'abandonment');
 
         if(preg_match('#'. implode('|', $blacklistWords) .'#i', $this->getContent()))
         {
             $context
-                ->buildViolation('Contenu avec un mot banni')    // Message erreur
-                ->atPath('content')                                 // Attribut de l'objet
-                ->addViolation();                                        // Déclenche erreur
+                ->buildViolation('Content with a banned word')  // Error message
+                ->atPath('content')                                // Attribute of the object
+                ->addViolation();                                       // Trigger error
         }
     }
 }

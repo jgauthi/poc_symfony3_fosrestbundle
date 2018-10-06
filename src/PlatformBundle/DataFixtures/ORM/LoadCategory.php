@@ -8,17 +8,16 @@ use Doctrine\Common\Persistence\ObjectManager;
 class LoadCategory implements FixtureInterface
 {
 	// Dans l'argument de la méthode load, l'objet $manager est l'EntityManager
-	public function load(ObjectManager $manager)
+	public function load(ObjectManager $manager): void
 	{
 		// Liste des noms de catégorie à ajouter
-		$names = array
-		(
+		$names = [
 			'Développement web',
 			'Développement mobile',
 			'Graphisme',
 			'Intégration',
 			'Réseau',
-		);
+		];
 
 		foreach($names as $name)
 		{

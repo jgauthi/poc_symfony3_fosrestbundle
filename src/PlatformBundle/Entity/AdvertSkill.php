@@ -46,7 +46,7 @@ class AdvertSkill
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -58,7 +58,7 @@ class AdvertSkill
      *
      * @return AdvertSkill
      */
-    public function setLevel($level)
+    public function setLevel($level): AdvertSkill
     {
         $this->level = $level;
 
@@ -70,7 +70,7 @@ class AdvertSkill
      *
      * @return string
      */
-    public function getLevel()
+    public function getLevel(): string
     {
         return $this->level;
     }
@@ -82,7 +82,7 @@ class AdvertSkill
      *
      * @return AdvertSkill
      */
-    public function setAdvert(\PlatformBundle\Entity\Advert $advert)
+    public function setAdvert(Advert $advert): AdvertSkill
     {
         $this->advert = $advert;
 
@@ -94,7 +94,7 @@ class AdvertSkill
      *
      * @return \PlatformBundle\Entity\Advert
      */
-    public function getAdvert()
+    public function getAdvert(): Advert
     {
         return $this->advert;
     }
@@ -104,9 +104,9 @@ class AdvertSkill
      *
      * @param \PlatformBundle\Entity\Skill $skill
      *
-     * @return AdvertSkill
+     * @return \PlatformBundle\Entity\AdvertSkill
      */
-    public function setSkill(\PlatformBundle\Entity\Skill $skill)
+    public function setSkill(Skill $skill): AdvertSkill
     {
         $this->skill = $skill;
 
@@ -118,7 +118,7 @@ class AdvertSkill
      *
      * @return \PlatformBundle\Entity\Skill
      */
-    public function getSkill()
+    public function getSkill(): Skill
     {
         return $this->skill;
     }

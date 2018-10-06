@@ -5,13 +5,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BetaHTMLAdder
 {
-    public function addBeta(Response $response, $remainingDays)
+    public function addBeta(Response $response, int $remainingDays): Response
     {
         $content = $response->getContent();
 
         $html = '<div style="position: absolute; top: 0; background: orange; width: 100%; text-align: center; padding: 0.5em;">Beta J-'.(int) $remainingDays.' !</div>';
 
-        // Insertion du code dans la page, au début du <body>
+        // Insert code in the page, at the beginning of <body>
         $content = str_replace
         (
             '<body>',
@@ -19,7 +19,7 @@ class BetaHTMLAdder
             $content
         );
 
-        // Modification du contenu dans la réponse
+        // Editing the content in the answer
         $response->setContent($content);
 
         return $response;

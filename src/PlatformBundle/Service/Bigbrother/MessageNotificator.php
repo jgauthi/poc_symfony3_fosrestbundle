@@ -12,14 +12,14 @@ class MessageNotificator
         $this->mailer = $mailer;
     }
 
-    // Méthode pour notifier par e-mail un administrateur
-    public function notifyByEmail($message, UserInterface $user)
+    // Method to notify an administrator by e-mail
+    public function notifyByEmail(string $message, UserInterface $user): void
     {
         $message = \Swift_Message::newInstance()
-            ->setSubject("Nouveau message d'un utilisateur surveillé")
-            ->setFrom('bigbrother@mindsymfony.dev')
-            ->setTo('admin@mindsymfony.dev')
-            ->setBody("L'utilisateur surveillé {$user->getUsername()} a posté le message suivant : '{$message}'")
+            ->setSubject("New message from BigDaddy")
+            ->setFrom('bigbrother@symfony.local')
+            ->setTo('admin@symfony.local')
+            ->setBody(sprintf('"The monitored user %s posted the following message: "%s"', $user->getUsername(), $message))
         ;
 
         $this->mailer->send($message);

@@ -15,23 +15,23 @@ class MessagePostEvent extends Event
         $this->user = $user;
     }
 
-    // Le listener doit avoir accès au message
-    public function getMessage()
+    // The listener must have access to the message
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    // Le listener doit pouvoir modifier le message
-    public function setMessage($message)
+    // The listener must be able to modify the message
+    public function setMessage($message): string
     {
         return $this->message = $message;
     }
 
-    // Le listener doit avoir accès à l'utilisateur
-    public function getUser()
+    // The listener must have access to the user
+    public function getUser(): UserInterface
     {
         return $this->user;
     }
-    // Pas de setUser, les listeners ne peuvent pas modifier l'auteur du message !
+    // No setUser, listeners can not change the author of the message!
 
 }

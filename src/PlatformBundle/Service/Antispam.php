@@ -7,24 +7,24 @@ class Antispam
     private $locale;
     private $minLength;
 
-    public function __construct(\Swift_Mailer $mailer, $minLength)
+    public function __construct(\Swift_Mailer $mailer, int $minLength)
     {
         $this->mailer    = $mailer;
-        $this->minLength = (int) $minLength;
+        $this->minLength = $minLength;
     }
 
     /**
-     * Vérifie si le texte est un spam ou non
+     * Check if the text is spam or not
      *
      * @param string $text
      * @return bool
      */
-    public function isSpam($text)
+    public function isSpam(string $text): bool
     {
         return strlen($text) < $this->minLength;
     }
 
-    public function setLocale($locale)
+    public function setLocale(string $locale): void
     {
         $this->locale = $locale;
     }

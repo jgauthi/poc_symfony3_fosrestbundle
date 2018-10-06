@@ -10,8 +10,8 @@ namespace PlatformBundle\Repository;
  */
 class ApplicationRepository extends \Doctrine\ORM\EntityRepository
 {
-    // Récupérer les X dernières candidatures avec leur annonce associée
-    public function getApplicationsWithAdvert($limit)
+    // Retrieve the last X applications with their associated adverts
+    public function getApplicationsWithAdvert(int $limit): array
     {
         $qb = $this->createQueryBuilder('app');
 

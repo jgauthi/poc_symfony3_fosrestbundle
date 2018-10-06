@@ -1,11 +1,9 @@
 <?php
 namespace PlatformBundle\Validator;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\{EntityManager, EntityManagerInterface};
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\{Constraint, ConstraintValidator};
 
 class AntifloodValidator extends ConstraintValidator
 {
@@ -18,7 +16,7 @@ class AntifloodValidator extends ConstraintValidator
         $this->em = $em;
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         // $request = $this->requestStack->getCurrentRequest();
         // $ip = $request->getClientIp();

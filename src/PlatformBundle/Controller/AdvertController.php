@@ -3,70 +3,59 @@
 namespace PlatformBundle\Controller;
 
 use PlatformBundle\Entity\Advert;
-use PlatformBundle\Event\PlatformEvents;
-use PlatformBundle\Event\MessagePostEvent;
-use PlatformBundle\Form\AdvertEditType;
-use PlatformBundle\Form\AdvertType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use PlatformBundle\Event\{PlatformEvents, MessagePostEvent};
+use PlatformBundle\Form\{AdvertType, AdvertEditType};
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\{ParamConverter, Security};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 class AdvertController extends Controller
 {
 	//  http://localhost/mindsymfony/web/app_dev.php/fr/platform/
-	public function indexAction($page)
+	public function indexAction(?int $page): Response
 	{
         if(empty($page) || $page < 1)
             $page = 1;
 
         $nbPerPage = 3;
-        $listAdverts = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('PlatformBundle:Advert')
-            ->getAdverts($page, $nbPerPage);
+        $em = $this->getDoctrine()->getManager();
 
+        $listAdverts = $em->getRepository('PlatformBundle:Advert')->getAdverts($page, $nbPerPage);
         $nbPages = ceil(count($listAdverts) / $nbPerPage);
         if($page > $nbPages)
         {
             $translator = $this->get('translator');
-            throw $this->createNotFoundException($translator->trans("La page %page% n''existe pas.", array('%page%', $page)));
+            throw $this->createNotFoundException($translator->trans("La page %page% n''existe pas.", ['%page%', $page]));
         }
 
-        $listApp = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('PlatformBundle:Application')
-            ->getApplicationsWithAdvert(2);
+        $listApp = $em->getRepository('PlatformBundle:Application')->getApplicationsWithAdvert(2);
 
-        return $this->render('@Platform/Advert/index.html.twig', array(
+
+        return $this->render('@Platform/Advert/index.html.twig', [
             'listAdverts'       => $listAdverts,
             'listApplication'   => $listApp,
             'nbPages'           => $nbPages,
             'page'              => $page,
-        ));
+        ]);
 	}
 
-    public function menuAction()
+    public function menuAction(): Response
     {
         $em = $this->getDoctrine()->getManager();
         $limit = 3;
         $listAdverts = $em->getRepository('PlatformBundle:Advert')->findBy
         (
             array(),                    // Pas de critère
-            array('date' => 'desc'),    // Trie par date récente
+            ['date' => 'desc'],         // Trie par date récente
             $limit,                     // Nombre d'annonces
             0                           // A partir du 1er
         );
 
-        return $this->render('@Platform/Advert/menu.html.twig', array
-        (
+        return $this->render('@Platform/Advert/menu.html.twig', [
             'listAdverts' => $listAdverts,
-        ));
+        ]);
     }
 
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/404
@@ -74,41 +63,39 @@ class AdvertController extends Controller
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/5
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/5?tag=developer
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/advert/13 ou 14 ou 15
-	public function viewAction(Advert $advert, Request $request)
+	public function viewAction(Advert $advert, Request $request): Response
 	{
-		// Vous avez accès à la requête HTTP via $request (ne pas oublier le use)
-		// --> Avec cette façon d'accéder aux paramètres, vous n'avez pas besoin de tester leur existence.
 		$tag = $request->query->get('tag');
 		if(preg_match('#^(dev|debug)#', $tag))
 			dump($request, $advert);
 
-		// User en cours
+		// Current user
 		$session = $request->getSession();
 		$session->set('user_id', 91);
 		$userId = $session->get('user_id');
 
-        // Liste des candidatures
+        // Applications list
 		$em = $this->getDoctrine()->getManager();
         $listApplications = $em
             ->getRepository('PlatformBundle:Application')
-            ->findBy(array('advert' => $advert));
+            ->findBy(['advert' => $advert]);
 
-        // Liste des compétences require pour l'annonce
+        // List of skills require for the advert
 		$listSkills = $em
 			->getRepository('PlatformBundle:AdvertSkill')
-			->findBy(array('advert' => $advert));
+			->findBy(['advert' => $advert]);
 
-        return $this->render('@Platform/Advert/view.html.twig', array(
+        return $this->render('@Platform/Advert/view.html.twig', [
             'advert'            =>  $advert,
             'tag' 		        =>	$tag,
             'userId'	        =>	$userId,
             'listApplications'  =>  $listApplications,
 			'listAdvertSkills'	=>	$listSkills,
-        ));
+        ]);
 	}
 
 	// http://localhost/mindsymfony/web/app_dev.php/fr/platform/list
-	public function listAction()
+	public function listAction(): Response
 	{
 		$articles = ['list_ids' => [], 'listsAdvert' => []];
         $markdownParser = $this->get('platform.service.markdown_transformer');
@@ -139,27 +126,27 @@ class AdvertController extends Controller
 	}
 
     // http://localhost/mindsymfony/web/app_dev.php/fr/platform/add
-	public function addAction(Request $request)
+	public function addAction(Request $request): Response
     {
         $translator = $this->get('translator');
 
-		// Check, alternative à l'annotation @Security
+		// Check, alternative to the @Security annotation
         if(!$this->get('security.authorization_checker')->isGranted('ROLE_AUTEUR'))
             throw new AccessDeniedException($translator->trans('advert.admin.author_require'));
 
-        // Construction du formulaire
+        // Construction of the form
 		$advert = new Advert();
-		$advert->setTitle(sprintf('Mon annonce (%d)', date('Y')));
+		$advert->setTitle(sprintf('My Advert (%d)', date('Y')));
 		$advert->setAuthor('John Doe');
 
 		$form = $this->get('form.factory')->create(AdvertType::class, $advert);
 		if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
 		{
-            // Evèvenement bigbrother, check message before save
+            // Event bigbrother, check message before save
 		    $event = new MessagePostEvent($advert->getContent(), $this->getUser());
-            $this->get('event_dispatcher')->dispatch(PlatformEvents::POST_MESSAGE, $event); // On déclenche l'évènement
+            $this->get('event_dispatcher')->dispatch(PlatformEvents::POST_MESSAGE, $event); // We trigger the event
 
-            // On récupère ce qui a été modifié par le ou les listeners, ici le message
+            // We recover what has been modified by the listeners, here the message
             $advert->setContent($event->getMessage());
 
             // Sauvegarde
@@ -167,19 +154,18 @@ class AdvertController extends Controller
             $em->persist($advert);
             $em->flush();
 
-            // Ici, on s'occupera de la création et de la gestion du formulaire
+            // Here, we will take care of the creation and management of the form
             $id = $advert->getId();
-            $this->addFlash('notice', $translator->trans('advert.admin.save_confirm', array('%id%' => $id)));
+            $this->addFlash('notice', $translator->trans('advert.admin.save_confirm', ['%id%' => $id]));
 
-            // Puis on redirige vers la page de visualisation de cettte annonce
-            return $this->redirectToRoute('oc_platform_view', array('id' => $id));
+            // Then we redirect to the advert view
+            return $this->redirectToRoute('oc_platform_view', ['id' => $id]);
 		}
 
-        // Si on n'est pas en POST, alors on affiche le formulaire
-        return $this->render('@Platform/Advert/add.html.twig', array
-		(
-			'form'	=>	$form->createView(),
-		));
+        // If we are not in POST, then display the form
+        return $this->render('@Platform/Advert/add.html.twig', [
+            'form'	=>	$form->createView(),
+        ]);
 	}
 
     // http://localhost/mindsymfony/web/app_dev.php/fr/platform/edit/5
@@ -187,15 +173,15 @@ class AdvertController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
      */
-    public function deleteAction(Request $request, Advert $advert)
+    public function deleteAction(Request $request, Advert $advert): Response
     {
-        // On crée un formulaire vide, qui ne contiendra que le champ CSRF
-        // Cela permet de protéger la suppression d'annonce contre cette faille
+        // Create an empty form, which will contain only the CSRF field
+        // This will protect ad deletion against this flaw
         $form = $this->get('form.factory')->create();
 
         if($request->isMethod('POST') && $form->handleRequest($request)->isValid())
         {
-            // Suppression des categories liés
+            // Deletion of linked categories
             foreach($advert->getCategories() as $category)
                 $advert->removeCategory($category);
 
@@ -209,17 +195,16 @@ class AdvertController extends Controller
             return $this->redirectToRoute('oc_platform_home');
         }
 
-        return $this->render('@Platform/Advert/delete.html.twig', array
-        (
+        return $this->render('@Platform/Advert/delete.html.twig', [
             'advert'    =>  $advert,
             'form'      =>  $form->createView(),
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_AUTEUR')")
      */
-    public function editAction(Advert $advert, Request $request)
+    public function editAction(Advert $advert, Request $request): Response
     {
         // Affichage du formulaire
         $form = $this->get('form.factory')->create(AdvertEditType::class, $advert);
@@ -234,22 +219,21 @@ class AdvertController extends Controller
                 $em->flush();
 
 				$translator = $this->get('translator');
-                $request->getSession()->getFlashBag()->add('notice', $translator->trans('advert.admin.edit_confirm_ok', array('%id%' => $advert->getId())));
+                $request->getSession()->getFlashBag()->add('notice', $translator->trans('advert.admin.edit_confirm_ok', ['%id%' => $advert->getId()] ));
 
-                return $this->redirectToRoute('oc_platform_view', array('id' => $advert->getId()));
+                return $this->redirectToRoute('oc_platform_view', ['id' => $advert->getId()] );
             }
         }
 
-        return $this->render('@Platform/Advert/edit.html.twig', array('advert' => $advert, 'form' => $form->createView()));
+        return $this->render('@Platform/Advert/edit.html.twig', ['advert' => $advert, 'form' => $form->createView()]);
     }
 
     // http://localhost/mindsymfony/web/app_dev.php/fr/traduction/Alice
-    public function translationAction($name)
+    public function translationAction($name): Response
     {
-        return $this->render('@Platform/Advert/translation.html.twig', array
-        (
+        return $this->render('@Platform/Advert/translation.html.twig', [
             'name'  =>  $name,
-        ));
+        ]);
     }
 
     /**
@@ -258,7 +242,7 @@ class AdvertController extends Controller
      * @ParamConverter("json")
      */
     // http://localhost/mindsymfony/web/app_dev.php/fr/platform/customparamconverter/{"a":1,"b":2,"c":3}
-    public function ParamConverterAction($json)
+    public function ParamConverterAction($json): Response
     {
         return new Response(var_export($json, true));
     }

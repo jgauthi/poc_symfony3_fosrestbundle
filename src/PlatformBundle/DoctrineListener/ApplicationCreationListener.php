@@ -17,11 +17,11 @@ class ApplicationCreationListener
         $this->applicationMailer = $applicationMailer;
     }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
 
-        // On ne veut envoyer un email que pour les entités Application
+        // We only want to send an email for Application entities
         if (!$entity instanceof Application) {
             return;
         }

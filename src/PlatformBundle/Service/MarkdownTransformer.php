@@ -15,11 +15,11 @@ class MarkdownTransformer
         $this->cache = $cache;
     }
 
-    public function parse($str)
+    public function parse(string $str): string
     {
         $cacheKey = md5($str);
 
-        // Utiliser un système de cache
+        // Use symfony cache system
         if(!$this->cache->contains($cacheKey))
         {
             $str = $this->markdownParser->transformMarkdown($str);

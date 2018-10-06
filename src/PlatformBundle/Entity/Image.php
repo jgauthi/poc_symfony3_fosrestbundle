@@ -37,7 +37,7 @@ class Image
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -49,7 +49,7 @@ class Image
      *
      * @return Image
      */
-    public function setUrl($url)
+    public function setUrl($url): Image
     {
         $this->url = $url;
 
@@ -61,12 +61,12 @@ class Image
      *
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
-    public function getWebPath()
+    public function getWebPath(): string
     {
         $url = $this->getUrl();
         if(!preg_match('#^http#', $url))
@@ -88,7 +88,7 @@ class Image
      *
      * @return Image
      */
-    public function setAlt($alt)
+    public function setAlt($alt): Image
     {
         $this->alt = $alt;
 
@@ -100,17 +100,17 @@ class Image
      *
      * @return string
      */
-    public function getAlt()
+    public function getAlt(): ?string
     {
         return $this->alt;
     }
 
-    public function getFile()
+    public function getFile(): string
     {
         return $this->file;
     }
 
-    public function setFile(UploadedFile $file = null)
+    public function setFile(UploadedFile $file = null): Image
     {
         $this->file = $file;
 
@@ -125,12 +125,12 @@ class Image
         }
     }
 
-    public function getUploadDir()
+    public function getUploadDir(): string
     {
         return 'uploads/img';
     }
 
-    public function getUploadRootDir()
+    public function getUploadRootDir(): string
     {
         return __DIR__.'/../../../web/'.$this->getUploadDir();
     }
@@ -139,7 +139,7 @@ class Image
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function preUpload()
+    public function preUpload(): void
     {
         if(null === $this->file)
             return;
@@ -153,12 +153,12 @@ class Image
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function upload()
+    public function upload(): void
     {
         if(null === $this->file)
             return;
 
-        // Supprimer le fichier précédent
+        // Delete previous file
         if(null !== $this->tmpFileName)
         {
             $oldFile = $this->getUploadRootDir()."/{$this->id}.{$this->tmpFileName}";
@@ -179,18 +179,18 @@ class Image
     /**
      * @ORM\PreRemove()
      */
-    public function preRemoveUpload()
+    public function preRemoveUpload(): void
     {
-        // Sauvegarde temporaire du nom du fichier
+        // Temporary backup the filename
         $this->tmpFileName = $this->getUploadRootDir()."/{$this->id}.{$this->url}";
     }
 
     /**
      * @ORM\PostRemove()
      */
-    public function removeUpload()
+    public function removeUpload(): void
     {
-        // En PostRemove, on n'a pas accès à l'id, on utilise notre nom sauvegardé
+        // On PostRemove, we don't have access to the id, we use our saved name
         if(file_exists($this->tmpFileName))
             unlink($this->tmpFileName);
     }

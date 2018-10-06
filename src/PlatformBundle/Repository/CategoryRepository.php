@@ -2,6 +2,8 @@
 
 namespace PlatformBundle\Repository;
 
+use Doctrine\ORM\QueryBuilder;
+
 /**
  * CategoryRepository
  *
@@ -10,7 +12,7 @@ namespace PlatformBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getLikeQueryBuilder($pattern)
+    public function getLikeQueryBuilder(string $pattern): QueryBuilder
     {
         return $this
             ->createQueryBuilder('cat')

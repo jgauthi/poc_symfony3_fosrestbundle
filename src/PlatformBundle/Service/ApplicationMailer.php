@@ -15,16 +15,17 @@ class ApplicationMailer
         $this->mailer = $mailer;
     }
 
-    public function sendNewNotification(Application $application)
+    public function sendNewNotification(Application $application): void
     {
         $message = new \Swift_Message(
-            'Nouvelle candidature',
-            'Vous avez reçu une nouvelle candidature.'
+            'New application',
+            'You have received a new application.'
         );
 
+        $author = preg_replace('#[^a-z0-9_]*#i', '-', $application->getAdvert()->getAuthor());
         $message
-            ->addTo($application->getAdvert()->getAuthor().'@mindsymfony.dev')
-            ->addFrom('admin@votresite.com')
+            ->addTo($author.'@symfony.local')
+            ->addFrom('admin@symfony.local')
         ;
 
         $this->mailer->send($message);

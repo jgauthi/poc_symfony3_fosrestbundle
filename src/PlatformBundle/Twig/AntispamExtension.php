@@ -10,13 +10,13 @@ class AntispamExtension extends \Twig_Extension
         $this->Antispam = $Antispam;
     }
 
-    public function checkIfArgumentIsSpam($text)
+    public function checkIfArgumentIsSpam(string $text): bool
     {
         return $this->Antispam->isSpam($text);
     }
 
-    // Twig va exécuter cette méthode pour savoir quelle(s) fonction(s) ajoute notre service
-    public function getFunctions()
+    // Twig will execute this method to find out which function(s) to adds our service
+    public function getFunctions(): array
     {
         return array
         (
@@ -24,8 +24,8 @@ class AntispamExtension extends \Twig_Extension
         );
     }
 
-    // La méthode getName() identifie votre extension Twig, elle est obligatoire
-    public function getName()
+    // The getName() method identifies your Twig extension, it is required
+    public function getName(): string
     {
         return 'Antispam';
     }

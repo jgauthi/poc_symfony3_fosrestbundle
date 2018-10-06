@@ -8,18 +8,18 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadSkill implements FixtureInterface
 {
-	public function load(ObjectManager $manager)
+	public function load(ObjectManager $manager): void
 	{
         $objects = Fixtures::load
         (
             __DIR__ . '/LoadSkill.yml',
             $manager,
-            array('providers' => array($this))
+            ['providers' => [$this]]
         );
 
 	    /*
 		// Liste des noms de compétences à ajouter
-		$names = array('PHP', 'Symfony', 'C++', 'Java', 'Photoshop', 'Blender', 'Bloc-note');
+		$names = ['PHP', 'Symfony', 'C++', 'Java', 'Photoshop', 'Blender', 'Bloc-note'];
 
 		foreach($names as $name)
 		{
@@ -36,10 +36,9 @@ class LoadSkill implements FixtureInterface
 	    */
 	}
 
-	public function custom_skill()
+	public function custom_skill(): string
     {
-        static $names = array
-        (
+        static $names = [
             'PHP', 'Symfony',
             'Wordpress', 'Typo3',
             'C++', 'Java',
@@ -50,7 +49,7 @@ class LoadSkill implements FixtureInterface
             'Ruby', 'Rails',
             'Présentation',
             'Fixture', 'Generation',
-        );
+        ];
 
         $key = array_rand($names);
 

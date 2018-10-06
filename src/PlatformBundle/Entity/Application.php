@@ -55,43 +55,43 @@ class Application
         $this->date = new \Datetime();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setAuthor($author)
+    public function setAuthor($author): Application
     {
         $this->author = $author;
 
         return $this;
     }
 
-    public function getAuthor()
+    public function getAuthor(): ?string
     {
         return $this->author;
     }
 
-    public function setContent($content)
+    public function setContent($content): Application
     {
         $this->content = $content;
 
         return $this;
     }
 
-    public function getContent()
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setDate(\Datetime $date)
+    public function setDate(\Datetime $date): Application
     {
         $this->date = $date;
 
         return $this;
     }
 
-    public function getDate()
+    public function getDate(): \DateTime
     {
         return $this->date;
     }
@@ -103,7 +103,7 @@ class Application
      *
      * @return Application
      */
-    public function setAdvert(\PlatformBundle\Entity\Advert $advert)
+    public function setAdvert(Advert $advert): Application
     {
         $this->advert = $advert;
 
@@ -116,7 +116,7 @@ class Application
      * @MaxDepth(1)
      * @return \PlatformBundle\Entity\Advert
      */
-    public function getAdvert()
+    public function getAdvert(): Advert
     {
         return $this->advert;
     }
@@ -124,7 +124,7 @@ class Application
     /**
      * @ORM\PrePersist
      */
-    public function increase()
+    public function increase(): void
     {
         $this->getAdvert()->increaseApplication();
     }
@@ -132,7 +132,7 @@ class Application
     /**
      * @ORM\PreRemove
      */
-    public function decrease()
+    public function decrease(): void
     {
         $this->getAdvert()->decreaseApplication();
     }
@@ -144,7 +144,7 @@ class Application
      *
      * @return Application
      */
-    public function setCity($city)
+    public function setCity($city): Application
     {
         $this->city = $city;
 
@@ -156,7 +156,7 @@ class Application
      *
      * @return string
      */
-    public function getCity()
+    public function getCity(): ?string
     {
         return $this->city;
     }
@@ -168,7 +168,7 @@ class Application
      *
      * @return Application
      */
-    public function setSalaryClaim($salaryClaim)
+    public function setSalaryClaim($salaryClaim): Application
     {
         $this->salaryClaim = $salaryClaim;
 
@@ -180,7 +180,7 @@ class Application
      *
      * @return integer
      */
-    public function getSalaryClaim()
+    public function getSalaryClaim(): ?int
     {
         return $this->salaryClaim;
     }

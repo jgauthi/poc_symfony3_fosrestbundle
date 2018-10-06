@@ -1,13 +1,15 @@
 <?php
 namespace PlatformBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\{
+    AbstractType,
+    Extension\Core\Type\TextareaType,
+};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MarkdownType extends AbstractType
 {
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array
         (
@@ -15,7 +17,7 @@ class MarkdownType extends AbstractType
         ));
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return TextareaType::class;
     }
