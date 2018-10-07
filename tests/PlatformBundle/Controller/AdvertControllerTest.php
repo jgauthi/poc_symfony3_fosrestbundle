@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AdvertController extends WebTestCase
 {
-    public function testHello()
+    public function testHello(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/fr/platform');

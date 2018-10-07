@@ -1,13 +1,12 @@
 <?php
 namespace Tests\PlatformBundle\Entity;
 
-use PlatformBundle\Entity\Advert;
-use PlatformBundle\Entity\Application;
+use PlatformBundle\Entity\{Advert, Application, Image};
 use PHPUnit\Framework\TestCase;
 
 class AdvertTest extends TestCase
 {
-    private function initAdvert()
+    private function initAdvert(): Advert
     {
         $advert = new Advert;
 
@@ -29,28 +28,28 @@ class AdvertTest extends TestCase
         return $advert;
     }
 
-    public function testSameTitle()
+    public function testSameTitle(): void
     {
         $advert = $this->initAdvert();
 
         $this->assertSame('MyTestTitle', $advert->getTitle());
     }
 
-    public function testContainContent()
+    public function testContainContent(): void
     {
         $advert = $this->initAdvert();
 
         $this->assertContains('Content', $advert->getContent());
     }
 
-    public function testNotPublished()
+    public function testNotPublished(): void
     {
         $advert = $this->initAdvert();
 
         $this->assertFalse($advert->getPublished());
     }
 
-    public function testIncorrectCreationDate()
+    public function testIncorrectCreationDate(): void
     {
         $advert = new Advert;
 
@@ -58,28 +57,28 @@ class AdvertTest extends TestCase
         $advert->setDate( new \DateTime('2015-01-01') );
     }
 
-    public function testUpdateDateIsNull()
+    public function testUpdateDateIsNull(): void
     {
         $advert = $this->initAdvert();
 
         $this->assertNull($advert->getUpdatedAt());
     }
 
-    public function testNbApplication()
+    public function testNbApplication(): void
     {
         $advert = $this->initAdvert();
 
         $this->assertCount(3, $advert->getApplications());
     }
 
-    public function testNbApplicationGreaterThan2()
+    public function testNbApplicationGreaterThan2(): void
     {
         $advert = $this->initAdvert();
 
         $this->assertGreaterThan(2, $advert->getNbApplications());
     }
 
-    public function testNoCategory()
+    public function testNoCategory(): void
     {
         $advert = $this->initAdvert();
 
@@ -89,9 +88,9 @@ class AdvertTest extends TestCase
     public function testReturnImageClass()
     {
         $advert = new Advert;
-        $advert->setImage(new \PlatformBundle\Entity\Image);
+        $advert->setImage(new Image);
 
-        $this->assertInstanceOf(\PlatformBundle\Entity\Image::class, $advert->getImage());
+        $this->assertInstanceOf(Image::class, $advert->getImage());
     }
 }
 
