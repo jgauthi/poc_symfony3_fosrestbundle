@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Event;
 
 final class PlatformEvents

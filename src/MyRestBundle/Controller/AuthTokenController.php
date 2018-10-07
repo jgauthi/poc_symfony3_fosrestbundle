@@ -1,12 +1,13 @@
 <?php
+
 namespace MyRestBundle\Controller;
 
 use FOS\RestBundle\{Controller\Annotations as Rest, View\View};
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use MyRestBundle\Form\CredentialsType;
 use MyRestBundle\Entity\{AuthToken, Credentials};
+use MyRestBundle\Form\CredentialsType;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\{Response, Request};
+use Symfony\Component\HttpFoundation\{Request, Response};
 
 class AuthTokenController extends Controller
 {
@@ -35,8 +36,9 @@ class AuthTokenController extends Controller
         $form = $this->createForm(CredentialsType::class, $credentials);
 
         $form->submit($request->request->all());
-        if(!$form->isValid())
+        if (!$form->isValid()) {
             return $form;
+        }
 
         $em = $this->get('doctrine.orm.entity_manager');
 
@@ -44,15 +46,17 @@ class AuthTokenController extends Controller
         $user = $em->getRepository('MyUserBundle:User')
             ->findOneBy(['username' => $credentials->getLogin()]);
 
-        if(!$user || !$user->hasRole('ROLE_API_ACCESS'))
+        if (!$user || !$user->hasRole('ROLE_API_ACCESS')) {
             return $this->invalidCredentials();
+        }
 
         // Check Password
         $encoder = $this->get('security.password_encoder');
         $isPasswordValid = $encoder->isPasswordValid($user, $credentials->getPassword());
 
-        if(!$isPasswordValid)
+        if (!$isPasswordValid) {
             return $this->invalidCredentials();
+        }
 
         $authToken = new AuthToken();
         $authToken->setValue(base64_encode(random_bytes(50)));
@@ -94,7 +98,7 @@ class AuthTokenController extends Controller
      *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
      *    }
      * )
-    */
+     */
     public function removeAuthTokenAction(Request $request): void
     {
         $em = $this->get('doctrine.orm.entity_manager');
@@ -103,11 +107,11 @@ class AuthTokenController extends Controller
 
         $connectedUser = $this->get('security.token_storage')->getToken()->getUser();
 
-        if($authToken && $authToken->getUser()->getId() === $connectedUser->getId())
-        {
+        if ($authToken && $authToken->getUser()->getId() === $connectedUser->getId()) {
             $em->remove($authToken);
             $em->flush();
+        } else {
+            throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException();
         }
-        else throw new \Symfony\Component\HttpKernel\Exception\BadRequestHttpException();
     }
 }

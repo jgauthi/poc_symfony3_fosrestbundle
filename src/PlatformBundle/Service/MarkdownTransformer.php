@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Service;
 
 use Doctrine\Common\Cache\Cache;
@@ -20,13 +21,13 @@ class MarkdownTransformer
         $cacheKey = md5($str);
 
         // Use symfony cache system
-        if(!$this->cache->contains($cacheKey))
-        {
+        if (!$this->cache->contains($cacheKey)) {
             $str = $this->markdownParser->transformMarkdown($str);
             sleep(1); // fake how slow this could be
             $this->cache->save($cacheKey, $str);
+        } else {
+            $str = $this->cache->fetch($cacheKey);
         }
-        else $str = $this->cache->fetch($cacheKey);
 
         return $str;
     }

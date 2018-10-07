@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Twig;
 
 class AntispamExtension extends \Twig_Extension
@@ -18,10 +19,9 @@ class AntispamExtension extends \Twig_Extension
     // Twig will execute this method to find out which function(s) to adds our service
     public function getFunctions(): array
     {
-        return array
-        (
-            new \Twig_SimpleFunction('checkIfSpam', array($this, 'checkIfArgumentIsSpam')),
-        );
+        return [
+            new \Twig_SimpleFunction('checkIfSpam', [$this, 'checkIfArgumentIsSpam']),
+        ];
     }
 
     // The getName() method identifies your Twig extension, it is required

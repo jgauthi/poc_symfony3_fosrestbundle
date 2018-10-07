@@ -11,9 +11,10 @@ use Symfony\Component\HttpFoundation\{Request, Response};
 
 class ApiApplicationController extends Controller
 {
-	/**
-	 * @Rest\View(serializerGroups={"application"})
+    /**
+     * @Rest\View(serializerGroups={"application"})
      * @Rest\Get("/applications")
+     *
      * @example url: http://localhost/mindsymfony/web/app_dev.php/fr/api/v1/applications
      *
      * @ApiDoc(
@@ -26,11 +27,12 @@ class ApiApplicationController extends Controller
      *    }
      * )
      */
-	public function getApplicationsAction(Request $request): array
+    public function getApplicationsAction(Request $request): array
     {
         $limit = $request->get('limit', 5);
-        if(!is_numeric($limit) || $limit > 10)
+        if (!is_numeric($limit) || $limit > 10) {
             $limit = 10;
+        }
 
         $applications = $this->get('doctrine.orm.entity_manager')
             ->getRepository('PlatformBundle:Application')
@@ -60,17 +62,17 @@ class ApiApplicationController extends Controller
      *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
      *    }
      * )
-    */
+     */
     public function getApplicationAction(Request $request): array
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $advert = $em->getRepository('PlatformBundle:Advert')
             ->find($request->get('id'));
 
-        if(empty($advert))
+        if (empty($advert)) {
             throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Advert not found');
-
-        $application = $em->getRepository("PlatformBundle:Application")
+        }
+        $application = $em->getRepository('PlatformBundle:Application')
             ->findBy(['advert' => $advert]);
 
         return $application;
@@ -105,24 +107,25 @@ class ApiApplicationController extends Controller
      *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
      *    }
      * )
-    */
+     */
     public function postApplicationAction(Request $request): Object
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $advert = $em->getRepository('PlatformBundle:Advert')
             ->find($request->get('id'));
 
-        if(empty($advert))
+        if (empty($advert)) {
             throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Advert not found');
-
+        }
         $application = new application();
         $application->setAdvert($advert);
 
         $form = $this->createForm(ApplicationType::class, $application);
         $form->submit($request->request->all());
 
-        if(!$form->isValid())
+        if (!$form->isValid()) {
             return $form;
+        }
 
         $em->persist($application);
         $em->flush();

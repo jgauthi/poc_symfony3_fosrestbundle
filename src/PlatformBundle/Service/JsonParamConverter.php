@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Service;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -7,16 +8,17 @@ use Symfony\Component\HttpFoundation\Request;
 
 class JsonParamConverter implements ParamConverterInterface
 {
-    function supports(ParamConverter $configuration): bool
+    public function supports(ParamConverter $configuration): bool
     {
         // If the name of the controller argument is not "json", do not apply the converter
-        if('json' !== $configuration->getName())
+        if ('json' !== $configuration->getName()) {
             return false;
+        }
 
         return true;
     }
 
-    function apply(Request $request, ParamConverter $configuration): Request
+    public function apply(Request $request, ParamConverter $configuration): Request
     {
         $json = $request->attributes->get('json');
         $json = json_decode($json, true);

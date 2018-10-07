@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Service\Beta;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -21,14 +22,16 @@ class BetaListener
 
     public function processBeta(FilterResponseEvent $event)
     {
-        if(!$event->isMasterRequest())
+        if (!$event->isMasterRequest()) {
             return;
+        }
 
-        $remaingDays = $this->endDate->diff( new \DateTime())->days;
-        if($remaingDays <= 0)
+        $remaingDays = $this->endDate->diff(new \DateTime())->days;
+        if ($remaingDays <= 0) {
             return;
+        }
 
-        $response = $this->betaHTML->addBeta( $event->getResponse(), $remaingDays );
+        $response = $this->betaHTML->addBeta($event->getResponse(), $remaingDays);
         $event->setResponse($response);
     }
 }

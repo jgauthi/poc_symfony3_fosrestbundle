@@ -1,42 +1,43 @@
 <?php
+
 namespace PlatformBundle\DataFixtures\ORM;
 
-use Nelmio\Alice\Fixtures;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Nelmio\Alice\Fixtures;
+
 // use PlatformBundle\Entity\Skill;
 
 class LoadSkill implements FixtureInterface
 {
-	public function load(ObjectManager $manager): void
-	{
-        $objects = Fixtures::load
-        (
-            __DIR__ . '/LoadSkill.yml',
+    public function load(ObjectManager $manager): void
+    {
+        $objects = Fixtures::load(
+            __DIR__.'/LoadSkill.yml',
             $manager,
             ['providers' => [$this]]
         );
 
-	    /*
-		// Liste des noms de compétences à ajouter
-		$names = ['PHP', 'Symfony', 'C++', 'Java', 'Photoshop', 'Blender', 'Bloc-note'];
+        /*
+        // Liste des noms de compétences à ajouter
+        $names = ['PHP', 'Symfony', 'C++', 'Java', 'Photoshop', 'Blender', 'Bloc-note'];
 
-		foreach($names as $name)
-		{
-			// On crée la compétence
-			$skill = new Skill();
-			$skill->setName($name);
+        foreach($names as $name)
+        {
+            // On crée la compétence
+            $skill = new Skill();
+            $skill->setName($name);
 
-			// On la persiste
-			$manager->persist($skill);
-		}
+            // On la persiste
+            $manager->persist($skill);
+        }
 
-		// On déclenche l'enregistrement de toutes les catégories
-		$manager->flush();
-	    */
-	}
+        // On déclenche l'enregistrement de toutes les catégories
+        $manager->flush();
+        */
+    }
 
-	public function custom_skill(): string
+    public function custom_skill(): string
     {
         static $names = [
             'PHP', 'Symfony',
@@ -60,5 +61,3 @@ class LoadSkill implements FixtureInterface
         return $value;
     }
 }
-
-?>

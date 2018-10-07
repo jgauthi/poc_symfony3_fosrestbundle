@@ -1,24 +1,24 @@
 <?php
+
 namespace Tests\PlatformBundle\Entity;
 
-use PlatformBundle\Entity\{Advert, Application, Image};
 use PHPUnit\Framework\TestCase;
+use PlatformBundle\Entity\{Advert, Application, Image};
 
 class AdvertTest extends TestCase
 {
     private function initAdvert(): Advert
     {
-        $advert = new Advert;
+        $advert = new Advert();
 
         $advert->setAuthor('John Snow')
             ->setTitle('MyTestTitle')
             ->setContent('MyTestContent')
             ->setPublished(false)
-            ->setDate( \DateTime::createFromFormat('Y-m-d', '2018-07-01') );
+            ->setDate(\DateTime::createFromFormat('Y-m-d', '2018-07-01'));
 
-        for($i = 0; $i < 3; $i++)
-        {
-            $application = new Application;
+        for ($i = 0; $i < 3; ++$i) {
+            $application = new Application();
             $application->setAuthor("Someone #{$i}");
 
             $advert->addApplication($application);
@@ -51,10 +51,10 @@ class AdvertTest extends TestCase
 
     public function testIncorrectCreationDate(): void
     {
-        $advert = new Advert;
+        $advert = new Advert();
 
         $this->expectException('LogicException');
-        $advert->setDate( new \DateTime('2015-01-01') );
+        $advert->setDate(new \DateTime('2015-01-01'));
     }
 
     public function testUpdateDateIsNull(): void
@@ -87,11 +87,9 @@ class AdvertTest extends TestCase
 
     public function testReturnImageClass()
     {
-        $advert = new Advert;
-        $advert->setImage(new Image);
+        $advert = new Advert();
+        $advert->setImage(new Image());
 
         $this->assertInstanceOf(Image::class, $advert->getImage());
     }
 }
-
-

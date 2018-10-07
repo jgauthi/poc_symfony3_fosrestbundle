@@ -1,9 +1,9 @@
 <?php
+
 namespace PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 
 /**
  * @ORM\Table(name="image")
@@ -33,7 +33,7 @@ class Image
     private $tmpFileName;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return integer
      */
@@ -43,7 +43,7 @@ class Image
     }
 
     /**
-     * Set url
+     * Set url.
      *
      * @param string $url
      *
@@ -57,7 +57,7 @@ class Image
     }
 
     /**
-     * Get url
+     * Get url.
      *
      * @return string
      */
@@ -69,11 +69,11 @@ class Image
     public function getWebPath(): string
     {
         $url = $this->getUrl();
-        if(!preg_match('#^http#', $url))
-        {
+        if (!preg_match('#^http#', $url)) {
             // Cas de figure où l'attribut url ne contient que l'extension de l'image
-            if(preg_match('#^[a-z]{2,4}$#i', $url))
+            if (preg_match('#^[a-z]{2,4}$#i', $url)) {
                 $url = $this->getId().'.'.$url;
+            }
 
             $url = $this->getUploadDir().'/'.$url;
         }
@@ -82,7 +82,7 @@ class Image
     }
 
     /**
-     * Set alt
+     * Set alt.
      *
      * @param string $alt
      *
@@ -96,7 +96,7 @@ class Image
     }
 
     /**
-     * Get alt
+     * Get alt.
      *
      * @return string
      */
@@ -115,8 +115,7 @@ class Image
         $this->file = $file;
 
         // Fichier déjà existant ?
-        if(null !== $this->url)
-        {
+        if (null !== $this->url) {
             // Sauvegarde du nom de fichier pour le supprimer + tard si nécessaire
             $this->tmpFileName = $this->url;
 
@@ -141,8 +140,9 @@ class Image
      */
     public function preUpload(): void
     {
-        if(null === $this->file)
+        if (null === $this->file) {
             return;
+        }
 
         // Le nom du fichier est son ID, il faut stocker l'extension
         $this->url = $this->file->guessExtension();
@@ -155,20 +155,20 @@ class Image
      */
     public function upload(): void
     {
-        if(null === $this->file)
+        if (null === $this->file) {
             return;
+        }
 
         // Delete previous file
-        if(null !== $this->tmpFileName)
-        {
+        if (null !== $this->tmpFileName) {
             $oldFile = $this->getUploadRootDir()."/{$this->id}.{$this->tmpFileName}";
-            if(file_exists($oldFile))
+            if (file_exists($oldFile)) {
                 unlink($oldFile);
+            }
         }
 
         $filename = $this->file->getClientOriginalName();
-        $this->file->move
-        (
+        $this->file->move(
             $this->getUploadRootDir(),
             $this->id.'.'.$this->url
         );
@@ -191,7 +191,8 @@ class Image
     public function removeUpload(): void
     {
         // On PostRemove, we don't have access to the id, we use our saved name
-        if(file_exists($this->tmpFileName))
+        if (file_exists($this->tmpFileName)) {
             unlink($this->tmpFileName);
+        }
     }
 }

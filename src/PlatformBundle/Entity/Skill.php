@@ -5,7 +5,7 @@ namespace PlatformBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Skill
+ * Skill.
  *
  * @ORM\Table(name="skill")
  * @ORM\Entity(repositoryClass="PlatformBundle\Repository\SkillRepository")
@@ -36,7 +36,7 @@ class Skill
     private $content;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -46,7 +46,7 @@ class Skill
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -60,7 +60,7 @@ class Skill
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -70,7 +70,7 @@ class Skill
     }
 
     /**
-     * Set content
+     * Set content.
      *
      * @param string $content
      *
@@ -84,7 +84,7 @@ class Skill
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return string
      */

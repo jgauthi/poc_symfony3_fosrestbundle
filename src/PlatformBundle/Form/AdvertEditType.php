@@ -12,8 +12,8 @@ class AdvertEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->remove('date')
-				->remove('image')
-				->add('image', ImageType::class, ['required' => false]);
+                ->remove('image')
+                ->add('image', ImageType::class, ['required' => false]);
     }
 
     public function getParent(): string

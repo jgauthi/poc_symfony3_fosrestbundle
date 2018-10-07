@@ -7,7 +7,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * User
+ * User.
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="MyUserBundle\Repository\UserRepository")
@@ -23,4 +23,3 @@ class User extends BaseUser implements UserInterface
      */
     protected $id;
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Service;
 
 use PlatformBundle\Entity\Application;

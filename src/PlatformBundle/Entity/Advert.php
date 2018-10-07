@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\{Constraints as Assert, Context\ExecutionContextInterface};
 
 /**
- * Advert
+ * Advert.
  *
  * @ORM\Table(name="advert")
  * @ORM\Entity(repositoryClass="PlatformBundle\Repository\AdvertRepository")
@@ -80,18 +80,18 @@ class Advert
      */
     private $image;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="PlatformBundle\Entity\Category", cascade={"persist"})
-	 * @ORM\JoinTable(name="advert_category")
+    /**
+     * @ORM\ManyToMany(targetEntity="PlatformBundle\Entity\Category", cascade={"persist"})
+     * @ORM\JoinTable(name="advert_category")
      * @Assert\Valid()
-	 */
-	private $categories;
+     */
+    private $categories;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="PlatformBundle\Entity\Application", mappedBy="advert", cascade={"persist", "remove"})
+    /**
+     * @ORM\OneToMany(targetEntity="PlatformBundle\Entity\Application", mappedBy="advert", cascade={"persist", "remove"})
      * @ORM\OrderBy({"date" = "DESC"})
-	 */
-	private $applications;
+     */
+    private $applications;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
@@ -103,16 +103,16 @@ class Advert
      */
     private $nbApplications = 0;
 
-	public function __construct()
+    public function __construct()
     {
-        // Par défaut, la date de l'annonce est la date d'aujourd'hui
+        // By default, the date of the announcement is today's date
         $this->date = new \Datetime();
-		$this->categories = new ArrayCollection();
-		$this->applications = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -122,7 +122,7 @@ class Advert
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
      *
@@ -136,7 +136,7 @@ class Advert
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -146,7 +146,7 @@ class Advert
     }
 
     /**
-     * Set author
+     * Set author.
      *
      * @param string $author
      *
@@ -160,7 +160,7 @@ class Advert
     }
 
     /**
-     * Get author
+     * Get author.
      *
      * @return string
      */
@@ -170,7 +170,7 @@ class Advert
     }
 
     /**
-     * Set content
+     * Set content.
      *
      * @param string $content
      *
@@ -184,7 +184,7 @@ class Advert
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return string
      */
@@ -194,7 +194,7 @@ class Advert
     }
 
     /**
-     * Set date
+     * Set date.
      *
      * @param \DateTime $date
      *
@@ -203,15 +203,16 @@ class Advert
     public function setDate(\DateTime $date): Advert
     {
         $dateCreationPlatform = \DateTime::createFromFormat('Y-m-d H:i', '2018-01-23 19:05');
-        if($date < $dateCreationPlatform)
-            throw new \LogicException('The advert can\'t be created before the '. $dateCreationPlatform->format('d/m/Y'));
-
+        if ($date < $dateCreationPlatform) {
+            throw new \LogicException('The advert can\'t be created before the '.$dateCreationPlatform->format('d/m/Y'));
+        }
         $this->date = $date;
+
         return $this;
     }
 
     /**
-     * Get date
+     * Get date.
      *
      * @return \DateTime
      */
@@ -221,9 +222,9 @@ class Advert
     }
 
     /**
-     * Set published
+     * Set published.
      *
-     * @param boolean $published
+     * @param bool $published
      *
      * @return Advert
      */
@@ -235,7 +236,7 @@ class Advert
     }
 
     /**
-     * Get published
+     * Get published.
      *
      * @return boolean
      */
@@ -245,7 +246,7 @@ class Advert
     }
 
     /**
-     * Set image
+     * Set image.
      *
      * @param \PlatformBundle\Entity\Image $image
      *
@@ -259,7 +260,7 @@ class Advert
     }
 
     /**
-     * Get image
+     * Get image.
      *
      * @return \PlatformBundle\Entity\Image
      */
@@ -269,7 +270,7 @@ class Advert
     }
 
     /**
-     * Add category
+     * Add category.
      *
      * @param \PlatformBundle\Entity\Category $category
      *
@@ -283,7 +284,7 @@ class Advert
     }
 
     /**
-     * Remove category
+     * Remove category.
      *
      * @param \PlatformBundle\Entity\Category $category
      */
@@ -293,7 +294,7 @@ class Advert
     }
 
     /**
-     * Get categories
+     * Get categories.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -303,7 +304,7 @@ class Advert
     }
 
     /**
-     * Add application
+     * Add application.
      *
      * @param \PlatformBundle\Entity\Application $application
      *
@@ -319,7 +320,7 @@ class Advert
     }
 
     /**
-     * Remove application
+     * Remove application.
      *
      * @param \PlatformBundle\Entity\Application $application
      */
@@ -332,9 +333,10 @@ class Advert
     }
 
     /**
-     * Get applications
+     * Get applications.
      *
      * @MaxDepth(1)
+     *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getApplications(): \Doctrine\Common\Collections\Collection
@@ -352,16 +354,16 @@ class Advert
 
     public function increaseApplication(): void
     {
-        $this->nbApplications++;
+        ++$this->nbApplications;
     }
 
     public function decreaseApplication(): void
     {
-        $this->nbApplications--;
+        --$this->nbApplications;
     }
 
     /**
-     * Set slug
+     * Set slug.
      *
      * @param string $slug
      *
@@ -375,7 +377,7 @@ class Advert
     }
 
     /**
-     * Get slug
+     * Get slug.
      *
      * @return string
      */
@@ -385,7 +387,7 @@ class Advert
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -399,7 +401,7 @@ class Advert
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -409,9 +411,9 @@ class Advert
     }
 
     /**
-     * Set nbApplications
+     * Set nbApplications.
      *
-     * @param integer $nbApplications
+     * @param int $nbApplications
      *
      * @return Advert
      */
@@ -423,7 +425,7 @@ class Advert
     }
 
     /**
-     * Get nbApplications
+     * Get nbApplications.
      *
      * @return integer
      */
@@ -437,10 +439,9 @@ class Advert
      */
     public function isContentValid(ExecutionContextInterface $context): void
     {
-        $blacklistWords = array('demotivating', 'abandonment');
+        $blacklistWords = ['demotivating', 'abandonment'];
 
-        if(preg_match('#'. implode('|', $blacklistWords) .'#i', $this->getContent()))
-        {
+        if (preg_match('#'.implode('|', $blacklistWords).'#i', $this->getContent())) {
             $context
                 ->buildViolation('Content with a banned word')  // Error message
                 ->atPath('content')                                // Attribute of the object

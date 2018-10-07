@@ -5,7 +5,7 @@ namespace PlatformBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AdvertSkill
+ * AdvertSkill.
  *
  * @ORM\Table(name="advert_skill")
  * @ORM\Entity(repositoryClass="PlatformBundle\Repository\AdvertSkillRepository")
@@ -28,21 +28,20 @@ class AdvertSkill
      */
     private $level;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="PlatformBundle\Entity\Advert")
-	 * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
-	 */
-	private $advert;
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="PlatformBundle\Entity\Skill")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $skill;
-
+    /**
+     * @ORM\ManyToOne(targetEntity="PlatformBundle\Entity\Advert")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     */
+    private $advert;
 
     /**
-     * Get id
+     * @ORM\ManyToOne(targetEntity="PlatformBundle\Entity\Skill")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $skill;
+
+    /**
+     * Get id.
      *
      * @return int
      */
@@ -52,7 +51,7 @@ class AdvertSkill
     }
 
     /**
-     * Set level
+     * Set level.
      *
      * @param string $level
      *
@@ -66,7 +65,7 @@ class AdvertSkill
     }
 
     /**
-     * Get level
+     * Get level.
      *
      * @return string
      */
@@ -76,7 +75,7 @@ class AdvertSkill
     }
 
     /**
-     * Set advert
+     * Set advert.
      *
      * @param \PlatformBundle\Entity\Advert $advert
      *
@@ -90,7 +89,7 @@ class AdvertSkill
     }
 
     /**
-     * Get advert
+     * Get advert.
      *
      * @return \PlatformBundle\Entity\Advert
      */
@@ -100,7 +99,7 @@ class AdvertSkill
     }
 
     /**
-     * Set skill
+     * Set skill.
      *
      * @param \PlatformBundle\Entity\Skill $skill
      *
@@ -114,7 +113,7 @@ class AdvertSkill
     }
 
     /**
-     * Get skill
+     * Get skill.
      *
      * @return \PlatformBundle\Entity\Skill
      */

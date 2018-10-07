@@ -1,9 +1,10 @@
 <?php
+
 namespace Tests\PlatformBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class AdvertController extends WebTestCase
+class AdvertControllerTest extends WebTestCase
 {
     public function testHello(): void
     {

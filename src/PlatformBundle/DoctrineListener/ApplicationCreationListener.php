@@ -1,9 +1,10 @@
 <?php
+
 namespace PlatformBundle\DoctrineListener;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use PlatformBundle\Service\ApplicationMailer;
 use PlatformBundle\Entity\Application;
+use PlatformBundle\Service\ApplicationMailer;
 
 class ApplicationCreationListener
 {

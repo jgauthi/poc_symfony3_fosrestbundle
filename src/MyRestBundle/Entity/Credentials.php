@@ -1,4 +1,5 @@
 <?php
+
 namespace MyRestBundle\Entity;
 
 class Credentials
@@ -15,6 +16,7 @@ class Credentials
     public function setLogin(string $login): Credentials
     {
         $this->login = $login;
+
         return $this;
     }
 
@@ -26,6 +28,7 @@ class Credentials
     public function setPassword(string $password): Credentials
     {
         $this->password = $password;
+
         return $this;
     }
 }

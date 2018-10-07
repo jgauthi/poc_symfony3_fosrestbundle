@@ -1,11 +1,11 @@
 <?php
+
 namespace MyRestBundle\Security;
 
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\User\User;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class AuthTokenUserProvider implements UserProviderInterface
 {
@@ -39,5 +39,3 @@ class AuthTokenUserProvider implements UserProviderInterface
         return 'MyUserBundle\Entity\User' === $class;
     }
 }
-
-?>

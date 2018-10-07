@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Validator;
 
 use Doctrine\ORM\{EntityManager, EntityManagerInterface};
@@ -27,17 +28,18 @@ class AntifloodValidator extends ConstraintValidator
             ->getLastAdverts(1);
 
         $isFlood = false;
-        if(!empty($lastAdvert[0]))
-        {
+        if (!empty($lastAdvert[0])) {
             $currentDate = new \DateTime();
             $date = $lastAdvert[0]->getDate();
 
             $diff = $date->diff($currentDate);
-            if($diff->y == 0 && $diff->m == 0 && $diff->d == 0 && $diff->s < 15)
+            if ($diff->y === 0 && $diff->m === 0 && $diff->d === 0 && $diff->s < 15) {
                 $isFlood = true;
+            }
         }
 
-        if($isFlood)
+        if ($isFlood) {
             $this->context->addViolation($constraint->message);
+        }
     }
 }

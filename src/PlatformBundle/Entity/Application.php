@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -49,7 +50,6 @@ class Application
      */
     private $advert;
 
-
     public function __construct()
     {
         $this->date = new \Datetime();
@@ -97,7 +97,7 @@ class Application
     }
 
     /**
-     * Set advert
+     * Set advert.
      *
      * @param \PlatformBundle\Entity\Advert $advert
      *
@@ -111,9 +111,10 @@ class Application
     }
 
     /**
-     * Get advert
+     * Get advert.
      *
      * @MaxDepth(1)
+     *
      * @return \PlatformBundle\Entity\Advert
      */
     public function getAdvert(): Advert
@@ -138,7 +139,7 @@ class Application
     }
 
     /**
-     * Set city
+     * Set city.
      *
      * @param string $city
      *
@@ -152,7 +153,7 @@ class Application
     }
 
     /**
-     * Get city
+     * Get city.
      *
      * @return string
      */
@@ -162,9 +163,9 @@ class Application
     }
 
     /**
-     * Set salaryClaim
+     * Set salaryClaim.
      *
-     * @param integer $salaryClaim
+     * @param int $salaryClaim
      *
      * @return Application
      */
@@ -176,7 +177,7 @@ class Application
     }
 
     /**
-     * Get salaryClaim
+     * Get salaryClaim.
      *
      * @return integer
      */

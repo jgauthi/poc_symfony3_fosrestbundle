@@ -1,4 +1,5 @@
 <?php
+
 namespace MyRestBundle\Security;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -23,11 +24,12 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
         ];
 
         $currentRoute = $request->attributes->get('_route');
-        if(in_array($currentRoute, $autorisedPaths))
+        if (in_array($currentRoute, $autorisedPaths, true)) {
             return;
+        }
 
         $authTokenHeader = $request->headers->get('X-Auth-Token');
-        if(!$authTokenHeader) {
+        if (!$authTokenHeader) {
             throw new BadCredentialsException('X-Auth-Token header is required');
         }
 
@@ -40,7 +42,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
 
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
-        if(!$userProvider instanceof AuthTokenUserProvider) {
+        if (!$userProvider instanceof AuthTokenUserProvider) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The user provider must be an instance of AuthTokenUserProvider (%s was given).',
@@ -52,7 +54,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
         $authTokenHeader = $token->getCredentials();
         $authToken = $userProvider->getAuthToken($authTokenHeader);
 
-        if(!$authToken || !$this->isTokenValid($authToken)) {
+        if (!$authToken || !$this->isTokenValid($authToken)) {
             throw new BadCredentialsException('Invalid authentication token');
         }
 

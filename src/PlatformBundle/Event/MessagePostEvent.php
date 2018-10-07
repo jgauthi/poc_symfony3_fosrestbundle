@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -32,6 +33,6 @@ class MessagePostEvent extends Event
     {
         return $this->user;
     }
-    // No setUser, listeners can not change the author of the message!
 
+    // No setUser, listeners can not change the author of the message!
 }

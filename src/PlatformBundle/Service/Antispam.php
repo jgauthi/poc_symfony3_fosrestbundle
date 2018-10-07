@@ -1,4 +1,5 @@
 <?php
+
 namespace PlatformBundle\Service;
 
 class Antispam
@@ -9,19 +10,20 @@ class Antispam
 
     public function __construct(\Swift_Mailer $mailer, int $minLength)
     {
-        $this->mailer    = $mailer;
+        $this->mailer = $mailer;
         $this->minLength = $minLength;
     }
 
     /**
-     * Check if the text is spam or not
+     * Check if the text is spam or not.
      *
      * @param string $text
+     *
      * @return bool
      */
     public function isSpam(string $text): bool
     {
-        return strlen($text) < $this->minLength;
+        return mb_strlen($text) < $this->minLength;
     }
 
     public function setLocale(string $locale): void
@@ -29,6 +31,3 @@ class Antispam
         $this->locale = $locale;
     }
 }
-
-
-?>
