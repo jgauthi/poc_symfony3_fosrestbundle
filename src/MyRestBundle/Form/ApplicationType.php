@@ -2,10 +2,12 @@
 
 namespace MyRestBundle\Form;
 
-use Doctrine\DBAL\Types\IntegerType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\{
+    AbstractType,
+    Extension\Core\Type\TextType,
+    Extension\Core\Type\IntegerType,
+    FormBuilderInterface,
+};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ApplicationType extends AbstractType
@@ -13,15 +15,15 @@ class ApplicationType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('author', TextType::class, ['description' => 'Titre de la candidature'])
-            ->add('content', TextType::class, ['description' => 'Contenu de la candidature'])
-            ->add('city', TextType::class, ['description' => 'Ville de la candidature'])
-            ->add('salaryClaim', IntegerType::class, ['description' => 'Salaire de la candidature']);
+        $builder->add('author', TextType::class, ['description' => 'Application title'])
+            ->add('content', TextType::class, ['description' => 'Application content'])
+            ->add('city', TextType::class, ['description' => 'Application city'])
+            ->add('salaryClaim', IntegerType::class, ['description' => 'Application salary']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'data_class'        => 'PlatformBundle\Entity\Application',

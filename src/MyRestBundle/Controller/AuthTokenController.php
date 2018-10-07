@@ -1,15 +1,12 @@
 <?php
 namespace MyRestBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Rest; // alias pour toutes les annotations
+use FOS\RestBundle\{Controller\Annotations as Rest, View\View};
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use MyRestBundle\Form\CredentialsType;
-use MyRestBundle\Entity\AuthToken;
-use MyRestBundle\Entity\Credentials;
+use MyRestBundle\Entity\{AuthToken, Credentials};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\{Response, Request};
 
 class AuthTokenController extends Controller
 {
@@ -20,11 +17,11 @@ class AuthTokenController extends Controller
      * @ApiDoc(
      *    resource=true,
      *    section="Token",
-     *    description="Crée un token d'authentification",
+     *    description="Create an authentication token",
      *    input="MyRestBundle\Form\CredentialsType.php",
      *    statusCodes = {
-     *        201 = "Création avec succès",
-     *        400 = "Formulaire invalide"
+     *        201 = "Successful creation",
+     *        400 = "Invalid form"
      *    },
      *    responseMap={
      *         201 = {"class"=AuthToken::class, "groups"={"auth-token"}},
@@ -32,7 +29,7 @@ class AuthTokenController extends Controller
      *    }
      * )
      */
-    public function postAuthTokensAction(Request $request)
+    public function postAuthTokensAction(Request $request): Object
     {
         $credentials = new Credentials();
         $form = $this->createForm(CredentialsType::class, $credentials);
@@ -68,9 +65,9 @@ class AuthTokenController extends Controller
         return $authToken;
     }
 
-    private function invalidCredentials()
+    private function invalidCredentials(): View
     {
-        return \FOS\RestBundle\View\View::create(['message' => 'Invalid credentials'], Response::HTTP_BAD_REQUEST);
+        return View::create(['message' => 'Invalid credentials'], Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -98,7 +95,7 @@ class AuthTokenController extends Controller
      *    }
      * )
     */
-    public function removeAuthTokenAction(Request $request)
+    public function removeAuthTokenAction(Request $request): void
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $authToken = $em->getRepository('MyRestBundle:AuthToken')

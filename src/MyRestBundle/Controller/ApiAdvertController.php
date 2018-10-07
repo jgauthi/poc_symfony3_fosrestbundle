@@ -2,20 +2,20 @@
 
 namespace MyRestBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Request\ParamFetcher;
-use FOS\RestBundle\View\View;
+use FOS\RestBundle\{
+    Controller\Annotations as Rest,
+    Request\ParamFetcher,
+    View\View,
+};
 use MyRestBundle\Form\AdvertType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use PlatformBundle\Entity\Advert;
-use PlatformBundle\Entity\Category;
+use PlatformBundle\Entity\{Advert, Category};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{Request, Response};
 
 class ApiAdvertController extends Controller
 {
-	/**
+    /**
      * @Rest\View(serializerGroups={"advert"})
      * @Rest\Get("/adverts")
      * @Rest\QueryParam(name="offset", requirements="\d+", default="", description="Index début pagination")
@@ -25,17 +25,17 @@ class ApiAdvertController extends Controller
      * @ApiDoc(
      *     resource=true,
      *     section="Advert",
-     *     description="Récupère la liste des annonces",
+     *     description="Get the list of adverts",
      *     output= { "class"=Advert::class, "collection"=true, "groups"={"advert"} },
      *     headers={
      *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
      *    }
      * )
-	 * example url: http://127.0.0.1/mindsymfony/web/app_dev.php/fr/api/v1/adverts?offset=1&limit=3&order=desc
-	 */
-	public function getAdvertsAction(Request $request, ParamFetcher $paramFetcher)
+     * example url: http://127.0.0.1/mindsymfony/web/app_dev.php/fr/api/v1/adverts?offset=1&limit=3&order=desc
+     */
+	public function getAdvertsAction(Request $request, ParamFetcher $paramFetcher): array
 	{
-	    // Avec l'annotation QueryParam, le Param Fetcher Listener injecte automatiquement le param fetcher à notre méthode
+	    // With the QueryParam annotation, the Param Fetcher Listener automatically injects the parametcher to our method
 	    $offset = $paramFetcher->get('offset');
 	    $limit = $paramFetcher->get('limit');
 	    $orderByTitle = $paramFetcher->get('order');
@@ -122,7 +122,7 @@ class ApiAdvertController extends Controller
      *    }
      * )
 	 */
-	public function getAdvertAction(Request $request)
+	public function getAdvertAction(Request $request): array
 	{
 		$advert = $this->get('doctrine.orm.entity_manager')
 			->getRepository('PlatformBundle:Advert')
@@ -167,7 +167,7 @@ class ApiAdvertController extends Controller
             ]
         }
      */
-    public function postAdvertAction(Request $request)
+    public function postAdvertAction(Request $request): Object
     {
         $advert = new Advert();
         $em = $this->get('doctrine.orm.entity_manager');
@@ -185,7 +185,7 @@ class ApiAdvertController extends Controller
 
         if($form->isValid())
         {
-            // Annonce à confirmer par un admin
+            // Announcement must be confirmed by an admin
             $advert->setPublished(false);
 
             $catRepo = $em->getRepository('PlatformBundle:Category');
@@ -240,7 +240,7 @@ class ApiAdvertController extends Controller
      *    }
      * )
      */
-    public function updateAdvertAction(Request $request)
+    public function updateAdvertAction(Request $request): Object
     {
         return $this->updateAdvert($request, true);
     }
@@ -275,12 +275,12 @@ class ApiAdvertController extends Controller
      *    }
      * )
      */
-    public function patchAdvertAction(Request $request)
+    public function patchAdvertAction(Request $request): Object
     {
         return $this->updateAdvert($request, false);
     }
 
-    private function updateAdvert(Request $request, $allFieldsRequire)
+    private function updateAdvert(Request $request, $allFieldsRequire): Object
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $advert = $em->getRepository('PlatformBundle:Advert')->find($request->get('id'));

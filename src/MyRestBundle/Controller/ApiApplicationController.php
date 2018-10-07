@@ -2,14 +2,12 @@
 
 namespace MyRestBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\View\View;
+use FOS\RestBundle\{Controller\Annotations as Rest, View\View};
 use MyRestBundle\Form\ApplicationType;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use PlatformBundle\Entity\Application;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{Request, Response};
 
 class ApiApplicationController extends Controller
 {
@@ -28,7 +26,7 @@ class ApiApplicationController extends Controller
      *    }
      * )
      */
-	public function getApplicationsAction(Request $request)
+	public function getApplicationsAction(Request $request): array
     {
         $limit = $request->get('limit', 5);
         if(!is_numeric($limit) || $limit > 10)
@@ -63,7 +61,7 @@ class ApiApplicationController extends Controller
      *    }
      * )
     */
-    public function getApplicationAction(Request $request)
+    public function getApplicationAction(Request $request): array
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $advert = $em->getRepository('PlatformBundle:Advert')
@@ -108,7 +106,7 @@ class ApiApplicationController extends Controller
      *    }
      * )
     */
-    public function postApplicationAction(Request $request)
+    public function postApplicationAction(Request $request): Object
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $advert = $em->getRepository('PlatformBundle:Advert')

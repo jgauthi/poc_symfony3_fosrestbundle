@@ -2,6 +2,7 @@
 namespace MyRestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MyUserBundle\Entity\User;
 
 /**
  * @ORM\Entity()
@@ -35,24 +36,26 @@ class AuthToken
     protected $user;
 
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId($id)
+    public function setId($id): AuthToken
     {
         $this->id = $id;
+        return $this;
     }
 
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValue($value)
+    public function setValue($value): AuthToken
     {
         $this->value = $value;
+        return $this;
     }
 
     public function getCreatedAt()
@@ -60,18 +63,20 @@ class AuthToken
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt(\DateTime $createdAt): AuthToken
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
-    public function getUser()
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(\MyUserBundle\Entity\User $user)
+    public function setUser(User $user): AuthToken
     {
         $this->user = $user;
+        return $this;
     }
 }
