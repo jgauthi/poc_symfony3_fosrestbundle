@@ -7,7 +7,7 @@ use MyUserBundle\Entity\User;
 
 class LoadUser implements FixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $listNames = array
         (
@@ -23,7 +23,7 @@ class LoadUser implements FixtureInterface
             $user = new User();
             $user
                 ->setUsername($name)
-                ->setEmail($name.'@mindsymfony.dev')
+                ->setEmail($name.'@symfony.local')
                 ->setPlainPassword($pass)
                 ->setRoles($info['role'])
                 ->setEnabled(true);
