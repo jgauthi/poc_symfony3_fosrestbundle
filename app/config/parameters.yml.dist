@@ -13,6 +13,7 @@ parameters:
     mailer_from: example@email.from
     mailer_transport: smtp
     mailer_host: 127.0.0.1
+    mailer_port: 2525
     mailer_user: ~
     mailer_password: ~
 

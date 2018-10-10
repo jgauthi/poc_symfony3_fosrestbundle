@@ -59,12 +59,25 @@ Command lines:
 
 ```bash
 git clone git@github.com:jgauthi/symfony3_learning.git
-composer install
+docker-compose exec php composer install
 
-php bin/console assets:install --symlink
-php bin/console doctrine:migrations:migrate
-php bin/console doctrine:fixtures:load
+docker-compose exec php php bin/console assets:install --symlink
+docker-compose exec php php bin/console doctrine:migrations:migrate
+docker-compose exec php php bin/console doctrine:fixtures:load
 ````
+
+
+
+
+## Configuration hosts (Url with hosts)
+
+```sh
+sudo echo $(docker network inspect bridge | grep Gateway | grep -o -E '[0-9\.]+') "platform.local" >> /etc/hosts
+sudo echo $(docker inspect platform_phpmyadmin | grep \"IPAddress\" | grep -o -E '[0-9\.]+') "platform.pma" >> /etc/hosts
+sudo echo $(docker inspect platform_maildev | grep \"IPAddress\" | grep -o -E '[0-9\.]+') "platform.mail" >> /etc/hosts
+```
+
+
 
 For the asset symlink install, launch a terminal on administrator in windows environment.
 
