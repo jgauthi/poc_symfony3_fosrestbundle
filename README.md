@@ -17,10 +17,10 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
     * Controller
         * List / add / edit / delete advert
         * List of applications for an advert
-    * Generate data Fixture (entity)
-        * Advert
-        * Category
-        * Skill
+    * Features / Configuration used
+        * Entity management with the [EasyAdminBundle](https://symfony.com/doc/master/bundles/EasyAdminBundle/index.html) (Symfony BackOffice)
+        * Generate data Fixture (entity): Advert, Category, Skill (with [Nelmio Alice](https://github.com/nelmio/alice))
+        * Test units on advert / application entities
     * Services
         * Antispam: Check if the messages are more than 50 characters, otherwise it will be considered like spam.
         * ApplicationMailer: Send an mail to author's advert when a candidate register.
@@ -28,16 +28,12 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
         * Bigbrother: Send an email to admin if some users post a message.
         * CustomParamConverter: Display param converter from url request.
         * MarkdownTransformer: Convert markdown to html. 
-    * Test units
-        * Advert entity
-        * Application entity
-        * **Todolist (in progress)**: Use MOCK on Test units
 * **MyUserBundle**: User management with the fos/user-bundle
     * Controller
         * Login / logout / forgotten password...
         * Role management
-    * Generate data Fixture (entity)
-        * Some users with role (admin, author, api access, user)
+    * Features / Configuration used
+        * Generate data Fixture (entity): Some users with role (admin, author, api access, user)
 * **MyRestApi**: Add Rest API implementation with fos/rest-bundle
     * Controller
         * CRUD
@@ -50,21 +46,21 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
         * Query String (QueryParam & ParamFetcher)
         * API Documentation: Using [NelmioApiDocBundle](https://symfony.com/doc/2.x/bundles/NelmioApiDocBundle/index.html) v2.x to generate online doc with Annotations (ApiDoc & FosRest).
         * Security: Authentication by token _(X-Auth-Token)_
-    * **Todolist (in progress)**
-        * Versioning
 
 ## Installation
 Command lines:
 
 ```bash
 git clone git@github.com:jgauthi/poc_symfony3_fosrestbundle.git
+cd poc_symfony3_fosrestbundle
 composer install
 
-docker-compose exec php php bin/console assets:install --symlink
-docker-compose exec php php bin/console doctrine:migrations:migrate
+docker-compose exec php php assets:install --symlink
+docker-compose exec php php doctrine:database:create --if-not-exists
+docker-compose exec php php doctrine:migrations:migrate
 
 # Optionnal
-docker-compose exec php php bin/console doctrine:fixtures:load
+docker-compose exec php php doctrine:fixtures:load
 ````
 
 

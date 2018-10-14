@@ -66,7 +66,7 @@ class Advert
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
-     * @Assert\DateTime()
+     * @Assert\Type(type="\DateTime")
      */
     private $date;
 
@@ -116,7 +116,7 @@ class Advert
      *
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -381,7 +381,7 @@ class Advert
      *
      * @return string
      */
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }

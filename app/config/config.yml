@@ -148,3 +148,76 @@ doctrine_cache:
       type: '%cache_type%'
       # directory: %kernel.cache_dir%/markdown_cache
 
+# Easy Admin Bundle
+easy_admin:
+    site_name: 'Platform <em style="font-size: 80%;">Admin</em>'
+    list:
+        max_results: 30
+    formats:
+        date:     'd/m/Y'
+        time:     'H\hi'
+        datetime: 'd/m/Y à H\hi'
+    entities:
+        Advert:
+            class: PlatformBundle\Entity\Advert
+            label: 'Advert'
+            list:
+                title: "Most recent %%entity_label%%"
+                help: 'The list view overrides the global help message'
+                max_results: 20
+                actions: [ 'show', 'edit', 'search' ]
+                fields: [ 'id', 'title', 'author', 'date', 'categories', 'published' ]
+            show:
+                title: '%%entity_label%% (#%%entity_id%%)'
+            search:
+                fields: ['id', 'title', 'slug', 'author', 'date', 'image', 'published']
+            form:
+                title: 'Add advert'
+                fields: [ 'title', 'author', 'date', 'published' ]
+            disabled_actions: ['new']
+        Application:
+            class: PlatformBundle\Entity\Application
+            label: 'Applications'
+            list:
+                title: 'Advert''s applications'
+                actions: [ 'show', '-edit', 'search' ]
+                fields:
+                  - id
+                  - author
+                  - content
+                  - city
+                  - salaryclaim
+                  - { property: 'advert.title', label: 'Advert Title' }
+                  - { property: 'date', format: 'j/n/Y' }
+                  - { property: 'advert', label: 'Associated advert'}
+                sort: ['date', 'DESC']
+                actions:
+                    - { name: 'show', icon: 'search', label: false }
+                    - { name: 'edit', icon: 'pencil', label: false }
+            form:
+                fields: [ 'author', 'content' , { property: 'date', type_options: { widget: 'single_text' }} ]
+            disabled_actions: ['new']
+        Category:
+            class: PlatformBundle\Entity\Category
+        Image:
+            class: PlatformBundle\Entity\Image
+            list:
+              fields: [ 'id', 'alt', { property: 'url', type: 'image', label: 'Image overview' } ]
+    design:
+        brand_color: '#14937a'
+        color_scheme: 'dark'
+        form_theme: 'horizontal'
+        # Icon: https://fontawesome.com/icons
+        menu:
+          - label: 'Content'
+            icon: 'save'
+            children:
+              - { entity: 'Advert', icon: 'bullhorn' }
+              - { entity: 'Application', icon: 'eye ' }
+              - { entity: 'Category', icon: 'compass' }
+              - Image
+          - label: 'About'
+            icon: 'building'
+            children:
+            - { label: 'Symfony doc', url: 'https://symfony.com/doc/current/', target: '_blank', icon: 'code' }
+            - { label: 'Front End', route: 'oc_platform_home', icon: 'home' }

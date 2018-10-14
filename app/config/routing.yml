@@ -22,3 +22,9 @@ rest_api:
   prefix:   /{_locale}/api
   requirements:
     _locale: en|fr
+
+# app/config/routing.yml
+easy_admin_bundle:
+  resource: "@EasyAdminBundle/Controller/AdminController.php"
+  type:     annotation
+  prefix:   /admin
