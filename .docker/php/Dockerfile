@@ -27,16 +27,16 @@ RUN apt-get install -y libmagickwand-dev --no-install-recommends \
 RUN pecl install apcu && docker-php-ext-enable apcu
 
 # Install Xdebug
-RUN pecl install xdebug && docker-php-ext-enable xdebug \
-&& echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
-&& echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-&& echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-&& echo "xdebug.default_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-&& echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/xdebug.ini \
-&& echo "xdebug.remote_handler=\"dbgp\"" >> /usr/local/etc/php/conf.d/xdebug.ini \
-&& echo "xdebug.remote_host=localhost" >> /usr/local/etc/php/conf.d/xdebug.ini \
-&& echo "xdebug.remote_port=9010" >> /usr/local/etc/php/conf.d/xdebug.ini
-&& echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/xdebug.ini
+#RUN pecl install xdebug && docker-php-ext-enable xdebug \
+#&& echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+#&& echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+#&& echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+#&& echo "xdebug.default_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+#&& echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/xdebug.ini \
+#&& echo "xdebug.remote_handler=\"dbgp\"" >> /usr/local/etc/php/conf.d/xdebug.ini \
+#&& echo "xdebug.remote_host=localhost" >> /usr/local/etc/php/conf.d/xdebug.ini \
+#&& echo "xdebug.remote_port=9010" >> /usr/local/etc/php/conf.d/xdebug.ini
+#&& echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 
 # PHP Conf

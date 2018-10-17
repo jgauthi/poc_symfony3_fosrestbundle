@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class AdvertController extends Controller
 {
     //  http://localhost/mindsymfony/web/app_dev.php/fr/platform/
-    public function indexAction(?int $page): Response
+    public function indexAction(?string $page): Response
     {
         if (empty($page) || $page < 1) {
             $page = 1;

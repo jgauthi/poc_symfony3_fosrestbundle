@@ -47,36 +47,56 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
         * API Documentation: Using [NelmioApiDocBundle](https://symfony.com/doc/2.x/bundles/NelmioApiDocBundle/index.html) v2.x to generate online doc with Annotations (ApiDoc & FosRest).
         * Security: Authentication by token _(X-Auth-Token)_
 
-## Installation
+
+## Installation WITHOUT docker
 Command lines:
 
 ```bash
 git clone git@github.com:jgauthi/poc_symfony3_fosrestbundle.git
 cd poc_symfony3_fosrestbundle
+
 composer install
 
-docker-compose exec php php assets:install --symlink
-docker-compose exec php php doctrine:database:create --if-not-exists
-docker-compose exec php php doctrine:migrations:migrate
+# complete configuration file: "app/config/parameters.yml"
+
+php bin/console assets:install --symlink
+php bin/console doctrine:database:create --if-not-exists
+php bin/console doctrine:migrations:migrate
 
 # Optionnal
-docker-compose exec php php doctrine:fixtures:load
+php bin/console doctrine:fixtures:load
 ````
 
-
-
-
-## Configuration hosts (Url with hosts)
-
-```sh
-sudo echo $(docker network inspect bridge | grep Gateway | grep -o -E '[0-9\.]+') "platform.local" >> /etc/hosts
-sudo echo $(docker inspect platform_phpmyadmin | grep \"IPAddress\" | grep -o -E '[0-9\.]+') "platform.pma" >> /etc/hosts
-sudo echo $(docker inspect platform_maildev | grep \"IPAddress\" | grep -o -E '[0-9\.]+') "platform.mail" >> /etc/hosts
-```
-
-
-
 For the asset symlink install, launch a terminal on administrator in windows environment.
+
+
+## Installation with docker-compose
+
+```bash
+git clone git@github.com:jgauthi/poc_symfony3_fosrestbundle.git
+cd poc_symfony3_fosrestbundle
+
+docker-compose up -d
+docker-compose exec php composer install
+
+# complete configuration file: "app/config/parameters.yml"
+
+docker-compose exec php php bin/console assets:install --symlink
+docker-compose exec php php bin/console doctrine:database:create --if-not-exists
+docker-compose exec php php bin/console doctrine:migrations:migrate
+
+# Optionnal
+docker-compose exec php php bin/console doctrine:fixtures:load
+````
+
+## [Docker-compose] Application urls
+This docker-compose use a reverse proxy: [Traefik](https://traefik.io/), url supported:
+
+* [Plaform symfony](http://platform.docker)
+* [phpMyAdmin](http://pma.docker)
+* [mailDev](http://maildev.docker)
+
+
 
 ## Prepare deploy prod
 
