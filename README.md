@@ -57,13 +57,13 @@ cd poc_symfony3_fosrestbundle
 
 composer install
 
-# complete configuration file: "app/config/parameters.yml"
+# (optional) You can edit configuration values "app/config/parameters.yml"
 
 php bin/console assets:install --symlink
 php bin/console doctrine:database:create --if-not-exists
 php bin/console doctrine:migrations:migrate
 
-# Optionnal
+# Optional
 php bin/console doctrine:fixtures:load
 ````
 
@@ -79,13 +79,14 @@ cd poc_symfony3_fosrestbundle
 docker-compose up -d
 docker-compose exec php composer install
 
-# complete configuration file: "app/config/parameters.yml"
+# Copy ".env.dist" to ".env"
+# (optional) You can edit configurations values ".env" and "app/config/parameters.yml"
 
 docker-compose exec php php bin/console assets:install --symlink
 docker-compose exec php php bin/console doctrine:database:create --if-not-exists
 docker-compose exec php php bin/console doctrine:migrations:migrate
 
-# Optionnal
+# Optional
 docker-compose exec php php bin/console doctrine:fixtures:load
 ````
 

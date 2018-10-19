@@ -3,10 +3,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     database_host: mysql
-    database_port: 3306
-    database_name: platform
-    database_user: local
-    database_password: local
+    database_port: '%env(MYSQL_PORT)%'
+    database_name: '%env(MYSQL_DATABASE)%'
+    database_user: '%env(MYSQL_USER)%'
+    database_password: '%env(MYSQL_PASSWORD)%'
 
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.project_dir%/var/data/data.sqlite'
@@ -19,7 +19,7 @@ parameters:
     mailer_password: null
 
     # A secret key that's used to generate certain security-related tokens
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: '%env(APP_SECRET)%'
 
     # Application parameters
     app_webmaster: webmaster name

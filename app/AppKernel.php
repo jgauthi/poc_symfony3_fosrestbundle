@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
@@ -8,6 +9,13 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
+        // Get Project Environments
+        // https://symfony.com/doc/3.4/configuration/external_parameters.html
+        if(is_readable(__DIR__.'/../.env')) {
+            $dotenv = new Dotenv();
+            $dotenv->load(__DIR__.'/../.env');
+        }
+
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
