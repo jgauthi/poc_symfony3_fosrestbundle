@@ -112,6 +112,14 @@ class Advert
     }
 
     /**
+     * Get name (for EasyAdminBundle)
+     */
+    public function __toString(): string
+    {
+        return $this->getTitle();
+    }
+
+    /**
      * Get id.
      *
      * @return int

@@ -41,6 +41,14 @@ class AdvertSkill
     private $skill;
 
     /**
+     * Get name (for EasyAdminBundle)
+     */
+    public function __toString(): string
+    {
+        return sprintf('%s (%s)', $this->getSkill(), $this->getLevel());
+    }
+
+    /**
      * Get id.
      *
      * @return int

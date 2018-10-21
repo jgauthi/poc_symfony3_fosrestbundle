@@ -33,6 +33,14 @@ class Image
     private $tmpFileName;
 
     /**
+     * Get name (for EasyAdminBundle)
+     */
+    public function __toString(): string
+    {
+        return $this->getUrl();
+    }
+
+    /**
      * Get id.
      *
      * @return integer

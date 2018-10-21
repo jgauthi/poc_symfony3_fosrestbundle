@@ -36,6 +36,14 @@ class Skill
     private $content;
 
     /**
+     * Get name (for EasyAdminBundle)
+     */
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
+    /**
      * Get id.
      *
      * @return int

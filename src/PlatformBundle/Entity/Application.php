@@ -55,6 +55,14 @@ class Application
         $this->date = new \Datetime();
     }
 
+    /**
+     * Get name (for EasyAdminBundle)
+     */
+    public function __toString(): string
+    {
+        return sprintf('%s (%s)', $this->getContent(), $this->getAuthor());
+    }
+
     public function getId(): int
     {
         return $this->id;

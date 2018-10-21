@@ -173,8 +173,15 @@ easy_admin:
                 fields: ['id', 'title', 'slug', 'author', 'date', 'image', 'published']
             form:
                 title: 'Add advert'
-                fields: [ 'title', 'author', 'date', 'published' ]
+                fields: [ 'title', 'author', 'date', 'published', 'categories' ]
             disabled_actions: ['new']
+        AdvertSkill:
+            class: PlatformBundle\Entity\AdvertSkill
+            label: 'Advert Skill'
+            list:
+              fields: [ 'id', 'skill', 'level', 'advert' ]
+            form:
+              fields: [ 'skill', 'level', 'advert' ]
         Application:
             class: PlatformBundle\Entity\Application
             label: 'Applications'
@@ -195,7 +202,7 @@ easy_admin:
                     - { name: 'show', icon: 'search', label: false }
                     - { name: 'edit', icon: 'pencil', label: false }
             form:
-                fields: [ 'author', 'content' , { property: 'date', type_options: { widget: 'single_text' }} ]
+                fields: [ 'author', 'content' , { property: 'date', type_options: { widget: 'single_text' }}, 'advert' ]
             disabled_actions: ['new']
         Category:
             class: PlatformBundle\Entity\Category
@@ -213,6 +220,7 @@ easy_admin:
             icon: 'save'
             children:
               - { entity: 'Advert', icon: 'bullhorn' }
+              - { entity: 'AdvertSkill', icon: 'address-card' }
               - { entity: 'Application', icon: 'eye ' }
               - { entity: 'Category', icon: 'compass' }
               - Image
