@@ -38,6 +38,14 @@ class AuthToken
      */
     protected $user;
 
+    /**
+     * Get name (for EasyAdminBundle)
+     */
+    public function __toString(): string
+    {
+        return sprintf('Token %s, User: %s', $this->getValue(), $this->getUser()->getUsername());
+    }
+
     public function getId(): int
     {
         return $this->id;

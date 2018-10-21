@@ -17,14 +17,13 @@ user:
   requirements:
     _locale: en|fr
 
+easy_admin_bundle:
+    resource: '@MyUserBundle/Controller/AdminController.php'
+    type:     annotation
+    prefix:   /admin
+
 rest_api:
   resource: "@MyRestBundle/Resources/config/routing.yml"
   prefix:   /{_locale}/api
   requirements:
     _locale: en|fr
-
-# app/config/routing.yml
-easy_admin_bundle:
-  resource: "@EasyAdminBundle/Controller/AdminController.php"
-  type:     annotation
-  prefix:   /admin
