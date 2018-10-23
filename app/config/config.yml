@@ -3,7 +3,9 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: "@PlatformBundle/Resources/config/services.yml" }
+    - { resource: "@MyRestBundle/Resources/config/config.yml" }
     - { resource: "@MyRestBundle/Resources/config/services.yml" }
+    - { resource: "@MyUserBundle/Resources/config/config.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -73,50 +75,6 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
-# Gestion des utilisateurs
-fos_user:
-  db_driver: orm
-  firewall_name: main
-  user_class: MyUserBundle\Entity\User
-  from_email:
-    address: "%mailer_from%"
-    sender_name: "%app_webmaster%"
-  service:
-      mailer: fos_user.mailer.twig_swift
-#  registration:
-#    form:
-#      type: AppBundle\Form\RegistrationType
-
-# Rest API
-fos_rest:
-  routing_loader:
-    include_format: false
-    default_format: json
-  view:
-    view_response_listener: true
-    formats:
-      json: true
-      xml: true
-  zone:
-    - { path: '^/[a-z]{2}/api/v[0-9]' }
-  format_listener:
-    rules:
-      - { path: '^/[a-z]{2}/api/v[0-9]/', priorities: ['json','xml'], fallback_format: 'json', prefer_extension: false }
-  body_listener:
-    enabled: true
-  param_fetcher_listener:
-    enabled: true
-  exception:
-    enabled: true
-    messages:
-      'Symfony\Component\HttpKernel\Exception\HttpException': true
-      'Symfony\Component\Security\Core\Exception\BadCredentialsException': true
-    codes:
-      'Symfony\Component\Security\Core\Exception\BadCredentialsException': 401
-
-# Api Rest Documentation
-nelmio_api_doc: ~
-
 # Stof\DoctrineExtensionsBundle configuration
 stof_doctrine_extensions:
     orm:
@@ -147,104 +105,3 @@ doctrine_cache:
     my_markdown_cache:
       type: '%cache_type%'
       # directory: %kernel.cache_dir%/markdown_cache
-
-# Easy Admin Bundle
-easy_admin:
-    site_name: 'Platform <em style="font-size: 80%;">Admin</em>'
-    list:
-        max_results: 30
-    formats:
-        date:     'd/m/Y'
-        time:     'H\hi'
-        datetime: 'd/m/Y à H\hi'
-    entities:
-        Advert:
-            class: PlatformBundle\Entity\Advert
-            label: 'Advert'
-            list:
-                title: "Most recent %%entity_label%%"
-                help: 'The list view overrides the global help message'
-                max_results: 20
-                actions: [ 'show', 'edit', 'search' ]
-                fields: [ 'id', 'title', 'author', 'date', 'categories', 'published' ]
-            show:
-                title: '%%entity_label%% (#%%entity_id%%)'
-            search:
-                fields: ['id', 'title', 'slug', 'author', 'date', 'image', 'published']
-            form:
-                title: 'Add advert'
-                fields: [ 'title', 'author', 'date', 'published', 'categories' ]
-            disabled_actions: ['new']
-        AdvertSkill:
-            class: PlatformBundle\Entity\AdvertSkill
-            label: 'Advert Skill'
-            list:
-              fields: [ 'id', 'skill', 'level', 'advert' ]
-            form:
-              fields: [ 'skill', 'level', 'advert' ]
-        Application:
-            class: PlatformBundle\Entity\Application
-            label: 'Applications'
-            list:
-                title: 'Advert''s applications'
-                actions: [ 'show', '-edit', 'search' ]
-                fields:
-                  - id
-                  - author
-                  - content
-                  - city
-                  - salaryclaim
-                  - { property: 'advert.title', label: 'Advert Title' }
-                  - { property: 'date', format: 'j/n/Y' }
-                  - { property: 'advert', label: 'Associated advert'}
-                sort: ['date', 'DESC']
-                actions:
-                    - { name: 'show', icon: 'search', label: false }
-                    - { name: 'edit', icon: 'pencil', label: false }
-            form:
-                fields: [ 'author', 'content' , { property: 'date', type_options: { widget: 'single_text' }}, 'advert' ]
-            disabled_actions: ['new']
-        Category:
-            class: PlatformBundle\Entity\Category
-        Image:
-            class: PlatformBundle\Entity\Image
-            list:
-              fields: [ 'id', 'alt', { property: 'url', type: 'image', label: 'Image overview' } ]
-        AuthToken:
-            class: MyRestBundle\Entity\AuthToken
-            disabled_actions: ['new']
-        User:
-            class: MyUserBundle\Entity\User
-            list:
-              fields: [ 'id', 'username', 'email', 'enabled', 'lastLogin', 'roles' ]
-            form:
-              fields:
-                  - username
-                  - email
-                  - enabled
-                  - { property: 'plainPassword', type: 'text', type_options: { required: false } }
-                  - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_AUTEUR': 'ROLE_AUTEUR', 'ROLE_API_ACCESS': 'ROLE_API_ACCESS', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
-    design:
-        brand_color: '#14937a'
-        color_scheme: 'dark'
-        form_theme: 'horizontal'
-        # Icon: https://fontawesome.com/icons
-        menu:
-          - label: 'Content'
-            icon: 'save'
-            children:
-              - { entity: 'Advert', icon: 'bullhorn' }
-              - { entity: 'AdvertSkill', icon: 'address-card' }
-              - { entity: 'Application', icon: 'eye ' }
-              - { entity: 'Category', icon: 'compass' }
-              - Image
-          - label: 'Management'
-            icon: 'building'
-            children:
-              - { entity: 'User', icon: 'users' }
-              - { entity: 'AuthToken', icon: 'universal-access' }
-          - label: 'About'
-            icon: 'building'
-            children:
-            - { label: 'Symfony doc', url: 'https://symfony.com/doc/current/', target: '_blank', icon: 'code' }
-            - { label: 'Front End', route: 'oc_platform_home', icon: 'home' }
