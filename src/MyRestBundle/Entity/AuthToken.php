@@ -3,7 +3,7 @@
 namespace MyRestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use MyUserBundle\Entity\User;
+use FOS\UserBundle\Model\UserInterface;
 
 /**
  * @ORM\Entity()
@@ -70,7 +70,7 @@ class AuthToken
         return $this;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
@@ -82,12 +82,12 @@ class AuthToken
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?UserInterface
     {
         return $this->user;
     }
 
-    public function setUser(User $user): AuthToken
+    public function setUser(UserInterface $user): AuthToken
     {
         $this->user = $user;
 

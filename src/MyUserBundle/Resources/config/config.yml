@@ -38,7 +38,14 @@ easy_admin:
                 fields: ['id', 'title', 'slug', 'author', 'date', 'image', 'published']
             form:
                 title: 'Add advert'
-                fields: [ 'title', 'author', 'date', 'published', 'categories' ]
+                fields:
+                    - title
+                    - { property: 'slug', help: 'Valeur unique, générée automatiquement', type_options: { disabled: true } }
+                    - author
+                    - content
+                    - date
+                    - published
+                    - categories
             disabled_actions: ['new']
         AdvertSkill:
             class: PlatformBundle\Entity\AdvertSkill
@@ -52,7 +59,11 @@ easy_admin:
             label: 'Applications'
             list:
                 title: 'Advert''s applications'
-                actions: [ 'show', '-edit', 'search' ]
+                actions:
+                - { name: 'show', icon: 'info-circle', label: false, title: 'Visualiser' }
+                - { name: '-edit', icon: 'pencil', label: false, title: 'Editer' }
+                - search
+                - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
                 fields:
                   - id
                   - author
@@ -63,9 +74,6 @@ easy_admin:
                   - { property: 'date', format: 'j/n/Y' }
                   - { property: 'advert', label: 'Associated advert'}
                 sort: ['date', 'DESC']
-                actions:
-                    - { name: 'show', icon: 'search', label: false }
-                    - { name: 'edit', icon: 'pencil', label: false }
             form:
                 fields: [ 'author', 'content' , { property: 'date', type_options: { widget: 'single_text' }}, 'advert' ]
             disabled_actions: ['new']
@@ -81,7 +89,13 @@ easy_admin:
         User:
             class: MyUserBundle\Entity\User
             list:
-              fields: [ 'id', 'username', 'email', 'enabled', 'lastLogin', 'roles' ]
+              fields:
+                  - id
+                  - username
+                  - email
+                  - enabled
+                  - lastLogin
+                  - { property: 'roles', template: 'easy_admin/custom/roles_tag.html.twig', label_colors: { 'ROLE_ADMIN': 'danger', 'ROLE_AUTEUR': 'success', 'ROLE_API_ACCESS': 'warning', 'ROLE_USER': 'primary' } }
             form:
               fields:
                   - username
