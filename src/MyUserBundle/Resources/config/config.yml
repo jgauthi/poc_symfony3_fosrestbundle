@@ -42,7 +42,7 @@ easy_admin:
                     - title
                     - { property: 'slug', help: 'Valeur unique, générée automatiquement', type_options: { disabled: true } }
                     - author
-                    - content
+                    - { property: 'content', css_class: 'js-markdown-input' }
                     - date
                     - published
                     - categories
@@ -125,5 +125,11 @@ easy_admin:
           - label: 'About'
             icon: 'building'
             children:
-            - { label: 'Symfony doc', url: 'https://symfony.com/doc/current/', target: '_blank', icon: 'code' }
-            - { label: 'Front End', route: 'oc_platform_home', icon: 'home' }
+              - { label: 'Symfony doc', url: 'https://symfony.com/doc/current/', target: '_blank', icon: 'code' }
+              - { label: 'Front End', route: 'oc_platform_home', icon: 'home' }
+        assets:
+            js:
+              - 'bundles/myuser/js/snarkdown.umd.js'
+              - 'bundles/myuser/js/backend.js'
+            css:
+              - 'bundles/myuser/css/backend.css'

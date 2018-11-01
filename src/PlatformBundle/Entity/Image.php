@@ -35,7 +35,7 @@ class Image
     /**
      * Get name (for EasyAdminBundle)
      */
-    public function __toString(): string
+    public function __toString(): ?string
     {
         return $this->getUrl();
     }
@@ -45,7 +45,7 @@ class Image
      *
      * @return integer
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -69,7 +69,7 @@ class Image
      *
      * @return string
      */
-    public function getUrl(): string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
