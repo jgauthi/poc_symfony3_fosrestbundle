@@ -20,6 +20,8 @@ class AdvertRepository extends EntityRepository
             ->addSelect('img')
             ->leftJoin('a.categories', 'cat')
             ->addSelect('cat')
+            ->where('a.archived = :archived')
+            ->setParameter('archived', false)
             ->orderBy('a.date', 'DESC')
             ->getQuery();
 
@@ -35,6 +37,8 @@ class AdvertRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('advert')
             ->orderBy('advert.date', 'DESC')
+            ->where('advert.archived = :archived')
+            ->setParameter('archived', false)
             ->setMaxResults($limit)
             ->getQuery();
 
@@ -50,7 +54,10 @@ class AdvertRepository extends EntityRepository
 //            ->select('advert')
 //            ->from($this->_entityName, 'advert');
 
-        $queryBuilder = $this->createQueryBuilder('advert');
+        $queryBuilder = $this
+            ->createQueryBuilder('advert')
+            ->where('advert.archived = :archived')
+            ->setParameter('archived', false);
 
         if (!empty($limit)) {
             $queryBuilder->setMaxResults($limit);
@@ -80,7 +87,8 @@ class AdvertRepository extends EntityRepository
             ->where('advert.author = :author')
             ->setParameter('author', $author)
             ->andWhere('advert.date < :year')
-            ->setParameter('year', $year)
+            ->andWhere('advert.archived = :archived')
+            ->setParameters(['year' => $year, 'archived' => false])
             ->orderBy('advert.date', 'DESC');
 
         return $qb->getQuery()->getResult();
@@ -99,12 +107,15 @@ class AdvertRepository extends EntityRepository
         $db = $this->createQueryBuilder('advert')
             ->leftJoin('advert.applications', 'app', 'WITH', 'app.author = :author')
             ->setParameter('author', 'Pierre')
-            ->addSelect('app');
+            ->addSelect('app')
+            ->where('advert.archived = :archived')
+            ->setParameter('archived', false);
 
         /* DQL Version :
             SELECT *
             FROM Advert advert
             LEFT JOIN Application app ON (app.advert_id = advert.id AND YEAR(app.date) >= 2013)
+            WHERE advert.archived = 0
         */
 
         return $db->getQuery()->getResult();
@@ -114,7 +125,9 @@ class AdvertRepository extends EntityRepository
     {
         $db = $this->createQueryBuilder('advert')
             ->innerJoin('advert.categories', 'cat', 'WITH', 'cat.id IN (:cat)')
-            ->setParameter('cat', $categoryNames);
+            ->setParameter('cat', $categoryNames)
+            ->where('advert.archived = :archived')
+            ->setParameter('archived', false);
 
         // Methode alternative IN
         // $qb->where($qb->expr()->in('c.name', $categoryNames));

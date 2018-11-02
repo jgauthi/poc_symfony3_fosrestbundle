@@ -5,6 +5,7 @@ namespace PlatformBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use PlatformBundle\Entity\{Advert, AdvertSkill, Application, Image};
+use Symfony\Component\Yaml\Yaml;
 
 class LoadAdvert implements FixtureInterface
 {
@@ -12,46 +13,17 @@ class LoadAdvert implements FixtureInterface
     public function load(ObjectManager $em): void
     {
         // List of category names to add
-        $liste = [
-            [
-                'title' => 'Recherche développeur Symfony',
-                'author' => 'Eglantine',
-                'content' => 'Nous recherchons un **développeur Symfony** débutant sur Lyon. Blabla…',
-                'image' => 'http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg',
-                'application' => [
-                    ['author' => 'Marine', 'content' => 'J\'ai toutes les qualités requises.', 'city' => 'Paris', 'salaryClaim' => 2500],
-                    ['author' => 'Pierre', 'content' => 'Je suis très motivé.', 'city' => 'Angoulême', 'salaryClaim' => 2498],
-                ],
-                'categories' => ['Développement web', 'Intégration'],
-            ],
-            [
-                'title' => 'Poste de CP en cours',
-                'author' => 'Delilah',
-                'content' => 'Lorem ipsou',
-                'image' => null,
-                'application' => [
-                    ['author' => 'Corvo', 'content' => 'Disponible.', 'city' => 'Dunwall', 'salaryClaim' => 3000],
-                    ['author' => 'Emily', 'content' => 'En attente de réponse.', 'city' => 'Dunwall', 'salaryClaim' => 4000],
-                ],
-                'categories' => null,
-            ],
-            [
-                'title' => 'Développement d\'une Super IA, recherche ingénieur',
-                'author' => 'Cave Johnson',
-                'content' => 'Recherche ingénieur en _intelligence artificiel_',
-                'image' => 'http://localhost/dev/asset/img/specimen/animaux.jpg',
-                'application' => null,
-                'categories' => ['Réseau'],
-            ],
-        ];
+        $list = Yaml::parseFile(__DIR__ . '/LoadAvdertWithApplications.yml');
         $listSkills = $em->getRepository('PlatformBundle:Skill')->findAll();
 
-        foreach ($liste as ['title' => $title, 'author' => $author, 'content' => $content, 'image' => $imageUrl, 'categories' => $categories, 'application' => $application]) {
+        foreach ($list as ['title' => $title, 'author' => $author, 'content' => $content, 'published' => $published, 'archived' => $archived, 'image' => $imageUrl, 'categories' => $categories, 'application' => $application]) {
             $advert = new Advert();
             $advert
                 ->setTitle($title)
                 ->setAuthor($author)
-                ->setContent($content);
+                ->setContent($content)
+                ->setPublished($published)
+                ->setArchived($archived);
             // You can't set the date or the publication because these attributes are defined automatically in the constructor
 
             // Create image entity

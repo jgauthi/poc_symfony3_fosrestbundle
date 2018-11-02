@@ -76,6 +76,11 @@ class Advert
     private $published = true;
 
     /**
+     * @ORM\Column(name="archived", type="boolean")
+     */
+    private $archived = false;
+
+    /**
      * @ORM\OneToOne(targetEntity="PlatformBundle\Entity\Image", cascade={"persist", "remove"})
      */
     private $image;
@@ -136,7 +141,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setTitle($title): Advert
+    public function setTitle(string $title): Advert
     {
         $this->title = $title;
 
@@ -160,7 +165,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setAuthor($author): Advert
+    public function setAuthor(string $author): Advert
     {
         $this->author = $author;
 
@@ -184,7 +189,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setContent($content): Advert
+    public function setContent(string $content): Advert
     {
         $this->content = $content;
 
@@ -236,7 +241,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setPublished($published): Advert
+    public function setPublished(bool $published): Advert
     {
         $this->published = $published;
 
@@ -251,6 +256,30 @@ class Advert
     public function getPublished(): bool
     {
         return $this->published;
+    }
+
+    /**
+     * Set archived.
+     *
+     * @param bool $archived
+     *
+     * @return Advert
+     */
+    public function setArchived(bool $archived): Advert
+    {
+        $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * Get archived.
+     *
+     * @return bool
+     */
+    public function getArchived(): bool
+    {
+        return (bool) $this->archived;
     }
 
     /**
@@ -272,7 +301,7 @@ class Advert
      *
      * @return \PlatformBundle\Entity\Image
      */
-    public function getImage(): ?\PlatformBundle\Entity\Image
+    public function getImage(): ?Image
     {
         return $this->image;
     }
@@ -425,7 +454,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setNbApplications($nbApplications): Advert
+    public function setNbApplications(int $nbApplications): Advert
     {
         $this->nbApplications = $nbApplications;
 

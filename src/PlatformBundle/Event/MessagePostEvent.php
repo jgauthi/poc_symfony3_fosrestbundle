@@ -10,7 +10,7 @@ class MessagePostEvent extends Event
     protected $message;
     protected $user;
 
-    public function __construct($message, UserInterface $user)
+    public function __construct(string $message, UserInterface $user)
     {
         $this->message = $message;
         $this->user = $user;
@@ -23,7 +23,7 @@ class MessagePostEvent extends Event
     }
 
     // The listener must be able to modify the message
-    public function setMessage($message): string
+    public function setMessage(string $message): string
     {
         return $this->message = $message;
     }
