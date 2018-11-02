@@ -29,6 +29,7 @@ easy_admin:
             list:
                 title: "Most recent %%entity_label%%"
                 help: 'The list view overrides the global help message'
+                dql_filter: 'entity.archived = 0'
                 max_results: 20
                 actions: [ 'show', 'edit', 'search' ]
                 fields: [ 'id', 'title', 'author', 'date', 'categories', 'published' ]
@@ -45,15 +46,30 @@ easy_admin:
                     - { property: 'content', css_class: 'js-markdown-input' }
                     - date
                     - published
+                    - archived
                     - categories
             disabled_actions: ['new']
+        AdvertArchive:
+            class: PlatformBundle\Entity\Advert
+            label: 'Advert (archive)'
+            list:
+                dql_filter: 'entity.archived = 1'
+                max_results: 20
+                actions: [ 'show', 'search' ]
+                fields: [ 'id', 'title', 'author', 'date', 'categories' ]
+                sort: ['date', 'DESC']
+            show:
+                title: '%%entity_label%% (#%%entity_id%%)'
+            search:
+                fields: ['id', 'title', 'slug', 'author', 'date', 'image']
+            disabled_actions: ['new', 'edit', 'delete']
         AdvertSkill:
             class: PlatformBundle\Entity\AdvertSkill
             label: 'Advert Skill'
             list:
-              fields: [ 'id', 'skill', 'level', 'advert' ]
+                fields: [ 'id', 'skill', 'level', 'advert' ]
             form:
-              fields: [ 'skill', 'level', 'advert' ]
+                fields: [ 'skill', 'level', 'advert' ]
         Application:
             class: PlatformBundle\Entity\Application
             label: 'Applications'
@@ -113,6 +129,7 @@ easy_admin:
             icon: 'save'
             children:
               - { entity: 'Advert', icon: 'bullhorn' }
+              - { entity: 'AdvertArchive', icon: 'archive' }
               - { entity: 'AdvertSkill', icon: 'address-card' }
               - { entity: 'Application', icon: 'eye ' }
               - { entity: 'Category', icon: 'compass' }
