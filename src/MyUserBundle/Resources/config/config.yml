@@ -55,7 +55,7 @@ easy_admin:
             list:
                 dql_filter: 'entity.archived = 1'
                 max_results: 20
-                actions: [ 'show', 'search' ]
+                actions: [ 'show', 'search', { name: 'advertRepublish', label: 'Publier' } ]
                 fields: [ 'id', 'title', 'author', 'date', 'categories' ]
                 sort: ['date', 'DESC']
             show:
