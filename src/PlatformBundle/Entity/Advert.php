@@ -2,7 +2,7 @@
 
 namespace PlatformBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use PlatformBundle\Validator\Antiflood;
@@ -335,7 +335,7 @@ class Advert
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCategories(): \Doctrine\Common\Collections\Collection
+    public function getCategories(): Collection
     {
         return $this->categories;
     }
@@ -376,7 +376,7 @@ class Advert
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getApplications(): \Doctrine\Common\Collections\Collection
+    public function getApplications(): Collection
     {
         return $this->applications;
     }

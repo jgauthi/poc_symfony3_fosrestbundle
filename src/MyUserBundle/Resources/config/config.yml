@@ -31,7 +31,7 @@ easy_admin:
                 help: 'The list view overrides the global help message'
                 dql_filter: 'entity.archived = 0'
                 max_results: 20
-                actions: [ 'show', 'edit', 'search' ]
+                actions: [ 'show', 'edit', 'search', 'export' ]
                 fields: [ 'id', 'title', 'author', 'date', 'categories', 'published' ]
             show:
                 title: '%%entity_label%% (#%%entity_id%%)'
@@ -55,7 +55,7 @@ easy_admin:
             list:
                 dql_filter: 'entity.archived = 1'
                 max_results: 20
-                actions: [ 'show', 'search', { name: 'advertRepublish', label: 'Publier' } ]
+                actions: [ 'show', 'search', { name: 'advertRepublish', label: 'Publier' }, 'export'  ]
                 fields: [ 'id', 'title', 'author', 'date', 'categories' ]
                 sort: ['date', 'DESC']
             show:
@@ -76,19 +76,19 @@ easy_admin:
             list:
                 title: 'Advert''s applications'
                 actions:
-                - { name: 'show', icon: 'info-circle', label: false, title: 'Visualiser' }
-                - { name: '-edit', icon: 'pencil', label: false, title: 'Editer' }
-                - search
-                - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+                    - { name: 'show', icon: 'info-circle', label: false, title: 'Visualiser' }
+                    - { name: '-edit', icon: 'pencil', label: false, title: 'Editer' }
+                    - search
+                    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
                 fields:
-                  - id
-                  - author
-                  - content
-                  - city
-                  - salaryclaim
-                  - { property: 'advert.title', label: 'Advert Title' }
-                  - { property: 'date', format: 'j/n/Y' }
-                  - { property: 'advert', label: 'Associated advert'}
+                    - id
+                    - author
+                    - content
+                    - city
+                    - salaryclaim
+                    - { property: 'advert.title', label: 'Advert Title' }
+                    - { property: 'date', format: 'j/n/Y' }
+                    - { property: 'advert', label: 'Associated advert'}
                 sort: ['date', 'DESC']
             form:
                 fields: [ 'author', 'content' , { property: 'date', type_options: { widget: 'single_text' }}, 'advert' ]
