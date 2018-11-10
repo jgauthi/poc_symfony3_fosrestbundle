@@ -32,17 +32,6 @@ services:
     tags:
       - { name: form.type, alias: markdown }
 
-  platform.service.beta.html_adder:
-    class: PlatformBundle\Service\Beta\BetaHTMLAdder
-
-  platform.service.beta.listener:
-    class: PlatformBundle\Service\Beta\BetaListener
-    arguments:
-      - "@platform.service.beta.html_adder"
-      - "2018-07-01"
-    tags:
-      - { name: kernel.event_listener, event: kernel.response, method: processBeta, priority: 2 }
-
   platform.service.customparamconverter.json:
     class: PlatformBundle\Service\JsonParamConverter
     tags:

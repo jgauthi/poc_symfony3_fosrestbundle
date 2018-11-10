@@ -4,4 +4,4 @@ services:
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
 
     MyUserBundle\DataFixtures\ORM\LoadUser:
-      tags: ['doctrine.fixture.orm']
+        tags: ['doctrine.fixture.orm']
