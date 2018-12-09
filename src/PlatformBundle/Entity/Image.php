@@ -113,7 +113,7 @@ class Image
         return $this->alt;
     }
 
-    public function getFile(): string
+    public function getFile(): ?string
     {
         return $this->file;
     }

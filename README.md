@@ -18,7 +18,6 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
         * List / add / edit / delete advert
         * List of applications for an advert
     * Features / Configuration used
-        * Entity management with the [EasyAdminBundle](https://symfony.com/doc/master/bundles/EasyAdminBundle/index.html) (Symfony BackOffice)
         * Generate data Fixture (entity): Advert, Category, Skill (with [Nelmio Alice](https://github.com/nelmio/alice))
         * Test units on advert / application entities
     * Services
@@ -34,6 +33,8 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
         * Role management
     * Features / Configuration used
         * Generate data Fixture (entity): Some users with role (admin, author, api access, user)
+        * Entity management with the [EasyAdminBundle](https://symfony.com/doc/master/bundles/EasyAdminBundle/index.html) (Symfony BackOffice)
+        * In BackOffice, export entity data to csv file with [serializer component](https://symfony.com/doc/3.4/components/serializer.html)
 * **MyRestApi**: Add Rest API implementation with fos/rest-bundle
     * Controller
         * CRUD

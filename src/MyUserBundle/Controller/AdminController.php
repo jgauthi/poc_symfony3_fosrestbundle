@@ -1,11 +1,14 @@
 <?php
 namespace MyUserBundle\Controller;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\{StreamedResponse, RedirectResponse};
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use Symfony\Component\Serializer\Normalizer\{ObjectNormalizer, ArrayDenormalizer};
+
 
 class AdminController extends BaseAdminController
 {
@@ -82,61 +85,36 @@ class AdminController extends BaseAdminController
             $this->entity['list']['dql_filter']
         );
 
-        $data = new ArrayCollection($queryBuilder->getQuery()->getResult());
+        $data = $queryBuilder->getQuery()->getResult();
         $response = new StreamedResponse();
 
         $response->setCallback(function() use ($data) {
-            $handle = fopen('php://output', 'w+');
-            $csvDelimiter = ';';
-            $csvEnclosure = '"';
-            $titleDisplayed = false;
 
-            while ($entity = $data->current()) {
-                $values = [
-                    'id'            => $entity->getId(),
-                    'title'         => $entity->getTitle(),
-                    'author'        => $entity->getAuthor(),
-                    'content'       => $entity->getContent(),
-                    'date'          => $entity->getDate()->format('d/m/Y'),
-                    'updatedAt'     => $entity->getUpdatedAt(),
-                    'published'     => (($entity->getPublished()) ? 'Oui' : 'Non'),
-                    'categories'    => null,
-                    'applications'  => null,
-                ];
+            $normalizer = new ObjectNormalizer();
+            $normalizer->setCircularReferenceHandler(function ($object) {
+                return $object->getTitle();
+            });
 
-                if(!empty($values['updatedAt']))
-                    $values['updatedAt'] = $values['updatedAt']->format('d/m/Y');
+            // Format entity Date export
+            $callback = function ($dateTime) {
+                return $dateTime instanceof \DateTime
+                    ? $dateTime->format(\DateTime::ISO8601)
+                    : null;
+            };
+            $normalizer->setCallbacks(['date' => $callback, 'updatedAt' => $callback]);
 
-                $categories = $entity->getCategories()->getValues();
-                if(!empty($categories)) {
-                    $list = [];
-                    foreach($categories as $item) {
-                        $list[] = $item->getName();
-                    }
+            $serializer = new Serializer([$normalizer, new ArrayDenormalizer()], [ new CsvEncoder() ]);
 
-                    $values['categories'] = implode(', ', $list);
-                }
+            // Options supplémentaires pour l'encodeur (optionnel)
+            $context = [
+                'csv_delimiter'		=>	';',
+                'csv_enclosure'		=>	'"',
+                'csv_escape_char'	=>	'\\',
+                'csv_key_separator'	=>	'.',
+            ];
 
-                $applications = $entity->getApplications()->getValues();
-                if(!empty($applications)) {
-                    $list = [];
-                    foreach($applications as $item) {
-                        $list[] = "{$item->getAuthor()} de {$item->getCity()} ({$item->getSalaryClaim()})";
-                    }
-
-                    $values['applications'] = implode(', ', $list);
-                }
-
-                // Add header
-                if(!$titleDisplayed) {
-                    fputcsv($handle, array_keys($values), $csvDelimiter, $csvEnclosure);
-                    $titleDisplayed = true;
-                }
-
-                fputcsv($handle, $values, $csvDelimiter, $csvEnclosure);
-                $data->next();
-            }
-            fclose($handle);
+            $csvContent = $serializer->serialize($data, 'csv', $context);
+            return file_put_contents('php://output', $csvContent);
         });
 
         $filename = $this->entity['label'].'_export'.date('d-m-Y').'.csv';

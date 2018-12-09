@@ -25,7 +25,7 @@ framework:
     validation: { enable_annotations: true }
     serializer:
       enabled: true
-      #enable_annotations: true
+      enable_annotations: true
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
