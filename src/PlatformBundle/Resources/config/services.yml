@@ -1,4 +1,18 @@
 services:
+  platform.command.advert_list:
+    class: PlatformBundle\Command\AdvertListCommand
+    arguments:
+        - "@doctrine.orm.entity_manager"
+    tags:
+        - { name: console.command }
+
+  platform.command.advert_view:
+      class: PlatformBundle\Command\AdvertViewCommand
+      arguments:
+          - "@doctrine.orm.entity_manager"
+      tags:
+          - { name: console.command }
+
   platform.service.antispam:
     class: PlatformBundle\Service\Antispam
     arguments:

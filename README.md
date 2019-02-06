@@ -12,41 +12,51 @@ POC Symfony 3 FosRestBundle
 More information on [symfony website](https://symfony.com/doc/3.4/reference/requirements.html).
 
 ## Features developed in bundles
+### PlatformBundle
+Online advert management.
 
-* **PlatformBundle**: Online advert management
-    * Controller
-        * List / add / edit / delete advert
-        * List of applications for an advert
-    * Features / Configuration used
-        * Generate data Fixture (entity): Advert, Category, Skill (with [Nelmio Alice](https://github.com/nelmio/alice))
-        * Test units on advert / application entities
-    * Services
-        * Antispam: Check if the messages are more than 50 characters, otherwise it will be considered like spam.
-        * ApplicationMailer: Send an mail to author's advert when a candidate register.
-        * Beta: Displays a yellow banner indicating the number of days remaining before the end of the beta.
-        * Bigbrother: Send an email to admin if some users post a message.
-        * CustomParamConverter: Display param converter from url request.
-        * MarkdownTransformer: Convert markdown to html. 
-* **MyUserBundle**: User management with the fos/user-bundle
-    * Controller
-        * Login / logout / forgotten password...
-        * Role management
-    * Features / Configuration used
-        * Generate data Fixture (entity): Some users with role (admin, author, api access, user)
-        * Entity management with the [EasyAdminBundle](https://symfony.com/doc/master/bundles/EasyAdminBundle/index.html) (Symfony BackOffice)
-        * In BackOffice, export entity data to csv file with [serializer component](https://symfony.com/doc/3.4/components/serializer.html)
-* **MyRestApi**: Add Rest API implementation with fos/rest-bundle
-    * Controller
-        * CRUD
-            * [GET] Get advert or application data
-            * [POST] Add advert or application with validation data
-            * [PATCH] Update some fields in advert
-            * [PUT] Update all fields in advert
-            * [DELETE] Remove advert
-    * Features / Configuration used
-        * Query String (QueryParam & ParamFetcher)
-        * API Documentation: Using [NelmioApiDocBundle](https://symfony.com/doc/2.x/bundles/NelmioApiDocBundle/index.html) v2.x to generate online doc with Annotations (ApiDoc & FosRest).
-        * Security: Authentication by token _(X-Auth-Token)_
+* Custom command lines:
+    * `php bin/console advert:list --number=10 --order=DESC`: List Advert Items.
+    * `php bin/console advert:view ID`: View Advert Items.
+* Controller
+    * List / add / edit / delete advert
+    * List of applications for an advert
+* Features / Configuration used
+    * Generate data Fixture (entity): Advert, Category, Skill (with [Nelmio Alice](https://github.com/nelmio/alice))
+    * Test units on advert / application entities
+* Services
+    * Antispam: Check if the messages are more than 50 characters, otherwise it will be considered like spam.
+    * ApplicationMailer: Send an mail to author's advert when a candidate register.
+    * Beta: Displays a yellow banner indicating the number of days remaining before the end of the beta.
+    * Bigbrother: Send an email to admin if some users post a message.
+    * CustomParamConverter: Display param converter from url request.
+    * MarkdownTransformer: Convert markdown to html.
+        
+### MyUserBundle
+BackOffice / User management with the fos/user-bundle.
+
+* Controller
+    * Login / logout / forgotten password...
+    * Role management
+* Features / Configuration used
+    * Generate data Fixture (entity): Some users with role (admin, author, api access, user)
+    * Entity management with the [EasyAdminBundle](https://symfony.com/doc/master/bundles/EasyAdminBundle/index.html) (Symfony BackOffice)
+    * In BackOffice, export entity data to csv file with [serializer component](https://symfony.com/doc/3.4/components/serializer.html)
+
+### MyRestApi
+Add Rest API implementation with fos/rest-bundle.
+
+* Controller
+    * CRUD
+        * [GET] Get advert or application data
+        * [POST] Add advert or application with validation data
+        * [PATCH] Update some fields in advert
+        * [PUT] Update all fields in advert
+        * [DELETE] Remove advert
+* Features / Configuration used
+    * Query String (QueryParam & ParamFetcher)
+    * API Documentation: Using [NelmioApiDocBundle](https://symfony.com/doc/2.x/bundles/NelmioApiDocBundle/index.html) v2.x to generate online doc with Annotations (ApiDoc & FosRest).
+    * Security: Authentication by token _(X-Auth-Token)_
 
 
 ## Installation WITHOUT docker
