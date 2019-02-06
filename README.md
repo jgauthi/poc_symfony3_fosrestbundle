@@ -66,7 +66,7 @@ php bin/console doctrine:migrations:migrate
 
 # Optional
 php bin/console doctrine:fixtures:load
-````
+```
 
 For the asset symlink install, launch a terminal on administrator in windows environment.
 
@@ -89,7 +89,7 @@ docker-compose exec php php bin/console doctrine:migrations:migrate
 
 # Optional
 docker-compose exec php php bin/console doctrine:fixtures:load
-````
+```
 
 ## [Docker-compose] Application urls
 This docker-compose use a reverse proxy: [Traefik](https://traefik.io/), url supported:
