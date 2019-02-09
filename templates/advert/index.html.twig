@@ -1,0 +1,44 @@
+{% extends "layout.html.twig" %}
+{% block title %}{{ 'Accueil'|trans }} - {{ parent() }}{% endblock %}
+
+{% block ocplatform_body %}
+
+    {% trans with {'%date%': 'now'|localizeddate('full', 'none'), '%time%': 'now'|localizeddate('none', 'short')} %}
+        Aujourd'hui nous sommes le %date% et il est %time% !
+    {% endtrans %}
+
+    <h2>{{ 'Liste des annonces'|trans }}</h2>
+    <ul>
+        {% for advert in listAdverts %}
+            <li>
+                <a href="{{ path('platform_view', {'id': advert.id}) }}">{{ advert.title }}</a>
+                {{ 'advert.byauthor'|trans({'%author%': advert.author}) }},
+                {{ 'advert.thedate'|trans({'%date%': advert.date|date('d/m/Y')}) }}
+            </li>
+        {% else %}
+            <li>{% trans %}Pas d'annonce pour le moment.{% endtrans %}</li>
+        {% endfor %}
+    </ul>
+    <ul class="pagination">
+        {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+        {% for p in range(1, nbPages) %}
+            <li{% if p == page %} class="active"{% endif %}>
+                <a href="{{ path('platform_home', {'page': p}) }}">{{ p }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+
+    <h3>{{ 'Quelques candidatures'|trans }}</h3>
+    <ul>
+        {% for app in listApplication %}
+        <li>
+            {# {% dump(app) %} #}
+            [<a href="{{ path('platform_view', {'id':app.advert.id}) }}">#{{ app.advert.id }}</a>]
+            <strong>{{ app.author }}</strong> (réside à {{ app.city }}), {{ 'advert.thedate'|trans({'%date%': app.date|date('d/m/Y')}) }}:
+            <em>{{ app.content }}</em>
+        </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

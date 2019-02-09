@@ -1,0 +1,31 @@
+-
+    title: 'Recherche développeur Symfony'
+    author: Eglantine
+    content: 'Nous recherchons un **développeur Symfony** débutant sur Lyon. Blabla…'
+    published: true
+    archived: false
+    image: 'http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg'
+    application:
+        - { author: Marine, content: 'J''ai toutes les qualités requises.', city: Paris, salaryClaim: 2500 }
+        - { author: Pierre, content: 'Je suis très motivé.', city: Angoulême, salaryClaim: 2498 }
+    categories: ['Développement web', Intégration]
+-
+    title: 'Poste de CP en cours'
+    author: Delilah
+    content: 'Lorem ipsou'
+    published: true
+    archived: false
+    image: null
+    application:
+        - { author: Corvo, content: 'Disponible.', city: Dunwall, salaryClaim: 3000 }
+        - { author: Emily, content: 'En attente de réponse.', city: Dunwall, salaryClaim: 4000 }
+    categories: null
+-
+    title: 'Développement d''une Super IA, recherche ingénieur'
+    author: 'Cave Johnson'
+    content: 'Recherche ingénieur en _intelligence artificiel_'
+    published: true
+    archived: true
+    image: 'http://localhost/dev/asset/img/specimen/animaux.jpg'
+    application: null
+    categories: [Réseau]

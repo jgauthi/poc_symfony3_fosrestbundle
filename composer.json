@@ -7,7 +7,9 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "knplabs/knp-markdown-bundle": "1.*",
         "sensio/framework-extra-bundle": "*",
+        "stof/doctrine-extensions-bundle": "*",
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/dotenv": "*",
@@ -28,9 +30,12 @@
         "symfony/yaml": "*"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "*",
+        "nelmio/alice": "2.*",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "1.*",
         "symfony/profiler-pack": "*",
+        "symfony/requirements-checker": "*",
         "symfony/test-pack": "*",
         "symfony/web-server-bundle": "*"
     },

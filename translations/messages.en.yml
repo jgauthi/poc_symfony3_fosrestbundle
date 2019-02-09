@@ -1,0 +1,32 @@
+Hello: Hi %name%!
+'Ajouter une annonce': 'Edit an advert'
+'Retour à l''index': 'Comeback'
+'Supprimer une annonce': 'Delete an advert'
+'Retour à l''annonce': 'Comeback'
+'Modifier une annonce': 'Edit an advert'
+Accueil: Home
+'Aujourd''hui nous sommes le %date% et il est %time% !': Today we are the %date% and it is %time%!
+'Liste des annonces': 'Advert list'
+'La page %page% n''existe pas.': The page %page% does not exist.
+'Pas d''annonce pour le moment.': 'No advert in current time'
+'Quelques candidatures': 'Some applications'
+'Lecture d''une annonce': 'View application'
+'Retour à la liste': 'Comeback'
+'Modifier l''annonce': 'Edit application'
+'Supprimer l''annonce': 'Delete application'
+advert:
+  admin:
+    author_require: 'Limited access to authors'
+    edit_confirm_ok: 'Ad #%id% changed'
+    save_confirm: 'Advert #%id% saved'
+  already_publish: 'You are editing an already existing advert, please do not change the general spirit of the ad already published'
+  byauthor: 'by %author%'
+  catlist: 'This advert has been published in the following categories:'
+  display_nb_app: '[0,1]An application for this advert|[2,+Inf]There are% count% candidates for this advert'
+  no_application: 'No applications for this advert.'
+  confirm_delete: 'Are you sure you want to delete the advert "%title%" ?'
+  confirm_delete_true: 'The ad has been deleted.'
+  no_application: 'No applications for this ad.'
+  no_exist: 'The advert %id% does not exist.'
+  thedate: 'the %date%'
+  skill_require: 'This advert requires the following skills:'

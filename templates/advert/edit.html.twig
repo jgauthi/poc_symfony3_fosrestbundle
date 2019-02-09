@@ -1,0 +1,21 @@
+{% extends "layout.html.twig" %}
+{% block title %}{{ 'Modifier une annonce'|trans }} - {{ parent() }}{% endblock %}
+
+{% block ocplatform_body %}
+
+    <h2>{{ 'Modifier une annonce'|trans }}</h2>
+
+    {{ include("advert/form.html.twig") }}
+
+    <p>
+        {% trans %}advert.already_publish{% endtrans %}
+    </p>
+
+    <p>
+        <a href="{{ path('platform_view', {'id': advert.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            {{ 'Retour à l\'annonce'|trans }}
+        </a>
+    </p>
+
+{% endblock %}
