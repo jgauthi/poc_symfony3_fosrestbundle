@@ -27,7 +27,8 @@
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/web-link": "*",
-        "symfony/yaml": "*"
+        "symfony/yaml": "*",
+        "twig/extensions": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
