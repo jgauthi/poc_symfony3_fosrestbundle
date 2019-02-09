@@ -1,4 +1,4 @@
-POC Symfony 3 FosRestBundle
+POC Symfony 3.4 LTS FosRestBundle
 ===========
 
 ## Prerequisites
@@ -11,8 +11,10 @@ POC Symfony 3 FosRestBundle
 
 More information on [symfony website](https://symfony.com/doc/3.4/reference/requirements.html).
 
-## Features developed in bundles
-### PlatformBundle
+## Features developed
+This git repot was migrate to symfony 3 LTS version, to look at before this migration, [follow this link](https://github.com/jgauthi/poc_symfony3_fosrestbundle/tree/v1.3).
+
+### Front Office
 Online advert management.
 
 * Custom command lines:
@@ -32,8 +34,8 @@ Online advert management.
     * CustomParamConverter: Display param converter from url request.
     * MarkdownTransformer: Convert markdown to html.
         
-### MyUserBundle
-BackOffice / User management with the fos/user-bundle.
+### BackOffice / User management
+BackOffice / User management with fos/user-bundle.
 
 * Controller
     * Login / logout / forgotten password...
@@ -43,7 +45,7 @@ BackOffice / User management with the fos/user-bundle.
     * Entity management with the [EasyAdminBundle](https://symfony.com/doc/master/bundles/EasyAdminBundle/index.html) (Symfony BackOffice)
     * In BackOffice, export entity data to csv file with [serializer component](https://symfony.com/doc/3.4/components/serializer.html)
 
-### MyRestApi
+### Rest API
 Add Rest API implementation with fos/rest-bundle.
 
 * Controller
@@ -109,17 +111,9 @@ This docker-compose use a reverse proxy: [Traefik](https://traefik.io/), url sup
 * [mailDev](http://maildev.docker)
 
 
-
-## Prepare deploy prod
-
-* **Temporarily** edit the file web/app.php, change the 2e args to true: ``$kernel = new AppKernel('prod', true);`` and test the site on prod mode.
-* Check prerequisites on prod server: [domain.com]/config.php (edit the file to edit/remove IP verification) OR command line: ``php bin/symfony_requirements``
-* Configure apache symfony dir (virtual host on dev env) to **web/** folder.
-
 ## Deploy on prod
 
 * Delete manualy "var/*/" content before send file (ftp)
 * Chmod 755 recursive on prod, on folder: "var/"
-* You can edit web/app_dev.php with personal IP to access dev environment on prod.
 * If an 500 error occurs, check log on "var/logs/prod"
 

@@ -1,5 +1,0 @@
-{% set colors = field_options.label_colors|default(['primary']) %}
-
-{% for tag in value %}
-    <span class="label label-{{ colors[tag] }}">{{ tag|replace({'ROLE_': ''}) }}</span>
-{% endfor %}
