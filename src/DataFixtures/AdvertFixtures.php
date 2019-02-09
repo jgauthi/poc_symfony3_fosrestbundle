@@ -3,11 +3,12 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\{Advert, AdvertSkill, Application, Category, Image, Skill};
 use Symfony\Component\Yaml\Yaml;
 
-class AdvertFixtures extends Fixture
+class AdvertFixtures extends Fixture implements DependentFixtureInterface
 {
     // In the load method argument, the $manager object is the EntityManager
     public function load(ObjectManager $em): void
@@ -72,5 +73,19 @@ class AdvertFixtures extends Fixture
         }
 
         $em->flush();
+    }
+
+    /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on
+     *
+     * @return array
+     */
+    public function getDependencies(): array
+    {
+        return [
+            CategoryFixtures::class,
+            SkillFixtures::class,
+        ];
     }
 }

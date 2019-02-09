@@ -5,11 +5,16 @@ namespace App\Controller;
 use App\Entity\{Advert, AdvertSkill, Application};
 use App\Event\{MessagePostEvent, PlatformEvents};
 use App\Form\{AdvertEditType, AdvertType};
+use App\Repository\{AdvertRepository, ApplicationRepository};
+use App\Service\MarkdownTransformer;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\{ParamConverter, Security};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class AdvertController
@@ -19,27 +24,33 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class AdvertController extends AbstractController
 {
     /**
-     * @Route("/{page}", name="home", requirements={"page"="\d+"}, defaults={"page": 1})
+     * @Route("/{page}", methods={"GET"}, name="home", requirements={"page"="\d+"}, defaults={"page": 1})
      * @param string|null $page
+     * @param AdvertRepository $advertRepository
+     * @param ApplicationRepository $applicationRepository
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function index(?string $page): Response
+    public function index(?string $page, AdvertRepository $advertRepository, ApplicationRepository $applicationRepository, TranslatorInterface $translator): Response
     {
         if (empty($page) || $page < 1) {
             $page = 1;
         }
 
+        // List advert with paginator
         $nbPerPage = 3;
-        $em = $this->getDoctrine()->getManager();
+        $query = $advertRepository->queryRecentActive();
+        $query->setFirstResult(($page - 1) * $nbPerPage) // On définit l'annonce à partir de laquelle commencer la liste
+            ->setMaxResults($nbPerPage); // Ainsi que le nombre d'annonce à afficher sur une page
 
-        $listAdverts = $em->getRepository(Advert::class)->getAdverts($page, $nbPerPage);
+        $listAdverts = new Paginator($query, true);
+
         $nbPages = ceil(count($listAdverts) / $nbPerPage);
         if ($page > $nbPages) {
-            $translator = $this->get('translator');
             throw $this->createNotFoundException($translator->trans("La page %page% n''existe pas.", ['%page%', $page]));
         }
 
-        $listApp = $em->getRepository(Application::class)->getApplicationsWithAdvert(2);
+        $listApp = $applicationRepository->getApplicationsWithAdvert(2);
 
         return $this->render('advert/index.html.twig', [
             'listAdverts' => $listAdverts,
@@ -51,17 +62,16 @@ class AdvertController extends AbstractController
 
     /**
      * Left Menu display on Front Office
+     * @param AdvertRepository $advertRepository
      * @return Response
      */
-    public function menuAction(): Response
+    public function menu(AdvertRepository $advertRepository): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $limit = 3;
-        $listAdverts = $em->getRepository(Advert::class)->findBy(
+        $listAdverts = $advertRepository->findBy(
             [],                    // Pas de critère
             ['date' => 'desc'],    // Trie par date récente
-            $limit,                // Nombre d'annonces
-            0                      // A partir du 1er
+            3,                // Nombre d'annonces
+            0                // A partir du 1er
         );
 
         return $this->render('advert/menu.html.twig', [
@@ -70,7 +80,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/advert/{id]", name="view")
+     * @Route("/advert/{id}", methods={"GET"}, name="view")
      * @param Advert $advert
      * @param Request $request
      * @return Response
@@ -108,15 +118,16 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="list")
+     * @Route("/list", methods={"GET"}, name="list")
+     * @param AdvertRepository $advertRepository
+     * @param MarkdownTransformer $markdownParser
      * @return Response
      */
-    public function list(): Response
+    public function list(AdvertRepository $advertRepository, MarkdownTransformer $markdownParser): Response
     {
         $articles = ['list_ids' => [], 'listsAdvert' => []];
-        $markdownParser = $this->get('app.service.markdown_transformer');
 
-        $listsAdvert = $this->getDoctrine()->getManager()->getRepository(Advert::class)->getAdvertWithApplications();
+        $listsAdvert = $advertRepository->getAdvertWithApplications();
         foreach ($listsAdvert as $advert) {
             $id = $advert->getId();
 
@@ -130,51 +141,45 @@ class AdvertController extends AbstractController
             ];
         }
 
-        if (class_exists('Symfony\Component\HttpFoundation\JsonResponse')) {
-            return new JsonResponse($articles);
-        }
-
-        $response = new Response(json_encode($articles));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
+        return $this->json($articles);
     }
 
     /**
-     * @Route("/add", name="add")
+     * @Route("/add", methods={"GET", "POST"}, name="add")
      * @param Request $request
+     * @param TranslatorInterface $translator
+     * @param EventDispatcherInterface $eventDispatcher
      * @return Response
      */
-    public function add(Request $request): Response
+    public function add(Request $request, TranslatorInterface $translator, EventDispatcherInterface $eventDispatcher): Response
     {
-        $translator = $this->get('translator');
-
         // Check, alternative to the @Security annotation
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_AUTEUR')) {
-            throw new AccessDeniedException($translator->trans('advert.admin.author_require'));
-        }
+        $this->denyAccessUnlessGranted('ROLE_AUTEUR', 'Advert', $translator->trans('advert.admin.author_require'));
+        // if (!$this->isGranted('ROLE_AUTEUR', 'Advert')) {
+        //    throw new AccessDeniedException($translator->trans('advert.admin.author_require'));
+        // }
+
         // Construction of the form
         $advert = new Advert();
         $advert->setTitle(sprintf('My Advert (%d)', date('Y')));
         $advert->setAuthor('John Doe');
 
-        $form = $this->get('form.factory')->create(AdvertType::class, $advert);
+        $form = $this->createForm(AdvertType::class, $advert);
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             // Event bigbrother, check message before save
             $event = new MessagePostEvent($advert->getContent(), $this->getUser());
-            $this->get('event_dispatcher')->dispatch(PlatformEvents::POST_MESSAGE, $event); // We trigger the event
+            $eventDispatcher->dispatch(PlatformEvents::POST_MESSAGE, $event); // We trigger the event
 
             // We recover what has been modified by the listeners, here the message
             $advert->setContent($event->getMessage());
 
-            // Sauvegarde
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
             $em->flush();
 
             // Here, we will take care of the creation and management of the form
             $id = $advert->getId();
-            $this->addFlash('notice', $translator->trans('advert.admin.save_confirm', ['%id%' => $id]));
+            $this->addFlash('success', $translator->trans('advert.admin.save_confirm', ['%id%' => $id]));
 
             // Then we redirect to the advert view
             return $this->redirectToRoute('platform_view', ['id' => $id]);
@@ -187,16 +192,17 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{advert_id}", name="delete", requirements={"advert_id"="\d+"})
+     * @Route("/delete/{advert_id}", methods={"GET", "POST"}, name="delete", requirements={"advert_id"="\d+"})
      * @Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
      * @param Request $request
      * @param Advert $advert
+     * @param TranslatorInterface $translator
      * @return Response
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function delete(Request $request, Advert $advert): Response
+    public function delete(Request $request, Advert $advert, TranslatorInterface $translator): Response
     {
         // Create an empty form, which will contain only the CSRF field
         // This will protect ad deletion against this flaw
@@ -212,8 +218,7 @@ class AdvertController extends AbstractController
             $em->remove($advert);
             $em->flush();
 
-            $translator = $this->get('translator');
-            $request->getSession()->getFlashBag()->add('info', $translator->trans('advert.confirm_delete_true'));
+            $this->addFlash('info', $translator->trans('advert.confirm_delete_true'));
 
             return $this->redirectToRoute('platform_home');
         }
@@ -225,26 +230,23 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="edit", requirements={"id"="\d+"})
+     * @Route("/edit/{id}", methods={"GET", "POST"}, name="edit", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_AUTEUR')")
      * @param Advert $advert
      * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
      * @return Response
      */
-    public function edit(Advert $advert, Request $request): Response
+    public function edit(Advert $advert, Request $request, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
-        // Affichage du formulaire
-        $form = $this->get('form.factory')->create(AdvertEditType::class, $advert);
+        $form = $this->createForm(AdvertEditType::class, $advert);
 
-        // Même mécanisme que pour l'ajout
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
                 $em->flush();
-
-                $translator = $this->get('translator');
-                $request->getSession()->getFlashBag()->add('notice', $translator->trans('advert.admin.edit_confirm_ok', ['%id%' => $advert->getId()]));
+                $this->addFlash('info', $translator->trans('advert.admin.edit_confirm_ok', ['%id%' => $advert->getId()]));
 
                 return $this->redirectToRoute('platform_view', ['id' => $advert->getId()]);
             }
@@ -254,7 +256,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/translation", name="translation")
+     * @Route("/translation", methods={"GET"}, name="translation")
      * @param $name
      * @return Response
      * exampleUrl: http://localhost:8000/fr/platform/translation/Alice
@@ -267,7 +269,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/customparamconverter/{json}", name="paramconverter")
+     * @Route("/customparamconverter/{json}", methods={"GET"}, name="paramconverter")
      * @param $json
      * @return Response
      * exampleUrl: http://localhost:8000/fr/platform/customparamconverter/{"a":1,"b":2,"c":3}

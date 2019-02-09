@@ -130,6 +130,8 @@ class Image
             // Re-init valeurs
             $this->url = $this->alt = null;
         }
+
+        return $this;
     }
 
     public function getUploadDir(): string
@@ -139,7 +141,7 @@ class Image
 
     public function getUploadRootDir(): string
     {
-        return __DIR__.'/../../../web/'.$this->getUploadDir();
+        return __DIR__.'/../../public/'.$this->getUploadDir();
     }
 
     /**

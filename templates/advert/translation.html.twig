@@ -1,7 +1,7 @@
-{% extends "layout.html.twig" %}
-{% block title %}Traduction - {{ parent() }}{% endblock %}
+{% extends "base.html.twig" %}
+{% set title = 'Traduction' %}
 
-{% block ocplatform_body %}
+{% block bodycontent %}
     {{ 'Hello'|trans({'%name%': name}) }}
 
 {% endblock %}

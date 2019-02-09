@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Advert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\{QueryBuilder, Tools\Pagination\Paginator};
+use Doctrine\ORM\{Query, QueryBuilder, Tools\Pagination\Paginator};
 
 /**
  * AdvertRepository.
@@ -20,12 +20,7 @@ class AdvertRepository extends ServiceEntityRepository
         parent::__construct($registry, Advert::class);
     }
 
-    /**
-     * @param int $page
-     * @param int $nbPerPage
-     * @return Paginator
-     */
-    public function getAdverts(int $page, int $nbPerPage): Paginator
+    public function queryRecentActive(): Query
     {
         $query = $this->createQueryBuilder('a')
             ->leftJoin('a.image', 'img')
@@ -37,12 +32,7 @@ class AdvertRepository extends ServiceEntityRepository
             ->orderBy('a.date', 'DESC')
             ->getQuery();
 
-        $query
-            ->setFirstResult(($page - 1) * $nbPerPage)   // On définit l'annonce à partir de laquelle commencer la liste
-            ->setMaxResults($nbPerPage);                        // Ainsi que le nombre d'annonce à afficher sur une page
-
-        // Enfin, on retourne l'objet Paginator correspondant à la requête construite
-        return new Paginator($query, true);
+        return $query;
     }
 
     /**

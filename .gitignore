@@ -23,10 +23,10 @@
 ###< lexik/jwt-authentication-bundle ###
 
 
-###> vich/uploader-bundle ###
-public/images/
-!public/images/.gitignore
-###< vich/uploader-bundle ###
+###> Upload ###
+public/uploads/img/
+!public/uploads/img/.gitinore
+###< Upload ###
 
 
 ###> behat/symfony2-extension ###

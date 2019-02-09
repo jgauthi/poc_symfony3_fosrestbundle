@@ -6,8 +6,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nelmio\Alice\Fixtures;
 
-// use App\Entity\Skill;
-
 class SkillFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void

@@ -53,7 +53,8 @@ class AdvertListCommand extends Command
         $blogPostList = $blogPostRepository->findBy([], ['date' => $order], $limit);
 
         if(empty($blogPostList)) {
-            die($io->caution('No Advert'));
+            $io->caution('No Advert');
+            die();
         }
 
         $titles = ['ID', 'Title', 'Author', 'Date', 'Published', 'Content'];

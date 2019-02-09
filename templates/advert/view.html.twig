@@ -1,9 +1,7 @@
-{% extends "layout.html.twig" %}
-{% block title %}{{ 'Lecture d\'une annonce'|trans }} #{{ advert.id }} - {{ parent() }}{% endblock %}
+{% extends "base.html.twig" %}
+{% set title = 'Lecture d\'une annonce'|trans ~ ' #' ~ advert.id %}
 
-{% block ocplatform_body %}
-
-	<h2>#{{ advert.id }} {{ advert.title }}</h2>
+{% block bodycontent %}
     {# On vérifie qu'une image soit bien associée à l'annonce #}
     {% if advert.image is not null %}
 		<p><img src="{{ asset(advert.image.WebPath) }}" alt="{{ advert.image.alt }}" style="max-width: 500px; height: auto;"></p>
