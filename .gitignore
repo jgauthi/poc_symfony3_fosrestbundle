@@ -6,6 +6,7 @@
 .idea
 *.bak
 /var/
+!var/data/.gitignore
 /vendor/
 ###< symfony/framework-bundle ###
 
@@ -22,15 +23,7 @@
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 
-
 ###> Upload ###
 public/uploads/img/
 !public/uploads/img/.gitinore
 ###< Upload ###
-
-
-###> behat/symfony2-extension ###
-features/fixtures/files/
-!features/fixtures/files/.gitignore
-behat.yml
-###< behat/symfony2-extension ###

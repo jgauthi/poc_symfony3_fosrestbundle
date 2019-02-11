@@ -10,7 +10,7 @@
  * @package PhpMyAdmin
  */
 
-// NOTE; pour retirer l'avertissement "Vous devriez utiliser MySQL en version 5.5.0 ou plus récente."
+// NOTE; pour retirer l'avertissement "Vous devriez utiliser MySQL en version 5.5.0 ou plus rï¿½cente."
 /*
 	I went to /usr/share/phpMyAdmin/libraries/common.inc.php and comment out this lines:
     #if (PMA_MYSQL_INT_VERSION < 50500) {
@@ -50,8 +50,8 @@ $cfg['Servers'][$i]['compress'] = false;
 /* Select mysql if your server does not have mysqli */
 $cfg['Servers'][$i]['extension'] = 'mysqli';
 $cfg['Servers'][$i]['AllowNoPassword'] = true;
-$cfg['ThemeDefault'] = 'original'; // Thème par défaut
-$cfg['ActionLinksMode'] = 'icons'; // Désactiver le texte pour les actions
+$cfg['ThemeDefault'] = 'original'; // Theme par defaut
+$cfg['ActionLinksMode'] = 'icons'; // Desactiver le texte pour les actions
 
 /*
  * phpMyAdmin configuration storage settings.
@@ -176,4 +176,3 @@ $cfg['ShowBlob'] = TRUE;
  * You can find more configuration options in the documentation
  * in the doc/ folder or at <http://docs.phpmyadmin.net/>.
  */
-?>
