@@ -3,9 +3,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {% stylesheets filter='cssrewrite, ?scssphp' 'bundles/platform/css/*' %}
-        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
-    {% endstylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css')}}" type="text/css" />
 {% endblock %}
 
 {% block body %}
@@ -27,9 +25,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-
-    {% javascripts filter='jsqueeze' 'bundles/platform/js/main.js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('assets/js/main.js')}}"></script>
 
 {% endblock %}
