@@ -1,4 +1,15 @@
+parameters:
+    app_webmaster: '%env(DOCKER_APP_NAME)%'
+
 twig:
     default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
+    globals:
+        webmaster: '%app_webmaster%'
+    number_format:
+        decimals: 0
+        decimal_point: ,
+        thousands_separator: ' '
