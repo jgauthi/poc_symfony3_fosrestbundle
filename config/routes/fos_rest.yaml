@@ -1,0 +1,20 @@
+advert_api:
+    resource: 'App\Controller\Api\AdvertController'
+    type:     rest
+    prefix:   /{_locale}/api/v1
+    requirements:
+        _locale: en|fr
+
+application_api:
+    resource: 'App\Controller\Api\ApplicationController'
+    type:     rest
+    prefix:   /{_locale}/api/v1
+    requirements:
+        _locale: en|fr
+
+secure_api:
+    resource: 'App\Controller\Api\AuthTokenController'
+    type:     rest
+    prefix:   /{_locale}/api/v1
+    requirements:
+        _locale: en|fr

@@ -4,6 +4,9 @@ security:
         in_memory: { memory: ~ }
         fos_userbundle:
             id: fos_user.user_provider.username
+        auth_token_user_provider:
+            id: 'App\Security\AuthTokenUserProvider'
+    provider: fos_userbundle
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512 #bcrypt
     role_hierarchy:
@@ -14,6 +17,16 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        apidoc:
+            pattern: ^/[a-z]{2}/api/doc/
+            security: false
+        api:
+            pattern: ^/[a-z]{2}/api/v[0-9]/
+            stateless: true
+            simple_preauth:
+                authenticator: 'App\Security\AuthTokenAuthenticator'
+            provider: auth_token_user_provider
+            anonymous: ~
         main:
             pattern: ^/
             user_checker: security.user_checker

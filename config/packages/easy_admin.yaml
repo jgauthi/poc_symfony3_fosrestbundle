@@ -83,9 +83,9 @@ easy_admin:
             class: App\Entity\Image
             list:
                 fields: [ 'id', 'alt', { property: 'url', type: 'image', label: 'Image overview' } ]
-#        AuthToken:
-#            class: MyRestBundle\Entity\AuthToken
-#            disabled_actions: ['new']
+        AuthToken:
+            class: MyRestBundle\Entity\AuthToken
+            disabled_actions: ['new']
         User:
             class: App\Entity\User
             list:
@@ -122,7 +122,7 @@ easy_admin:
               icon: 'building'
               children:
                   - { entity: 'User', icon: 'users' }
-#                  - { entity: 'AuthToken', icon: 'universal-access' }
+                  - { entity: 'AuthToken', icon: 'universal-access' }
             - label: 'About'
               icon: 'building'
               children:
