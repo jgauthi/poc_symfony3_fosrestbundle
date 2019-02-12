@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * AdvertSkill.
@@ -25,6 +26,7 @@ class AdvertSkill
      * @var string
      *
      * @ORM\Column(name="level", type="string", length=255)
+     * @Assert\Choice({"Bas", "Moyen", "Bon", "Expert"})
      */
     private $level;
 

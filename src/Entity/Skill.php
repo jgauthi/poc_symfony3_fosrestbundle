@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Skill.
@@ -25,6 +26,8 @@ class Skill
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\Length(min=5, max=255)
+     * @Assert\Type(type="string")
      */
     private $name;
 
@@ -32,6 +35,8 @@ class Skill
      * @var string
      *
      * @ORM\Column(name="content", type="text", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
      */
     private $content;
 

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="advert_application")
@@ -23,24 +24,31 @@ class Application
 
     /**
      * @ORM\Column(name="author", type="string", length=255)
+     * @Assert\Length(min=3, max=255)
+     * @Assert\Type(type="string")
      * @Groups({"advert", "application"})
      */
     private $author;
 
     /**
      * @ORM\Column(name="content", type="text")
+     * @Assert\Length(min=5)
+     * @Assert\Type(type="string")
      * @Groups({"advert", "application"})
      */
     private $content;
 
     /**
      * @ORM\Column(name="city", type="string", length=100)
+     * @Assert\Choice({"Paris", "Dunwall", "Angoulême", "Nice"})
      * @Groups({"advert", "application"})
      */
     private $city;
 
     /**
      * @ORM\Column(name="salaryClaim", type="integer")
+     * @Assert\Type(type="int")
+     * @Assert\GreaterThanOrEqual(1500)
      * @Groups({"advert", "application"})
      */
     private $salaryClaim;

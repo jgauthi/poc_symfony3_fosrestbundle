@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Category.
@@ -21,7 +22,7 @@ class Category
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"advert", "category"})
+     * @Groups({"category"})
      */
     private $id;
 
@@ -29,7 +30,9 @@ class Category
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
-     * @Groups({"advert", "category"})
+     * @Assert\NotBlank()
+     * @Assert\Type(type="string")
+     * @Groups({"category"})
      */
     private $name;
 

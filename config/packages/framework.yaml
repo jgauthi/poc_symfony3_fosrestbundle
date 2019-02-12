@@ -17,3 +17,7 @@ framework:
 
     templating:
         engines: ['twig']
+
+    # https://symfony.com/doc/3.4/validation.html
+    validation:
+        enable_annotations: true

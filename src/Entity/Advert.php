@@ -36,7 +36,8 @@ class Advert
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255, unique=true)
-     * @Assert\Length(min=10)
+     * @Assert\Length(min=10, max=255)
+     * @Assert\Type(type="string")
      * @Groups({"advert", "application"})
      */
     private $title;
@@ -54,7 +55,8 @@ class Advert
      * @var string
      *
      * @ORM\Column(name="author", type="string", length=255)
-     * @Assert\Length(min=2)
+     * @Assert\Length(min=3, max=255)
+     * @Assert\Type(type="string")
      * @Groups({"advert", "application"})
      */
     private $author;
@@ -64,6 +66,7 @@ class Advert
      *
      * @ORM\Column(name="content", type="text", nullable=true)
      * @Assert\NotBlank()
+     * @Assert\Type(type="string")
      * @Antiflood()
      * @Groups({"advert"})
      */
@@ -80,12 +83,14 @@ class Advert
 
     /**
      * @ORM\Column(name="published", type="boolean")
+     * @Assert\Type(type="bool")
      * @Groups({"advert_additional_info"})
      */
     private $published = true;
 
     /**
      * @ORM\Column(name="archived", type="boolean")
+     * @Assert\Type(type="bool")
      */
     private $archived = false;
 
@@ -98,7 +103,7 @@ class Advert
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", cascade={"persist"})
      * @ORM\JoinTable(name="advert_category")
      * @Assert\Valid()
-     * @Groups({"advert", "category"})
+     * @Groups({"category"})
      */
     private $categories;
 
