@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
@@ -16,31 +17,37 @@ class Application
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"advert", "application"})
      */
     private $id;
 
     /**
      * @ORM\Column(name="author", type="string", length=255)
+     * @Groups({"advert", "application"})
      */
     private $author;
 
     /**
      * @ORM\Column(name="content", type="text")
+     * @Groups({"advert", "application"})
      */
     private $content;
 
     /**
      * @ORM\Column(name="city", type="string", length=100)
+     * @Groups({"advert", "application"})
      */
     private $city;
 
     /**
      * @ORM\Column(name="salaryClaim", type="integer")
+     * @Groups({"advert", "application"})
      */
     private $salaryClaim;
 
     /**
      * @ORM\Column(name="date", type="datetime")
+     * @Groups({"advert", "application"})
      */
     private $date;
 

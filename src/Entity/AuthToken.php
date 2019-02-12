@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AuthTokenRepository")
@@ -16,24 +17,26 @@ class AuthToken
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
+     * @Groups({"auth-token"})
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"auth-token"})
      */
     protected $value;
 
     /**
      * @ORM\Column(type="datetime")
-     *
+     * @Groups({"auth-token"})
      * @var \DateTime
      */
     protected $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="\App\Entity\User")
-     *
+     * @Groups({"auth-token"})
      * @var User
      */
     protected $user;

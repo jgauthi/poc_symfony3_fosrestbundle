@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use App\Validator\Antiflood;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\{Constraints as Assert, Context\ExecutionContextInterface};
 
@@ -27,6 +28,7 @@ class Advert
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"advert", "application"})
      */
     private $id;
 
@@ -35,6 +37,7 @@ class Advert
      *
      * @ORM\Column(name="title", type="string", length=255, unique=true)
      * @Assert\Length(min=10)
+     * @Groups({"advert", "application"})
      */
     private $title;
 
@@ -43,6 +46,7 @@ class Advert
      *
      * @Gedmo\Slug(fields={"title"}, updatable=true, separator="-")
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     * @Groups({"advert_additional_info"})
      */
     private $slug;
 
@@ -51,6 +55,7 @@ class Advert
      *
      * @ORM\Column(name="author", type="string", length=255)
      * @Assert\Length(min=2)
+     * @Groups({"advert", "application"})
      */
     private $author;
 
@@ -60,6 +65,7 @@ class Advert
      * @ORM\Column(name="content", type="text", nullable=true)
      * @Assert\NotBlank()
      * @Antiflood()
+     * @Groups({"advert"})
      */
     private $content;
 
@@ -68,11 +74,13 @@ class Advert
      *
      * @ORM\Column(name="date", type="datetime")
      * @Assert\Type(type="\DateTime")
+     * @Groups({"advert", "application"})
      */
     private $date;
 
     /**
      * @ORM\Column(name="published", type="boolean")
+     * @Groups({"advert_additional_info"})
      */
     private $published = true;
 
@@ -90,6 +98,7 @@ class Advert
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", cascade={"persist"})
      * @ORM\JoinTable(name="advert_category")
      * @Assert\Valid()
+     * @Groups({"advert", "category"})
      */
     private $categories;
 
@@ -101,11 +110,13 @@ class Advert
 
     /**
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     * @Groups({"advert_additional_info"})
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(name="nb_applications", type="integer")
+     * @Groups({"advert"})
      */
     private $nbApplications = 0;
 
