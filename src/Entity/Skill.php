@@ -60,7 +60,7 @@ class Skill
      *
      * @return Skill
      */
-    public function setName($name): Skill
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -84,7 +84,7 @@ class Skill
      *
      * @return Skill
      */
-    public function setContent($content): Skill
+    public function setContent($content): self
     {
         $this->content = $content;
 

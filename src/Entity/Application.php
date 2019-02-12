@@ -68,7 +68,7 @@ class Application
         return $this->id;
     }
 
-    public function setAuthor($author): Application
+    public function setAuthor($author): self
     {
         $this->author = $author;
 
@@ -80,7 +80,7 @@ class Application
         return $this->author;
     }
 
-    public function setContent($content): Application
+    public function setContent($content): self
     {
         $this->content = $content;
 
@@ -92,7 +92,7 @@ class Application
         return $this->content;
     }
 
-    public function setDate(\Datetime $date): Application
+    public function setDate(\Datetime $date): self
     {
         $this->date = $date;
 
@@ -111,7 +111,7 @@ class Application
      *
      * @return Application
      */
-    public function setAdvert(Advert $advert): Application
+    public function setAdvert(Advert $advert): self
     {
         $this->advert = $advert;
 
@@ -153,7 +153,7 @@ class Application
      *
      * @return Application
      */
-    public function setCity($city): Application
+    public function setCity($city): self
     {
         $this->city = $city;
 
@@ -177,7 +177,7 @@ class Application
      *
      * @return Application
      */
-    public function setSalaryClaim($salaryClaim): Application
+    public function setSalaryClaim($salaryClaim): self
     {
         $this->salaryClaim = $salaryClaim;
 

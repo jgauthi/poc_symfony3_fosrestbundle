@@ -13,7 +13,7 @@ class Credentials
         return $this->login;
     }
 
-    public function setLogin(string $login): Credentials
+    public function setLogin(string $login): self
     {
         $this->login = $login;
 
@@ -25,7 +25,7 @@ class Credentials
         return $this->password;
     }
 
-    public function setPassword(string $password): Credentials
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 

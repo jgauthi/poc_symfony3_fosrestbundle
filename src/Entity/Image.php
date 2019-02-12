@@ -57,7 +57,7 @@ class Image
      *
      * @return Image
      */
-    public function setUrl($url): Image
+    public function setUrl($url): self
     {
         $this->url = $url;
 
@@ -96,7 +96,7 @@ class Image
      *
      * @return Image
      */
-    public function setAlt($alt): Image
+    public function setAlt($alt): self
     {
         $this->alt = $alt;
 
@@ -118,7 +118,7 @@ class Image
         return $this->file;
     }
 
-    public function setFile(UploadedFile $file = null): Image
+    public function setFile(UploadedFile $file = null): self
     {
         $this->file = $file;
 

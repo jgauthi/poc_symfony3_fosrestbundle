@@ -65,7 +65,7 @@ class AdvertSkill
      *
      * @return AdvertSkill
      */
-    public function setLevel($level): AdvertSkill
+    public function setLevel($level): self
     {
         $this->level = $level;
 
@@ -89,7 +89,7 @@ class AdvertSkill
      *
      * @return AdvertSkill
      */
-    public function setAdvert(Advert $advert): AdvertSkill
+    public function setAdvert(Advert $advert): self
     {
         $this->advert = $advert;
 
@@ -113,7 +113,7 @@ class AdvertSkill
      *
      * @return \App\Entity\AdvertSkill
      */
-    public function setSkill(Skill $skill): AdvertSkill
+    public function setSkill(Skill $skill): self
     {
         $this->skill = $skill;
 

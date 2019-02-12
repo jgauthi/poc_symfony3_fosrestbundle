@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\{ArrayCollection, Collection};
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use App\Validator\Antiflood;
@@ -141,7 +142,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setTitle(string $title): Advert
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -165,7 +166,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setAuthor(string $author): Advert
+    public function setAuthor(string $author): self
     {
         $this->author = $author;
 
@@ -189,7 +190,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setContent(string $content): Advert
+    public function setContent(string $content): self
     {
         $this->content = $content;
 
@@ -213,7 +214,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setDate(\DateTime $date): Advert
+    public function setDate(\DateTime $date): self
     {
         $dateCreationPlatform = \DateTime::createFromFormat('Y-m-d H:i', '2018-01-23 19:05');
         if ($date < $dateCreationPlatform) {
@@ -241,7 +242,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setPublished(bool $published): Advert
+    public function setPublished(bool $published): self
     {
         $this->published = $published;
 
@@ -265,7 +266,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setArchived(bool $archived): Advert
+    public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
 
@@ -289,7 +290,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setImage(Image $image = null): Advert
+    public function setImage(Image $image = null): self
     {
         $this->image = $image;
 
@@ -313,7 +314,7 @@ class Advert
      *
      * @return Advert
      */
-    public function addCategory(Category $category): Advert
+    public function addCategory(Category $category): self
     {
         $this->categories[] = $category;
 
@@ -347,7 +348,7 @@ class Advert
      *
      * @return Advert
      */
-    public function addApplication(Application $application): Advert
+    public function addApplication(Application $application): self
     {
         $this->applications[] = $application;
 
@@ -406,7 +407,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setSlug($slug): Advert
+    public function setSlug($slug): self
     {
         $this->slug = $slug;
 
@@ -430,7 +431,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setUpdatedAt($updatedAt): Advert
+    public function setUpdatedAt($updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -454,7 +455,7 @@ class Advert
      *
      * @return Advert
      */
-    public function setNbApplications(int $nbApplications): Advert
+    public function setNbApplications(int $nbApplications): self
     {
         $this->nbApplications = $nbApplications;
 

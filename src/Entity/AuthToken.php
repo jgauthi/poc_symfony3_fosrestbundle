@@ -51,7 +51,7 @@ class AuthToken
         return $this->id;
     }
 
-    public function setId($id): AuthToken
+    public function setId($id): self
     {
         $this->id = $id;
 
@@ -63,7 +63,7 @@ class AuthToken
         return $this->value;
     }
 
-    public function setValue($value): AuthToken
+    public function setValue($value): self
     {
         $this->value = $value;
 
@@ -75,7 +75,7 @@ class AuthToken
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): AuthToken
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -87,7 +87,7 @@ class AuthToken
         return $this->user;
     }
 
-    public function setUser(UserInterface $user): AuthToken
+    public function setUser(UserInterface $user): self
     {
         $this->user = $user;
 

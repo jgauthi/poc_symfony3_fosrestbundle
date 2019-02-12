@@ -55,7 +55,7 @@ class Category
      *
      * @return Category
      */
-    public function setName($name): Category
+    public function setName($name): self
     {
         $this->name = $name;
 
