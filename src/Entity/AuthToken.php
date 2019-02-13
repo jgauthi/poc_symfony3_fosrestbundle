@@ -30,6 +30,7 @@ class AuthToken
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"auth-token"})
+     *
      * @var \DateTime
      */
     protected $createdAt;
@@ -37,12 +38,13 @@ class AuthToken
     /**
      * @ORM\ManyToOne(targetEntity="\App\Entity\User")
      * @Groups({"auth-token"})
+     *
      * @var User
      */
     protected $user;
 
     /**
-     * Get name (for EasyAdminBundle)
+     * Get name (for EasyAdminBundle).
      */
     public function __toString(): string
     {

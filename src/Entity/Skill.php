@@ -41,7 +41,7 @@ class Skill
     private $content;
 
     /**
-     * Get name (for EasyAdminBundle)
+     * Get name (for EasyAdminBundle).
      */
     public function __toString(): string
     {

@@ -20,6 +20,7 @@ class Antispam
      * Check if the text is spam or not.
      *
      * @param string $text
+     *
      * @return bool
      */
     public function isSpam(string $text): bool

@@ -14,7 +14,8 @@ class AntifloodValidator extends ConstraintValidator
 
     /**
      * AntifloodValidator constructor.
-     * @param RequestStack $requestStack
+     *
+     * @param RequestStack           $requestStack
      * @param EntityManagerInterface $em
      */
     public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
@@ -26,6 +27,7 @@ class AntifloodValidator extends ConstraintValidator
     /**
      * @param $value
      * @param Constraint $constraint
+     *
      * @throws \Exception
      */
     public function validate($value, Constraint $constraint): void
@@ -45,7 +47,7 @@ class AntifloodValidator extends ConstraintValidator
             $date = $lastAdvert[0]->getDate();
 
             $diff = $date->diff($currentDate);
-            if ($diff->y === 0 && $diff->m === 0 && $diff->d === 0 && $diff->s < 15) {
+            if (0 === $diff->y && 0 === $diff->m && 0 === $diff->d && $diff->s < 15) {
                 $isFlood = true;
             }
         }

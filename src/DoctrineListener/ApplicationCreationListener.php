@@ -2,9 +2,9 @@
 
 namespace App\DoctrineListener;
 
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Application;
 use App\Service\ApplicationMailer;
+use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
 class ApplicationCreationListener
 {

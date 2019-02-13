@@ -37,7 +37,7 @@ class Category
     private $name;
 
     /**
-     * Get name (for EasyAdminBundle)
+     * Get name (for EasyAdminBundle).
      */
     public function __toString(): string
     {

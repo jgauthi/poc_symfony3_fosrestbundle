@@ -30,6 +30,7 @@ class Credentials
 
     /**
      * @param string $login
+     *
      * @return Credentials
      */
     public function setLogin(string $login): self
@@ -49,6 +50,7 @@ class Credentials
 
     /**
      * @param string $password
+     *
      * @return Credentials
      */
     public function setPassword(string $password): self

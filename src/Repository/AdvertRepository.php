@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Advert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\{Query, QueryBuilder, Tools\Pagination\Paginator};
+use Doctrine\ORM\{Query, QueryBuilder};
 
 /**
  * AdvertRepository.
@@ -37,6 +37,7 @@ class AdvertRepository extends ServiceEntityRepository
 
     /**
      * @param int $limit
+     *
      * @return array
      */
     public function getLastAdverts(int $limit = 5): array
@@ -54,8 +55,10 @@ class AdvertRepository extends ServiceEntityRepository
     }
 
     /**
-     * Equivalent findAll();
+     * Equivalent findAll();.
+     *
      * @param int|null $limit
+     *
      * @return array
      */
     public function myFindALl(?int $limit = null): array
@@ -81,8 +84,10 @@ class AdvertRepository extends ServiceEntityRepository
 
     /**
      * @param int $id
-     * @return Advert|null
+     *
      * @throws \Exception
+     *
+     * @return Advert|null
      */
     public function myFindOne(int $id): ?advert
     {
@@ -97,7 +102,8 @@ class AdvertRepository extends ServiceEntityRepository
 
     /**
      * @param string $author
-     * @param int $year
+     * @param int    $year
+     *
      * @return array
      */
     public function findByAuthorAndYear(string $author, int $year): array
@@ -116,6 +122,7 @@ class AdvertRepository extends ServiceEntityRepository
 
     /**
      * @param QueryBuilder $qb
+     *
      * @throws \Exception
      */
     public function whereCurrentYear(QueryBuilder $qb): void
@@ -150,6 +157,7 @@ class AdvertRepository extends ServiceEntityRepository
 
     /**
      * @param array $categoryNames
+     *
      * @return array
      */
     public function getAdvertWithCategories(array $categoryNames): array
@@ -171,9 +179,11 @@ class AdvertRepository extends ServiceEntityRepository
 
     /**
      * @param int $id
-     * @return Advert
+     *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return Advert
      */
     public function myFindDQL(int $id): advert
     {

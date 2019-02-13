@@ -10,6 +10,7 @@ class JsonParamConverter implements ParamConverterInterface
 {
     /**
      * @param ParamConverter $configuration
+     *
      * @return bool
      */
     public function supports(ParamConverter $configuration): bool
@@ -23,8 +24,9 @@ class JsonParamConverter implements ParamConverterInterface
     }
 
     /**
-     * @param Request $request
+     * @param Request        $request
      * @param ParamConverter $configuration
+     *
      * @return Request
      */
     public function apply(Request $request, ParamConverter $configuration): Request

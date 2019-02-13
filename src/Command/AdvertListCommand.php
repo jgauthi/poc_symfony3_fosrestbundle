@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Advert;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\{InputInterface, InputOption};
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,28 +32,30 @@ class AdvertListCommand extends Command
 
         $this
             ->addOption('number', 'nb', InputOption::VALUE_REQUIRED, 'How many advert appear ?', 10)
-            ->addOption('order',  null, InputOption::VALUE_REQUIRED, 'Which colors do you like?', 'DESC')
+            ->addOption('order', null, InputOption::VALUE_REQUIRED, 'Which colors do you like?', 'DESC')
         ;
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
-     * @return int|void|null
+     *
      * @throws \Exception
+     *
+     * @return int|void|null
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Advert List');
 
-        $limit = ( (is_numeric($input->getOption('number')) ? $input->getOption('number') : 10) );
-        $order = ( ($input->getOption('order') == 'ASC') ? 'ASC' : 'DESC' );
+        $limit = ((is_numeric($input->getOption('number')) ? $input->getOption('number') : 10));
+        $order = (('ASC' === $input->getOption('order')) ? 'ASC' : 'DESC');
 
         $blogPostRepository = $this->entityManager->getRepository(Advert::class);
         $blogPostList = $blogPostRepository->findBy([], ['date' => $order], $limit);
 
-        if(empty($blogPostList)) {
+        if (empty($blogPostList)) {
             $io->caution('No Advert');
             die();
         }
@@ -62,8 +65,9 @@ class AdvertListCommand extends Command
 
         foreach ($blogPostList as $blogPost) {
             $content = $blogPost->getContent();
-            if(strlen($content) > 50)
-                $content = trim(substr($content, 0, 50)).'...';
+            if (\mb_strlen($content) > 50) {
+                $content = trim(mb_substr($content, 0, 50)).'...';
+            }
 
             $rows[] = [
                 $blogPost->getId(),

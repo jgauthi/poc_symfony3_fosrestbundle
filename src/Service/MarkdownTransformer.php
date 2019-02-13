@@ -12,8 +12,9 @@ class MarkdownTransformer
 
     /**
      * MarkdownTransformer constructor.
+     *
      * @param MarkdownParserInterface $markdownParser
-     * @param Cache $cache
+     * @param Cache                   $cache
      */
     public function __construct(MarkdownParserInterface $markdownParser, Cache $cache)
     {
@@ -23,6 +24,7 @@ class MarkdownTransformer
 
     /**
      * @param string $str
+     *
      * @return string
      */
     public function parse(string $str): string

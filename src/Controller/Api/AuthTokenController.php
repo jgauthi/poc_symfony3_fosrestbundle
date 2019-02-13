@@ -12,8 +12,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 /**
- * Class AuthTokenController
- * @package App\Controller\Api
+ * Class AuthTokenController.
+ *
  * @Rest\NamePrefix(value="api_")
  */
 class AuthTokenController extends AbstractController
@@ -36,10 +36,13 @@ class AuthTokenController extends AbstractController
      *         400 = { "class"=CredentialsType::class, "fos_rest_form_errors"=true, "name" = ""}
      *    }
      * )
-     * @param Request $request
+     *
+     * @param Request                      $request
      * @param UserPasswordEncoderInterface $encoder
-     * @return Object
+     *
      * @throws \Exception
+     *
+     * @return object
      */
     public function postAuthTokensAction(Request $request, UserPasswordEncoderInterface $encoder): Object
     {
@@ -106,7 +109,8 @@ class AuthTokenController extends AbstractController
      *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
      *    }
      * )
-     * @param Request $request
+     *
+     * @param Request               $request
      * @param TokenStorageInterface $tokenStorage
      */
     public function removeAuthTokenAction(Request $request, TokenStorageInterface $tokenStorage): void

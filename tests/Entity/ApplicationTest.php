@@ -2,12 +2,12 @@
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\TestCase;
 use App\Entity\Application;
+use PHPUnit\Framework\TestCase;
 
 class ApplicationTest extends TestCase
 {
-    private function initApplication()
+    private function initApplication(): Application
     {
         $application = new Application();
 
@@ -20,12 +20,15 @@ class ApplicationTest extends TestCase
         return $application;
     }
 
-    public function testApplicationHasAdvertAttribute()
+    public function testApplicationHasAdvertAttribute(): void
     {
         $this->assertClassHasAttribute('advert', application::class);
     }
 
-    public function testEqualDatetimeVar()
+    /**
+     * @throws \Exception
+     */
+    public function testEqualDatetimeVar(): void
     {
         $application = $this->initApplication();
         $date = new \DateTime();
@@ -36,8 +39,10 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider dataSalaryExpected
+     * @param $salary
+     * @param $experted
      */
-    public function testSeveralSalary($salary, $experted)
+    public function testSeveralSalary($salary, $experted): void
     {
         $application = new Application();
         $application->setSalaryClaim($salary);
@@ -45,7 +50,10 @@ class ApplicationTest extends TestCase
         $this->assertLessThan($experted, $application->getSalaryClaim());
     }
 
-    public function dataSalaryExpected()
+    /**
+     * @return array
+     */
+    public function dataSalaryExpected(): array
     {
         // salary claim, maximum expected
         return [

@@ -12,8 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request, Response};
 
 /**
- * Class ApplicationController
- * @package App\Controller\Api
+ * Class ApplicationController.
+ *
  * @Rest\NamePrefix(value="api_")
  */
 class ApplicationController extends AbstractController
@@ -32,8 +32,10 @@ class ApplicationController extends AbstractController
      *    }
      * )
      * exampleUrl: http://localhost:8000/fr/api/v1/applications
-     * @param Request $request
+     *
+     * @param Request               $request
      * @param ApplicationRepository $applicationRepository
+     *
      * @return array
      */
     public function getApplicationsAction(Request $request, ApplicationRepository $applicationRepository): array
@@ -69,7 +71,9 @@ class ApplicationController extends AbstractController
      *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
      *    }
      * )
+     *
      * @param Request $request
+     *
      * @return array
      */
     public function getApplicationAction(Request $request): array
@@ -114,8 +118,10 @@ class ApplicationController extends AbstractController
      *         { "name"="X-Auth-Token", "required"=true, "description"="Authorization key" },
      *    }
      * )
+     *
      * @param Request $request
-     * @return Object
+     *
+     * @return object
      */
     public function postApplicationAction(Request $request): Object
     {

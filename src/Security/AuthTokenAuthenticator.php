@@ -25,7 +25,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
         ];
 
         $currentRoute = $request->attributes->get('_route');
-        if (in_array($currentRoute, $authorisedPaths, true)) {
+        if (\in_array($currentRoute, $authorisedPaths, true)) {
             return;
         }
 
@@ -42,9 +42,10 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
     }
 
     /**
-     * @param TokenInterface $token
+     * @param TokenInterface        $token
      * @param UserProviderInterface $userProvider
      * @param $providerKey
+     *
      * @return PreAuthenticatedToken
      */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey): PreAuthenticatedToken
@@ -53,7 +54,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
             throw new \InvalidArgumentException(
                 sprintf(
                     'The user provider must be an instance of AuthTokenUserProvider (%s was given).',
-                    get_class($userProvider)
+                    \get_class($userProvider)
                 )
             );
         }
@@ -82,6 +83,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
     /**
      * @param TokenInterface $token
      * @param $providerKey
+     *
      * @return bool
      */
     public function supportsToken(TokenInterface $token, $providerKey): bool
@@ -90,8 +92,10 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
     }
 
     /**
-     * Vérifie la validité du token
+     * Vérifie la validité du token.
+     *
      * @param $authToken
+     *
      * @return bool
      */
     private function isTokenValid($authToken): bool
@@ -100,7 +104,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
     }
 
     /**
-     * @param Request $request
+     * @param Request                 $request
      * @param AuthenticationException $exception
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): void

@@ -11,6 +11,7 @@ class AntispamExtension extends Twig_Extension
 
     /**
      * AntispamExtension constructor.
+     *
      * @param Antispam $antispam
      */
     public function __construct(Antispam $antispam)
@@ -20,6 +21,7 @@ class AntispamExtension extends Twig_Extension
 
     /**
      * @param string $text
+     *
      * @return bool
      */
     public function checkIfArgumentIsSpam(string $text): bool
@@ -27,9 +29,9 @@ class AntispamExtension extends Twig_Extension
         return $this->antispam->isSpam($text);
     }
 
-
     /**
-     * Twig will execute this method to find out which function(s) to adds our service
+     * Twig will execute this method to find out which function(s) to adds our service.
+     *
      * @return array
      */
     public function getFunctions(): array
@@ -40,7 +42,8 @@ class AntispamExtension extends Twig_Extension
     }
 
     /**
-     * The getName() method identifies your Twig extension, it is required
+     * The getName() method identifies your Twig extension, it is required.
+     *
      * @return string
      */
     public function getName(): string

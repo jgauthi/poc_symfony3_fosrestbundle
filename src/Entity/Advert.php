@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
+use App\Validator\Antiflood;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use App\Validator\Antiflood;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
@@ -134,7 +134,7 @@ class Advert
     }
 
     /**
-     * Get name (for EasyAdminBundle)
+     * Get name (for EasyAdminBundle).
      */
     public function __toString(): string
     {
@@ -268,7 +268,7 @@ class Advert
     /**
      * Get published.
      *
-     * @return boolean
+     * @return bool
      */
     public function getPublished(): bool
     {
@@ -481,7 +481,7 @@ class Advert
     /**
      * Get nbApplications.
      *
-     * @return integer
+     * @return int
      */
     public function getNbApplications(): int
     {
@@ -490,6 +490,7 @@ class Advert
 
     /**
      * @Assert\Callback()
+     *
      * @param ExecutionContextInterface $context
      */
     public function isContentValid(ExecutionContextInterface $context): void

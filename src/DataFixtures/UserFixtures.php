@@ -11,10 +11,10 @@ class UserFixtures extends Fixture
     const MAIL_DOMAIN = 'symfony.local';
     const PASSWORD = 'local';
     const USERS = [
-        'admin'         => ['role' => ['ROLE_ADMIN']],
-        'auteur'        => ['role' => ['ROLE_AUTEUR']],
+        'admin' => ['role' => ['ROLE_ADMIN']],
+        'auteur' => ['role' => ['ROLE_AUTEUR']],
         'some_api_user' => ['role' => ['ROLE_AUTEUR', 'ROLE_API_ACCESS']],
-        'user'          => ['role' => ['ROLE_USER']],
+        'user' => ['role' => ['ROLE_USER']],
     ];
 
     public function load(ObjectManager $manager): void

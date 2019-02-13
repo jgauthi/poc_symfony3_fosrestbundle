@@ -71,7 +71,7 @@ class Application
     }
 
     /**
-     * Get name (for EasyAdminBundle)
+     * Get name (for EasyAdminBundle).
      */
     public function __toString(): string
     {
@@ -202,7 +202,7 @@ class Application
     /**
      * Get salaryClaim.
      *
-     * @return integer
+     * @return int
      */
     public function getSalaryClaim(): ?int
     {

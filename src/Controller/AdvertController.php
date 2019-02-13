@@ -17,18 +17,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * Class AdvertController
- * @package App\Controller
+ * Class AdvertController.
+ *
  * @Route("/{_locale}/platform", name="platform_", requirements={"_locate": "en|fr"})
  */
 class AdvertController extends AbstractController
 {
     /**
      * @Route("/{page}", methods={"GET"}, name="home", requirements={"page"="\d+"}, defaults={"page": 1})
-     * @param string|null $page
-     * @param AdvertRepository $advertRepository
+     *
+     * @param string|null           $page
+     * @param AdvertRepository      $advertRepository
      * @param ApplicationRepository $applicationRepository
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface   $translator
+     *
      * @return Response
      */
     public function index(?string $page, AdvertRepository $advertRepository, ApplicationRepository $applicationRepository, TranslatorInterface $translator): Response
@@ -45,7 +47,7 @@ class AdvertController extends AbstractController
 
         $listAdverts = new Paginator($query, true);
 
-        $nbPages = ceil(count($listAdverts) / $nbPerPage);
+        $nbPages = ceil(\count($listAdverts) / $nbPerPage);
         if ($page > $nbPages) {
             throw $this->createNotFoundException($translator->trans("La page %page% n''existe pas.", ['%page%', $page]));
         }
@@ -61,8 +63,10 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * Left Menu display on Front Office
+     * Left Menu display on Front Office.
+     *
      * @param AdvertRepository $advertRepository
+     *
      * @return Response
      */
     public function menu(AdvertRepository $advertRepository): Response
@@ -81,8 +85,10 @@ class AdvertController extends AbstractController
 
     /**
      * @Route("/advert/{id}", methods={"GET"}, name="view")
-     * @param Advert $advert
+     *
+     * @param Advert  $advert
      * @param Request $request
+     *
      * @return Response
      */
     public function view(Advert $advert, Request $request): Response
@@ -119,8 +125,10 @@ class AdvertController extends AbstractController
 
     /**
      * @Route("/list", methods={"GET"}, name="list")
-     * @param AdvertRepository $advertRepository
+     *
+     * @param AdvertRepository    $advertRepository
      * @param MarkdownTransformer $markdownParser
+     *
      * @return Response
      */
     public function list(AdvertRepository $advertRepository, MarkdownTransformer $markdownParser): Response
@@ -146,9 +154,11 @@ class AdvertController extends AbstractController
 
     /**
      * @Route("/add", methods={"GET", "POST"}, name="add")
-     * @param Request $request
-     * @param TranslatorInterface $translator
+     *
+     * @param Request                  $request
+     * @param TranslatorInterface      $translator
      * @param EventDispatcherInterface $eventDispatcher
+     *
      * @return Response
      */
     public function add(Request $request, TranslatorInterface $translator, EventDispatcherInterface $eventDispatcher): Response
@@ -195,12 +205,15 @@ class AdvertController extends AbstractController
      * @Route("/delete/{advert_id}", methods={"GET", "POST"}, name="delete", requirements={"advert_id"="\d+"})
      * @Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
-     * @param Request $request
-     * @param Advert $advert
+     *
+     * @param Request             $request
+     * @param Advert              $advert
      * @param TranslatorInterface $translator
-     * @return Response
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return Response
      */
     public function delete(Request $request, Advert $advert, TranslatorInterface $translator): Response
     {
@@ -232,10 +245,12 @@ class AdvertController extends AbstractController
     /**
      * @Route("/edit/{id}", methods={"GET", "POST"}, name="edit", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_AUTEUR')")
-     * @param Advert $advert
-     * @param Request $request
+     *
+     * @param Advert                 $advert
+     * @param Request                $request
      * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface    $translator
+     *
      * @return Response
      */
     public function edit(Advert $advert, Request $request, EntityManagerInterface $em, TranslatorInterface $translator): Response
@@ -257,9 +272,11 @@ class AdvertController extends AbstractController
 
     /**
      * @Route("/translation", methods={"GET"}, name="translation")
+     *
      * @param $name
+     *
      * @return Response
-     * exampleUrl: http://localhost:8000/fr/platform/translation/Alice
+     *                  exampleUrl: http://localhost:8000/fr/platform/translation/Alice
      */
     public function translation($name): Response
     {
@@ -270,9 +287,11 @@ class AdvertController extends AbstractController
 
     /**
      * @Route("/customparamconverter/{json}", methods={"GET"}, name="paramconverter")
+     *
      * @param $json
+     *
      * @return Response
-     * exampleUrl: http://localhost:8000/fr/platform/customparamconverter/{"a":1,"b":2,"c":3}
+     *                  exampleUrl: http://localhost:8000/fr/platform/customparamconverter/{"a":1,"b":2,"c":3}
      */
     public function ParamConverter($json): Response
     {

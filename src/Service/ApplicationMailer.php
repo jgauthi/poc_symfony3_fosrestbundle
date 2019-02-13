@@ -14,6 +14,7 @@ class ApplicationMailer
 
     /**
      * ApplicationMailer constructor.
+     *
      * @param Swift_Mailer $mailer
      */
     public function __construct(Swift_Mailer $mailer)

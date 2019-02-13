@@ -14,8 +14,9 @@ class AuthTokenUserProvider implements UserProviderInterface
 
     /**
      * AuthTokenUserProvider constructor.
+     *
      * @param AuthTokenRepository $authTokenRepository
-     * @param UserRepository $userRepository
+     * @param UserRepository      $userRepository
      */
     public function __construct(AuthTokenRepository $authTokenRepository, UserRepository $userRepository)
     {
@@ -25,6 +26,7 @@ class AuthTokenUserProvider implements UserProviderInterface
 
     /**
      * @param $authTokenHeader
+     *
      * @return AuthToken
      */
     public function getAuthToken($authTokenHeader): AuthToken
@@ -37,6 +39,7 @@ class AuthTokenUserProvider implements UserProviderInterface
 
     /**
      * @param string $email
+     *
      * @return UserInterface
      */
     public function loadUserByUsername($email): UserInterface
@@ -48,7 +51,8 @@ class AuthTokenUserProvider implements UserProviderInterface
     }
 
     /**
-     * Le systéme d'authentification est stateless, on ne doit donc jamais appeler la méthode refreshUser
+     * Le systéme d'authentification est stateless, on ne doit donc jamais appeler la méthode refreshUser.
+     *
      * @param UserInterface $user
      */
     public function refreshUser(UserInterface $user): void
@@ -58,6 +62,7 @@ class AuthTokenUserProvider implements UserProviderInterface
 
     /**
      * @param string $class
+     *
      * @return bool
      */
     public function supportsClass($class): bool

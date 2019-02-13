@@ -2,8 +2,10 @@
 
 namespace App\Tests\Entity;
 
+use App\Entity\Advert;
+use App\Entity\Application;
+use App\Entity\Image;
 use PHPUnit\Framework\TestCase;
-use App\Entity\{Advert, Application, Image};
 
 class AdvertTest extends TestCase
 {
@@ -85,7 +87,7 @@ class AdvertTest extends TestCase
         $this->assertEmpty($advert->getCategories());
     }
 
-    public function testReturnImageClass()
+    public function testReturnImageClass(): void
     {
         $advert = new Advert();
         $advert->setImage(new Image());

@@ -2,10 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\{Advert, AdvertSkill, Application, Category, Image, Skill};
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Entity\{Advert, AdvertSkill, Application, Category, Image, Skill};
 use Symfony\Component\Yaml\Yaml;
 
 class AdvertFixtures extends Fixture implements DependentFixtureInterface
@@ -14,7 +14,7 @@ class AdvertFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $em): void
     {
         // List of category names to add
-        $list = Yaml::parseFile(__DIR__ . '/LoadAvdertWithApplications.yml');
+        $list = Yaml::parseFile(__DIR__.'/LoadAvdertWithApplications.yml');
         $listSkills = $em->getRepository(Skill::class)->findAll();
 
         foreach ($list as ['title' => $title, 'author' => $author, 'content' => $content, 'published' => $published, 'archived' => $archived, 'image' => $imageUrl, 'categories' => $categories, 'application' => $application]) {
@@ -77,7 +77,7 @@ class AdvertFixtures extends Fixture implements DependentFixtureInterface
 
     /**
      * This method must return an array of fixtures classes
-     * on which the implementing class depends on
+     * on which the implementing class depends on.
      *
      * @return array
      */

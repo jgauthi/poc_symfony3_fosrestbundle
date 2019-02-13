@@ -11,6 +11,7 @@ class MessageNotificator
 
     /**
      * MessageNotificator constructor.
+     *
      * @param Swift_Mailer $mailer
      */
     public function __construct(Swift_Mailer $mailer)
@@ -21,7 +22,7 @@ class MessageNotificator
     // Method to notify an administrator by e-mail
 
     /**
-     * @param string $message
+     * @param string        $message
      * @param UserInterface $user
      */
     public function notifyByEmail(string $message, UserInterface $user): void

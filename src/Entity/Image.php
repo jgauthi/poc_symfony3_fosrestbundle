@@ -36,7 +36,7 @@ class Image
     private $tmpFileName;
 
     /**
-     * Get name (for EasyAdminBundle)
+     * Get name (for EasyAdminBundle).
      */
     public function __toString(): ?string
     {
@@ -46,7 +46,7 @@ class Image
     /**
      * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId(): ?int
     {
