@@ -36,7 +36,7 @@ services:
             - "@mailer"
             - 50
         calls:
-            - [ setLocale, [%locale%] ]
+            - [ setLocale, ['%locale%'] ]
 
     App\Service\Bigbrother\MessageListener:
         class: App\Service\Bigbrother\MessageListener

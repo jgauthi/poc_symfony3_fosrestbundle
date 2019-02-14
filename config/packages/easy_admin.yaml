@@ -105,8 +105,6 @@ easy_admin:
                     - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_AUTEUR': 'ROLE_AUTEUR', 'ROLE_API_ACCESS': 'ROLE_API_ACCESS', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
     design:
         brand_color: '#14937a'
-        color_scheme: 'dark'
-        form_theme: 'horizontal'
         # Icon: https://fontawesome.com/icons
         menu:
             - label: 'Content'

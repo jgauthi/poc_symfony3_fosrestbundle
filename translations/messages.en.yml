@@ -26,7 +26,6 @@ advert:
   no_application: 'No applications for this advert.'
   confirm_delete: 'Are you sure you want to delete the advert "%title%" ?'
   confirm_delete_true: 'The ad has been deleted.'
-  no_application: 'No applications for this ad.'
   no_exist: 'The advert %id% does not exist.'
   thedate: 'the %date%'
   skill_require: 'This advert requires the following skills:'
