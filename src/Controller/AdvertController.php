@@ -134,8 +134,9 @@ class AdvertController extends AbstractController
     public function list(AdvertRepository $advertRepository, MarkdownTransformer $markdownParser): Response
     {
         $articles = ['list_ids' => [], 'listsAdvert' => []];
-
         $listsAdvert = $advertRepository->getAdvertWithApplications();
+
+        /** @var Advert $advert */
         foreach ($listsAdvert as $advert) {
             $id = $advert->getId();
 
@@ -276,7 +277,7 @@ class AdvertController extends AbstractController
      * @param $name
      *
      * @return Response
-     *                  exampleUrl: http://localhost:8000/fr/platform/translation/Alice
+     * exampleUrl: http://localhost:8000/fr/platform/translation/Alice
      */
     public function translation($name): Response
     {
@@ -291,7 +292,7 @@ class AdvertController extends AbstractController
      * @param $json
      *
      * @return Response
-     *                  exampleUrl: http://localhost:8000/fr/platform/customparamconverter/{"a":1,"b":2,"c":3}
+     * exampleUrl: http://localhost:8000/fr/platform/customparamconverter/{"a":1,"b":2,"c":3}
      */
     public function ParamConverter($json): Response
     {
