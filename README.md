@@ -61,8 +61,8 @@ Add Rest API implementation with fos/rest-bundle.
     * Security: Authentication by token _(X-Auth-Token)_
 
 
-## Installation WITHOUT docker
-Command lines:
+## Installation
+You can install this poc with [docker instructions](config/docker/README.md) OR these command lines:
 
 ```bash
 git clone git@github.com:jgauthi/poc_symfony3_fosrestbundle.git
@@ -70,9 +70,8 @@ cd poc_symfony3_fosrestbundle
 
 composer install
 
-# (optional) You can edit configuration values "app/config/parameters.yml"
+# (optional) You can copy .env to .env.local and edit configuration
 
-php bin/console assets:install --symlink
 php bin/console doctrine:database:create --if-not-exists
 php bin/console doctrine:migrations:migrate
 
@@ -82,33 +81,6 @@ php bin/console doctrine:fixtures:load
 
 For the asset symlink install, launch a terminal on administrator in windows environment.
 
-
-## Installation with docker-compose
-
-```bash
-git clone git@github.com:jgauthi/poc_symfony3_fosrestbundle.git
-cd poc_symfony3_fosrestbundle
-
-docker-compose up -d
-docker-compose exec php composer install
-
-# Copy ".env.dist" to ".env"
-# (optional) You can edit configurations values ".env" and "app/config/parameters.yml"
-
-docker-compose exec php php bin/console assets:install --symlink
-docker-compose exec php php bin/console doctrine:database:create --if-not-exists
-docker-compose exec php php bin/console doctrine:migrations:migrate
-
-# Optional
-docker-compose exec php php bin/console doctrine:fixtures:load
-```
-
-## [Docker-compose] Application urls
-This docker-compose use a reverse proxy: [Traefik](https://traefik.io/), url supported:
-
-* [Plaform symfony](http://platform.docker)
-* [phpMyAdmin](http://pma.docker)
-* [mailDev](http://maildev.docker)
 
 
 ## Deploy on prod

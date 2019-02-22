@@ -84,7 +84,7 @@ easy_admin:
             list:
                 fields: [ 'id', 'alt', { property: 'url', type: 'image', label: 'Image overview' } ]
         AuthToken:
-            class: MyRestBundle\Entity\AuthToken
+            class: App\Entity\AuthToken
             disabled_actions: ['new']
         User:
             class: App\Entity\User
