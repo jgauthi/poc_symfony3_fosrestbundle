@@ -16,10 +16,11 @@ This stack need [Traefik](https://traefik.io/) to work, you can use the file `do
 
 ```bash
 # Without traefik
-docker-compose up -d
+docker-compose build
 
 # With traefik
-docker-compose.exe -f docker-compose.override.yml -f docker-compose.yml -f docker-compose.traefik.yml up -d
+docker network create platform
+docker-compose -f docker-compose.override.yml -f docker-compose.yml -f docker-compose.traefik.yml build
 ```
 
 Finally, install php libraries and database.
@@ -47,6 +48,15 @@ You can connect on url application:
 * [mailDev](http://maildev.docker)
 
 ## Usage
-Launch docker containers: `docker-compose up -d`.
+Launch docker containers:
+
+```bash
+# Without traefik
+docker-compose up -d
+
+# With traefik
+docker-compose -f docker-compose.override.yml -f docker-compose.yml -f docker-compose.traefik.yml up -d
+```
+
 
 Enjoy

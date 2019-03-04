@@ -25,7 +25,7 @@ services:
           - platform
 
     mysql:
-        image: mysql:8
+        image: mysql:5.7
         container_name: ${DOCKER_APP_NAME}_mysql
         volumes:
           - ./var/data/docker-db:/var/lib/mysql
