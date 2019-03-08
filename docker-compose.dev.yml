@@ -1,5 +1,9 @@
 version: '3'
 services:
+    mysql:
+        volumes:
+            - ./var/data/docker-db:/var/lib/mysql
+
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         container_name: ${DOCKER_APP_NAME}_phpmyadmin
@@ -39,14 +43,19 @@ services:
         networks:
           - platform
 
-#    traefik:
-#        container_name: ${DOCKER_APP_NAME}_traefik
-#        image: traefik
-#        command: -c /dev/null --api --docker --docker.domain=.docker --logLevel=DEBUG
-#        ports:
-#          - "80:80"
-#          - "8080:8080"
-#        volumes:
-#          - /var/run/docker.sock:/var/run/docker.sock
-#        networks:
-#          - platform
+    traefik:
+        container_name: ${DOCKER_APP_NAME}_traefik
+        image: traefik
+        command: -c /dev/null --api --docker --docker.domain=.docker --logLevel=DEBUG
+        ports:
+            - 80:80
+            - 443:443
+            - 8080:8080
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        networks:
+            - platform
+
+networks:
+    platform:
+        external: true

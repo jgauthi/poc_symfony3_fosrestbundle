@@ -5,6 +5,7 @@
 /public/bundles/
 .idea
 *.bak
+docker-compose.override.yml
 /var/
 !var/data/.gitignore
 /vendor/

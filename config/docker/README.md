@@ -10,32 +10,21 @@
 ```bash
 git clone git@github.com:jgauthi/poc_symfony3_fosrestbundle.git
 cd poc_symfony3_fosrestbundle
-```
-
-This stack need [Traefik](https://traefik.io/) to work, you can use the file `docker-compose.traefik.yml` or your self reverse-proxy.
-
-```bash
-# Without traefik
-docker-compose build
-
-# With traefik
-docker network create platform
-docker-compose -f docker-compose.override.yml -f docker-compose.yml -f docker-compose.traefik.yml build
-```
-
-Finally, install php libraries and database.
-```bash
+make install
 # (optional) You can copy .env to .env.local and edit configuration
-docker-compose exec php composer install
-docker-compose exec php php bin/console doctrine:migrations:migrate
+```
+
+Finally, install database.
+```bash
+make db-migrate
 
 # Optional
-docker-compose exec php php bin/console doctrine:fixtures:load
+make db-fixtures
 ```
 
 
 ## Update HOST
-You have to associate Traefik hosts on your host file.
+This stack install [Traefik](https://traefik.io/) to work, you can use this reverse-proxy. In this case, you have to associate Traefik hosts on your host file.
 
 ```
 # poc sf3 docker
@@ -51,12 +40,9 @@ You can connect on url application:
 Launch docker containers:
 
 ```bash
-# Without traefik
-docker-compose up -d
-
-# With traefik
-docker-compose -f docker-compose.override.yml -f docker-compose.yml -f docker-compose.traefik.yml up -d
+make start
 ```
 
+For additional make command, you can use `make help`. 
 
 Enjoy
