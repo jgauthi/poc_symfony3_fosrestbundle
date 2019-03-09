@@ -38,10 +38,10 @@ services:
         calls:
             - [ setLocale, ['%locale%'] ]
 
-    App\Service\Bigbrother\MessageListener:
-        class: App\Service\Bigbrother\MessageListener
+    App\EventListener\BigbrotherListener:
+        class: App\EventListener\BigbrotherListener
         arguments:
-            - '@App\Service\Bigbrother\MessageNotificator'
+            - '@App\Email\BigbrotherMailer'
             - ["john", "alexandre", "pierre"]
         tags:
             - { name: kernel.event_listener, event: app.post_message, method: processMessage }
