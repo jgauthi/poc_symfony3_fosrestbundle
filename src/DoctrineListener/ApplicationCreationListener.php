@@ -1,19 +1,18 @@
 <?php
-
 namespace App\DoctrineListener;
 
 use App\Entity\Application;
-use App\Service\ApplicationMailer;
+use App\Email\NewApplicationMailer;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
 class ApplicationCreationListener
 {
     /**
-     * @var ApplicationMailer
+     * @var NewApplicationMailer
      */
     private $applicationMailer;
 
-    public function __construct(ApplicationMailer $applicationMailer)
+    public function __construct(NewApplicationMailer $applicationMailer)
     {
         $this->applicationMailer = $applicationMailer;
     }
@@ -27,6 +26,6 @@ class ApplicationCreationListener
             return;
         }
 
-        $this->applicationMailer->sendNewNotification($entity);
+        $this->applicationMailer->send($entity);
     }
 }

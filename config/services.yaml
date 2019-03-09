@@ -64,7 +64,7 @@ services:
     App\DoctrineListener\ApplicationCreationListener:
         class: App\DoctrineListener\ApplicationCreationListener
         arguments:
-            - '@App\Service\ApplicationMailer'
+            - '@App\Email\NewApplicationMailer'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 
