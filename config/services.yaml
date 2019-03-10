@@ -33,7 +33,6 @@ services:
     App\Service\Antispam:
         class: App\Service\Antispam
         arguments:
-            - "@mailer"
             - 50
         calls:
             - [ setLocale, ['%locale%'] ]
@@ -46,11 +45,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: app.post_message, method: processMessage }
 
-    App\Service\JsonParamConverter:
-        class: App\Service\JsonParamConverter
-        tags:
-            - { name: request.param_converter }
-
     App\Service\MarkdownTransformer:
         class: App\Service\MarkdownTransformer
         arguments: [ '@markdown.parser', '@doctrine_cache.providers.my_markdown_cache' ]
@@ -61,10 +55,10 @@ services:
         tags:
             - { name: twig.extension }
 
-    App\DoctrineListener\ApplicationCreationListener:
-        class: App\DoctrineListener\ApplicationCreationListener
+    App\EventListener\ApplicationCreationListener:
+        class: App\EventListener\ApplicationCreationListener
         arguments:
-            - '@App\Email\NewApplicationMailer'
+            - '@App\Email\ApplicationCreationMailer'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
 

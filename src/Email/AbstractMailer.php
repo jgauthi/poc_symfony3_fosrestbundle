@@ -6,7 +6,7 @@ use Twig_Environment;
 
 abstract class AbstractMailer
 {
-    protected const DOMAIN_MAIL = 'symfony.local';
+    const DOMAIN_MAIL = 'symfony.local';
 
     /**
      * @var \Swift_Mailer

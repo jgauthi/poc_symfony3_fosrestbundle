@@ -1,18 +1,13 @@
 <?php
-
 namespace App\Service;
-
-use Swift_Mailer;
 
 class Antispam
 {
-    private $mailer;
     private $locale;
     private $minLength;
 
-    public function __construct(Swift_Mailer $mailer, int $minLength)
+    public function __construct(int $minLength)
     {
-        $this->mailer = $mailer;
         $this->minLength = $minLength;
     }
 

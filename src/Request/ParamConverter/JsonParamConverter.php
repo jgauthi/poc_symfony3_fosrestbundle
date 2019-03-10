@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Request\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
@@ -15,12 +15,7 @@ class JsonParamConverter implements ParamConverterInterface
      */
     public function supports(ParamConverter $configuration): bool
     {
-        // If the name of the controller argument is not "json", do not apply the converter
-        if ('json' !== $configuration->getName()) {
-            return false;
-        }
-
-        return true;
+        return ('json' === $configuration->getName());
     }
 
     /**
@@ -31,7 +26,7 @@ class JsonParamConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverter $configuration): Request
     {
-        $json = $request->attributes->get('json');
+        $json = $request->attributes->get('json');dump($json);
         $json = json_decode($json, true);
 
         // We update the new value of the attribute

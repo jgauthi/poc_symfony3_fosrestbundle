@@ -4,7 +4,7 @@ namespace App\Email;
 use App\Entity\Application;
 use Swift_Message;
 
-class NewApplicationMailer extends AbstractMailer
+class ApplicationCreationMailer extends AbstractMailer
 {
     /**
      * @param Application $application

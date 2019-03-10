@@ -67,7 +67,7 @@ class AdvertRapportCommand extends Command
 
         if(empty($to)) {
             $to = preg_replace('#[^a-z0-9_]+#i', '-', $advert->getAuthor());
-            $to .= '@symfony.local';
+            $to .= '@'.AdvertRapportMailer::DOMAIN_MAIL;
         }
 
 //        if ($this->mailer->send($to, $advert)) {
