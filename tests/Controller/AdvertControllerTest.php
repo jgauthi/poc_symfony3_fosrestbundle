@@ -1,16 +1,8 @@
 <?php
-
 namespace App\Tests\Controller;
 
-use App\DataFixtures\UserFixtures;
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class AdvertControllerTest extends WebTestCase
 {
@@ -21,14 +13,6 @@ class AdvertControllerTest extends WebTestCase
         'login' =>  '/login',
         'login_check' =>  '/login_check',
     ];
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
 
     public function testIndex(): void
     {
@@ -67,7 +51,13 @@ class AdvertControllerTest extends WebTestCase
         );
 
         $this->assertArrayHasKey('listsAdvert', $json);
-        $this->assertGreaterThanOrEqual(
+        $this->assertGreaterThan(
+            1,
+            count($json['listsAdvert']),
+            'The json file displays the right number of adverts.'
+        );
+
+        $this->assertLessThanOrEqual(
             3,
             count($json['listsAdvert']),
             'The json file displays the right number of adverts.'
