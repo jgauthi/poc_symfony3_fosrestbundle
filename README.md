@@ -70,7 +70,8 @@ cd poc_symfony3_fosrestbundle
 
 composer install
 
-# (optional) You can copy .env to .env.local and edit configuration
+cp .env .env.local
+# EDIT configuration on .env.local
 
 php bin/console doctrine:database:create --if-not-exists
 php bin/console doctrine:migrations:migrate
@@ -86,6 +87,6 @@ For the asset symlink install, launch a terminal on administrator in windows env
 ## Deploy on prod
 
 * Delete manualy "var/*/" content before send file (ftp)
-* Chmod 755 recursive on prod, on folder: "var/"
+* Chmod 775 recursive on prod, on folder: "var/"
 * If an 500 error occurs, check log on "var/logs/prod"
 
