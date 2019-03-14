@@ -1,5 +1,5 @@
 parameters:
-    app_webmaster: '%env(DOCKER_APP_NAME)%'
+    app_webmaster: '%env(COMPOSE_PROJECT_NAME)%'
 
 twig:
     default_path: '%kernel.project_dir%/templates'

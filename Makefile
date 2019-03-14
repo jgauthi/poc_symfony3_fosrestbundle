@@ -136,7 +136,7 @@ up:
 
 perm:
 	$(EXEC) chmod -R 775 var
-	$(EXEC) chown -R $USER:www-data var
+	$(EXEC) chgrp -R www-data var/
 	$(EXEC) chmod +x bin/* vendor/bin/*
 
 #docker-compose.override.yml:

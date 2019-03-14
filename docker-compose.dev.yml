@@ -6,12 +6,10 @@ services:
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: ${DOCKER_APP_NAME}_phpmyadmin
         labels:
             traefik.enable: true
             traefik.http.port: 80
             traefik.http.frontend.rule: "Host: pma.docker"
-            traefik.http.backend: "${DOCKER_APP_NAME}-phpmyadmin"
         environment:
             PMA_HOST: mysql
             PMA_PORT: 3306
@@ -30,13 +28,11 @@ services:
 
     maildev:
         image: djfarrelly/maildev
-        container_name: ${DOCKER_APP_NAME}_maildev
         labels:
             traefik.enable: true
             traefik.http.port: 80
             traefik.http.frontend.rule: "Host: maildev.docker"
             traefik.http.frontend.frontend.passHostHeader: true
-            traefik.http.backend: "${DOCKER_APP_NAME}-maildev"
         ports:
           - 80
           - "1025:25"
@@ -44,7 +40,6 @@ services:
           - platform
 
     traefik:
-        container_name: ${DOCKER_APP_NAME}_traefik
         image: traefik
         command: -c /dev/null --api --docker --docker.domain=.docker --logLevel=DEBUG
         ports:
