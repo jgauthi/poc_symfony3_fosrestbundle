@@ -1,8 +1,8 @@
-version: '3'
+version: '3.6'
 services:
     mysql:
         volumes:
-            - ./var/data/docker-db:/var/lib/mysql
+            - mysql-db:/var/lib/mysql
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -54,3 +54,6 @@ services:
 networks:
     platform:
         external: true
+
+volumes:
+    mysql-db: #Keep database on local docker storage

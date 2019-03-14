@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 services:
     nginx:
         image: nginx
@@ -24,8 +24,6 @@ services:
 
     mysql:
         image: mysql:5.7
-        volumes:
-          - ./var/data/docker-db:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -41,8 +39,6 @@ services:
         volumes:
           - .:/var/www
           - ${COMPOSER_HOME:-/tmp/composer}:/home/www-data/.composer # Share composer cache
-        environment:
-          - maildev_host=maildev.docker
         ports:
           - "9010"
         depends_on:
