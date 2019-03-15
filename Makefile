@@ -4,14 +4,6 @@ CONSOLE=bin/console
 PHPCSFIXER?=$(EXEC) php -d memory_limit=1024m vendor/bin/php-cs-fixer
 DOCKER_COMPOSE_OVERRIDE ?= dev
 
-.DEFAULT_GOAL := help
-.PHONY: help start stop restart install uninstall reset clear-cache shell clear clean
-.PHONY: db-diff db-migrate db-rollback db-fixtures db-validate
-.PHONY: watch assets assets-build
-.PHONY: tests lint lint-symfony lint-yaml lint-twig lint-xliff php-cs php-cs-fix security-check test-schema test-all
-.PHONY: build up perm
-.PHONY: docker-compose.override.yml
-
 help:
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
@@ -23,8 +15,7 @@ help:
 sf:																									   ## Symfony Command, example: `sf CMD="debug:router"`
 	$(EXEC) $(CONSOLE) $(CMD)
 
-start:                                                                                                 ## Start docker containers
-	$(DOCKER_COMPOSE) start
+up: docker-compose.override.yml up-ci 																   ## Start project with docker-compose + Dev env
 
 stop:                                                                                                  ## Stop docker containers
 	$(DOCKER_COMPOSE) stop
@@ -55,6 +46,8 @@ clear: perm                                                                     
 clean: clear                                                                                           ## Clear and remove dependencies
 	rm -rf vendor
 
+composer-update:										 ## Composer update. You can specified package, example: `make api-composer-update CMD="twig/twig"`
+	$(EXEC_API) composer update $(CMD)
 
 ##
 ## Database
@@ -76,9 +69,9 @@ db-validate: vendor                                                             
 	$(EXEC) $(CONSOLE) doctrine:schema:validate
 
 
-##
-## Assets
-##---------------------------------------------------------------------------
+# ##
+# ## Assets
+# ##---------------------------------------------------------------------------
 
 #watch: node_modules                                                                                    ## Watch the assets and build their development version on change
 #	$(EXEC) yarn watch
@@ -131,7 +124,7 @@ build:
 	$(DOCKER_COMPOSE) pull --ignore-pull-failures
 	$(DOCKER_COMPOSE) build --force-rm
 
-up:
+up-ci:
 	$(DOCKER_COMPOSE) up -d --remove-orphans
 
 perm:
@@ -154,15 +147,10 @@ docker-compose.override.yml: docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml
 		&& $(call echo_text,/!\ docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml might have been modified - remove docker-compose.override.yml to be up-to-date,31) \
 		|| ( echo "Copy docker-compose.override.yml from docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml"; cp docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml docker-compose.override.yml )
 
-docker-compose.traefik.yml: docker-compose.traefik.yml.yml docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml
-
-
 # Rules from files
-vendor: composer.lock
+vendor:
 	$(EXEC) composer install -n
 
-composer.lock: composer.json
-	@echo compose.lock is not up to date.
 
 #node_modules: yarn.lock
 #	$(EXEC) yarn install

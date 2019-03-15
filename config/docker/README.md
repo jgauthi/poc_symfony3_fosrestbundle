@@ -1,12 +1,14 @@
 # Install this poc with Docker
 
 ## Prerequisites
-* Docker v18.09+
-* docker-compose v1.23+
+* Docker v18+ / docker-compose v1.23+
+* _(for windows users)_ [Make command](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows/54086635)
 * Git
 
 
 ## Install containers
+Before use the docker version, check that ports 80/8080/443 are available. If an Apache / Nginx local server, another docker container are active, they can block access to these ports.
+
 ```bash
 git clone git@github.com:jgauthi/poc_symfony3_fosrestbundle.git
 cd poc_symfony3_fosrestbundle
