@@ -1,6 +1,12 @@
 version: '3.6'
 services:
     mysql:
+        build:
+            context: config/docker/mysql
+            args:
+                MYSQL_USER: ${MYSQL_USER}
+                MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+                MYSQL_PORT: ${MYSQL_PORT}
         volumes:
             - mysql-db:/var/lib/mysql
 

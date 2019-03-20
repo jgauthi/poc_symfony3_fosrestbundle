@@ -23,12 +23,7 @@ services:
           - platform
 
     mysql:
-        build:
-          context: config/docker/mysql
-          args:
-              MYSQL_USER: ${MYSQL_USER}
-              MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-              MYSQL_PORT: ${MYSQL_PORT}
+        image: mysql:5.7
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         restart: always
         environment:
