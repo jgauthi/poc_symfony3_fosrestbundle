@@ -24,6 +24,8 @@ services:
 
     mysql:
         image: mysql:5.7
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        restart: always
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -36,6 +38,7 @@ services:
 
     php:
         build: config/docker/php
+        restart: always
         volumes:
           - .:/var/www
           - ${COMPOSER_HOME:-/tmp/composer}:/home/www-data/.composer # Share composer cache

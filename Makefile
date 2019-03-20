@@ -1,11 +1,19 @@
+# Load env file
+ifneq ("$(wildcard .env)","")
+	include .env
+	export $(shell sed 's/=.*//' .env)
+endif
+
+# Init var
 DOCKER_COMPOSE?=docker-compose
 EXEC?=$(DOCKER_COMPOSE) exec php
+EXEC_ROOT?=$(DOCKER_COMPOSE) exec -u root php
 CONSOLE=bin/console
 PHPCSFIXER?=$(EXEC) php -d memory_limit=1024m vendor/bin/php-cs-fixer
 DOCKER_COMPOSE_OVERRIDE ?= dev
-
+ENV ?= dev
 help:
-	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
+	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(firstword $(MAKEFILE_LIST)) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 
 ##
@@ -13,60 +21,62 @@ help:
 ##---------------------------------------------------------------------------
 
 sf:																									   ## Symfony Command, example: `sf CMD="debug:router"`
-	$(EXEC) $(CONSOLE) $(CMD)
+	@$(EXEC) $(CONSOLE) $(CMD)
 
 up: docker-compose.override.yml up-ci 																   ## Start project with docker-compose + Dev env
 
 stop:                                                                                                  ## Stop docker containers
-	$(DOCKER_COMPOSE) stop
+	@$(DOCKER_COMPOSE) stop
 
-restart:                                                                                               ## Restart docker containers
-	$(DOCKER_COMPOSE) restart
+restart: stop up-ci                                                                                    ## Restart docker containers
 
 install: docker-compose.override.yml build up vendor perm                                              ## Create and start docker containers
 
+status:																								   ## Docker container status
+	@$(DOCKER_COMPOSE) ps
+
 uninstall: stop                                                                                        ## Remove docker containers
-	$(DOCKER_COMPOSE) rm -vf
+	@$(DOCKER_COMPOSE) rm -vf
 
 reset: uninstall install                                                                               ## Remove and re-create docker containers
 
-clear-cache: perm
-	$(EXEC) $(CONSOLE) cache:clear --no-warmup
-	$(EXEC) $(CONSOLE) cache:warmup
+clear-cache: perm												        ## Clear + Prepare Cache (alias: c:c), you can specify the env: ENV=prod
+	@$(EXEC) $(CONSOLE) cache:clear --no-warmup --env=$(ENV)
+	@$(EXEC) $(CONSOLE) cache:warmup --env=$(ENV)
+
+c\:c: clear-cache
 
 shell:                                                                                                 ## Run app container in interactive mode
-	$(EXEC) /bin/bash
+	@$(EXEC) /bin/bash
 
 clear: perm                                                                                            ## Remove all the cache, the logs, the sessions and the built assets
-	$(EXEC) rm -rf var/cache/*
-	rm -rf var/log/*
-	rm -rf public/build
-	rm -f var/.php_cs.cache
+	@$(EXEC_ROOT) rm -rf var/cache/* var/log/* public/build
+	@$(EXEC_ROOT) rm -f var/.php_cs.cache
 
 clean: clear                                                                                           ## Clear and remove dependencies
-	rm -rf vendor
+	@$(EXEC_ROOT) rm -rf vendor
 
 composer-update:										 ## Composer update. You can specified package, example: `make api-composer-update CMD="twig/twig"`
-	$(EXEC_API) composer update $(CMD)
+	@$(EXEC) composer update $(CMD)
 
 ##
 ## Database
 ##---------------------------------------------------------------------------
 
 db-diff: vendor                                                                                        ## Generate a migration by comparing your current database to your mapping information
-	$(EXEC) $(CONSOLE) doctrine:migration:diff
+	@$(EXEC) $(CONSOLE) doctrine:migration:diff
 
 db-migrate: vendor                                                                                     ## Migrate database schema to the latest available version
-	$(EXEC) $(CONSOLE) doctrine:migration:migrate -n
+	@$(EXEC) $(CONSOLE) doctrine:migration:migrate -n
 
 db-rollback: vendor                                                                                    ## Rollback the latest executed migration
-	$(EXEC) $(CONSOLE) doctrine:migration:migrate prev -n
+	@$(EXEC) $(CONSOLE) doctrine:migration:migrate prev -n
 
 db-fixtures: vendor                                                                                    ## Apply doctrine fixtures
-	$(EXEC) $(CONSOLE) doctrine:fixtures:load -n
+	@$(EXEC) $(CONSOLE) doctrine:fixtures:load -n
 
 db-validate: vendor                                                                                    ## Check the ORM mapping
-	$(EXEC) $(CONSOLE) doctrine:schema:validate
+	@$(EXEC) $(CONSOLE) doctrine:schema:validate
 
 
 # ##
@@ -74,45 +84,45 @@ db-validate: vendor                                                             
 # ##---------------------------------------------------------------------------
 
 #watch: node_modules                                                                                    ## Watch the assets and build their development version on change
-#	$(EXEC) yarn watch
+#	@$(EXEC) yarn watch
 #
 #assets: node_modules                                                                                   ## Build the development version of the assets
-#	$(EXEC) yarn dev
+#	@$(EXEC) yarn dev
 #
 #assets-build: node_modules                                                                              ## Build the production version of the assets
-#	$(EXEC) yarn build
+#	@$(EXEC) yarn build
 
 ##
 ## Tests
 ##---------------------------------------------------------------------------
 
 tests:                                                                                                 ## Run all the PHP tests
-	$(EXEC) bin/phpunit
+	@$(EXEC) bin/phpunit
 
 lint: lint-symfony php-cs                                                                              ## Run lint on Twig, YAML, PHP and Javascript files
 
 lint-symfony: lint-yaml lint-twig lint-xliff                                                           ## Lint Symfony (Twig and YAML) files
 
 lint-yaml:                                                                                             ## Lint YAML files
-	$(EXEC) $(CONSOLE) lint:yaml config
+	@$(EXEC) $(CONSOLE) lint:yaml config
 
 lint-twig:                                                                                             ## Lint Twig files
-	$(EXEC) $(CONSOLE) lint:twig templates
+	@$(EXEC) $(CONSOLE) lint:twig templates
 
 lint-xliff:                                                                                             ## Lint Translation files
-	$(EXEC) $(CONSOLE) lint:xliff translations
+	@$(EXEC) $(CONSOLE) lint:xliff translations
 
 php-cs: vendor                                                                                         ## Lint PHP code
-	$(PHPCSFIXER) fix --diff --dry-run --no-interaction -v
+	@$(PHPCSFIXER) fix --diff --dry-run --no-interaction -v
 
 php-cs-fix: vendor                                                                                     ## Lint and fix PHP code to follow the convention
-	$(PHPCSFIXER) fix
+	@$(PHPCSFIXER) fix
 
 security-check: vendor                                                                                 ## Check for vulnerable dependencies
-	$(EXEC) vendor/bin/security-checker security:check
+	@$(EXEC) vendor/bin/security-checker security:check
 
 test-schema: vendor                                                                                    ## Test the doctrine Schema
-	$(EXEC) $(CONSOLE) doctrine:schema:validate --skip-sync -vvv --no-interaction
+	@$(EXEC) $(CONSOLE) doctrine:schema:validate --skip-sync -vvv --no-interaction
 
 test-all: lint test-schema security-check tests                                                        ## Lint all, check vulnerable dependencies, run PHP tests
 
@@ -121,16 +131,16 @@ test-all: lint test-schema security-check tests                                 
 
 # Internal rules
 build:
-	$(DOCKER_COMPOSE) pull --ignore-pull-failures
-	$(DOCKER_COMPOSE) build --force-rm
+	@$(DOCKER_COMPOSE) pull --ignore-pull-failures
+	@$(DOCKER_COMPOSE) build --force-rm
 
 up-ci:
-	$(DOCKER_COMPOSE) up -d --remove-orphans
+	@$(DOCKER_COMPOSE) up -d --remove-orphans
 
 perm:
-	$(EXEC) chmod -R 775 var
-	$(EXEC) chgrp -R www-data var/
-	$(EXEC) chmod +x bin/* vendor/bin/*
+	@$(EXEC_ROOT) chmod -R 775 var
+	@$(EXEC_ROOT) chgrp -R www-data var/
+	@$(EXEC_ROOT) chmod +x bin/* vendor/bin/*
 
 #docker-compose.override.yml:
 #ifneq ($(wildcard docker-compose.override.yml),docker-compose.override.yml)
@@ -149,11 +159,11 @@ docker-compose.override.yml: docker-compose.$(DOCKER_COMPOSE_OVERRIDE).yml
 
 # Rules from files
 vendor:
-	$(EXEC) composer install -n
+	@$(EXEC) composer install -n
 
 
 #node_modules: yarn.lock
-#	$(EXEC) yarn install
+#	@$(EXEC) yarn install
 #
 #yarn.lock: package.json
 #	@echo yarn.lock is not up to date.

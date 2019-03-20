@@ -30,6 +30,7 @@ RUN rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
 WORKDIR /var/www/
+USER www-data
 
 EXPOSE 9000
 CMD ["php-fpm"]
