@@ -5,10 +5,34 @@ root = true
 [*]
 charset = utf-8
 end_of_line = LF
-insert_final_newline = true
+insert_final_newline = false
 trim_trailing_whitespace = true
 
-[*.{php,html,twig,yml,yaml}]
+[*.{php,html,twig}]
+indent_style = space
+indent_size = 4
+
+[*.{html,twig,js}]
+indent_style = space
+indent_size = 4
+
+[*.{ini,conf,dist}]
+indent_style = space
+indent_size = 4
+
+[*.{json,lock}]
+indent_style = space
+indent_size = 4
+
+[*.{sh,bat}]
+indent_style = space
+indent_size = 4
+
+[*.{txt,md}]
+indent_style = space
+indent_size = 4
+
+[*.{yml,yaml}]
 indent_style = space
 indent_size = 4
 

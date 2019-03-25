@@ -7,8 +7,8 @@ services:
             traefik.http.port: 80
             traefik.http.frontend.rule: "Host: platform.docker"
         ports:
-          - "80"
-          - "443"
+          - 80
+          - 443
         environment:
           - NGINX_HOST=platform.docker
         volumes:
@@ -43,7 +43,7 @@ services:
           - .:/var/www
           - ${COMPOSER_HOME:-/tmp/composer}:/home/www-data/.composer # Share composer cache
         ports:
-          - "9010"
+          - 9010
         depends_on:
           - mysql
         networks:

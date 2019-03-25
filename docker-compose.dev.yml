@@ -22,7 +22,7 @@ services:
             PMA_USER: ${MYSQL_USER}
             PMA_PASSWORD: ${MYSQL_PASSWORD}
         ports:
-          - "80"
+          - 80
         volumes:
           - ./config/docker/phpmyadmin/config.inc.php:/etc/phpmyadmin/config.user.inc.php
         depends_on:
@@ -41,7 +41,7 @@ services:
             traefik.http.frontend.frontend.passHostHeader: true
         ports:
           - 80
-          - "1025:25"
+          - 25
         networks:
           - platform
 
