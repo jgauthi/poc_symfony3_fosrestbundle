@@ -2,6 +2,7 @@
 namespace App\Email;
 
 use App\Entity\Application;
+use App\Utils\Text;
 use Swift_Message;
 
 class ApplicationCreationMailer extends AbstractMailer
@@ -17,7 +18,7 @@ class ApplicationCreationMailer extends AbstractMailer
             'You have received a new application.'
         );
 
-        $author = preg_replace('#[^a-z0-9_]+#i', '-', $application->getAdvert()->getAuthor());
+        $author = Text::slugify($application->getAdvert()->getAuthor());
         $message
             ->addTo($author.'@'.self::DOMAIN_MAIL)
             ->addFrom('admin@'.self::DOMAIN_MAIL)

@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Email\AdvertRapportMailer;
 use App\Entity\Advert;
+use App\Utils\Text;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
@@ -66,7 +67,7 @@ class AdvertRapportCommand extends Command
         }
 
         if(empty($to)) {
-            $to = preg_replace('#[^a-z0-9_]+#i', '-', $advert->getAuthor());
+            $to = Text::slugify($advert->getAuthor());
             $to .= '@'.AdvertRapportMailer::DOMAIN_MAIL;
         }
 
