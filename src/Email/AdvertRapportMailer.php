@@ -1,6 +1,7 @@
 <?php
 namespace App\Email;
 
+use App\DataFixtures\AdvertFixtures;
 use App\Entity\Advert;
 use App\Entity\Application;
 use Swift_Message;
@@ -56,7 +57,7 @@ class AdvertRapportMailer extends AbstractMailer
 
         $message
             ->addTo($to)
-            ->addFrom('admin@'.self::DOMAIN_MAIL)
+            ->addFrom('admin@'.AdvertFixtures::MAIL_DOMAIN)
         ;
 
         return $this->mailer->send($message);

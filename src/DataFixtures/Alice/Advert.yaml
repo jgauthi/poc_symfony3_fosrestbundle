@@ -1,0 +1,31 @@
+# Create fixture with Alice/Faker library (https://github.com/nelmio/alice)
+# More info on function: https://github.com/fzaninotto/Faker
+App\Entity\Advert:
+    advert_{1..10}:
+        title: '<realtext(50)>'
+        author: '<username()>'
+        content: '<text()>'
+        image: '@image_<current()>'
+        categories: '3x @category_*'
+        published: '<boolean(80)>'
+        archived: '<boolean(20)>'
+
+App\Entity\AdvertSkill:
+    advertskill_{1..30}:
+        advert: '@advert_*'
+        skill: '@skill_*'
+        level: '<randomAdvertSkill()>'
+
+App\Entity\Image:
+    image_{1..10}:
+        url: '<imageUrl()>'
+        alt: '<word()>'
+
+App\Entity\Application:
+    application_{1..32}:
+        advert: '@advert_*'
+        author: '<firstname()> <lastname()>'
+        content: '<text()>'
+        date: '<dateTimeThisYear()>'
+        city: '<randomCity()>'
+        salaryClaim: '<numberBetween(1500, 5000)>'

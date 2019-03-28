@@ -1,0 +1,4 @@
+App\Entity\Skill:
+  skill_{1..10}:
+    name: <randomSkill()>
+    content: <words(3, true)>

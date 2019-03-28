@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\DataFixtures\AdvertFixtures;
 use App\Email\AdvertRapportMailer;
 use App\Entity\Advert;
 use App\Utils\Text;
@@ -68,7 +69,7 @@ class AdvertRapportCommand extends Command
 
         if(empty($to)) {
             $to = Text::slugify($advert->getAuthor());
-            $to .= '@'.AdvertRapportMailer::DOMAIN_MAIL;
+            $to .= '@'.AdvertFixtures::MAIL_DOMAIN;
         }
 
 //        if ($this->mailer->send($to, $advert)) {

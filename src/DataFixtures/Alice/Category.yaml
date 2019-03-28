@@ -1,0 +1,15 @@
+App\Entity\Category:
+  category_0:
+    name: 'Développement web'
+
+  category_1:
+    name: 'Développement mobile'
+
+  category_2:
+    name: 'Graphisme'
+
+  category_3:
+    name: 'Intégration'
+
+  category_4:
+    name: 'Réseau'

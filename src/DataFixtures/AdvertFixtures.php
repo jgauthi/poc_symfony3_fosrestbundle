@@ -6,86 +6,70 @@ use App\Entity\{Advert, AdvertSkill, Application, Category, Image, Skill};
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Nelmio\Alice\Fixtures;
 use Symfony\Component\Yaml\Yaml;
 
-class AdvertFixtures extends Fixture implements DependentFixtureInterface
+class AdvertFixtures extends Fixture
 {
+    const MAIL_DOMAIN = 'symfony.local';
+    const PASSWORD = 'local';
+
     // In the load method argument, the $manager object is the EntityManager
-    public function load(ObjectManager $em): void
+    public function load(ObjectManager $manager): void
     {
-        // List of category names to add
-        $list = Yaml::parseFile(__DIR__.'/LoadAvdertWithApplications.yml');
-        $listSkills = $em->getRepository(Skill::class)->findAll();
+        $aliceFolder = __DIR__.'/Alice';
 
-        foreach ($list as ['title' => $title, 'author' => $author, 'content' => $content, 'published' => $published, 'archived' => $archived, 'image' => $imageUrl, 'categories' => $categories, 'application' => $application]) {
-            $advert = new Advert();
-            $advert
-                ->setTitle($title)
-                ->setAuthor($author)
-                ->setContent($content)
-                ->setPublished($published)
-                ->setArchived($archived);
-            // You can't set the date or the publication because these attributes are defined automatically in the constructor
-
-            // Create image entity
-            if (!empty($imageUrl)) {
-                $image = new Image();
-                $image->setUrl($imageUrl);
-                $image->setAlt(basename($imageUrl));
-                $advert->setImage($image);
-            }
-
-            // Add categories
-            $catRepo = $em->getRepository(Category::class);
-            if (!empty($categories)) {
-                foreach ($categories as $advert_cat) {
-                    $category = $catRepo->findOneBy(['name' => $advert_cat]);
-                    if (empty($category)) {
-                        continue;
-                    }
-
-                    $advert->addCategory($category);
-                }
-            }
-
-            $em->persist($advert);
-
-            if (!empty($application)) {
-                foreach ($application as $candidate) {
-                    $application = new Application();
-                    $application
-                    ->setAuthor($candidate['author'])
-                    ->setContent($candidate['content'])
-                    ->setCity($candidate['city'])
-                    ->setSalaryClaim($candidate['salaryClaim'])
-                    ->setAdvert($advert);
-
-                    $em->persist($application);
-                }
-            }
-
-            // Association of skills with the announcement
-            foreach (array_rand($listSkills, rand(2, 4)) as $key) {
-                $advertSkill = new AdvertSkill();
-                $advertSkill->setAdvert($advert)->setSkill($listSkills[$key])->setLevel('Expert');
-                $em->persist($advertSkill);
-            }
-        }
-
-        $em->flush();
+        Fixtures::load([
+                $aliceFolder.'/Skill.yaml',
+                $aliceFolder.'/Category.yaml',
+                $aliceFolder.'/Advert.yaml',
+                $aliceFolder.'/User.yaml',
+            ],
+            $manager,
+            ['providers' => [$this]]
+        );
     }
 
-    /**
-     * This method must return an array of fixtures classes
-     * on which the implementing class depends on.
-     *
-     * @return array
-     */
-    public function getDependencies(): array
+
+    public function randomCity(): string
     {
-        return [
-            CategoryFixtures::class,
-            SkillFixtures::class,
+        static $city = ['Paris', 'Dunwall', 'Angoulême', 'Nice'];
+
+        $random = array_rand($city);
+        return $city[$random];
+    }
+
+    public function randomAdvertSkill(): string
+    {
+        static $names = [
+            'Bas', 'Moyen', 'Bon', 'Expert'
         ];
+
+        $key = array_rand($names);
+        return $names[$key];
+    }
+
+    public function randomSkill(): string
+    {
+        static $names = [
+            'PHP', 'Symfony',
+            'Wordpress', 'Typo3',
+            'C++', 'Java',
+            'Javscript', 'jQuery',
+            'Photoshop', 'Fireworks',
+            'Blender', 'Shell script',
+            'Bloc-note', 'PhpStorm',
+            'Ruby', 'Rails',
+            'Présentation',
+            'Fixture', 'Generation',
+        ];
+
+        $key = array_rand($names);
+
+        // Return a uniq random value
+        $value = $names[$key];
+        unset($names[$key]);
+
+        return $value;
     }
 }

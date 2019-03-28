@@ -1,0 +1,31 @@
+App\Entity\User:
+  user_{admin}:
+    username: '<current()>'
+    email: '<current()>@<(App\DataFixtures\AdvertFixtures::MAIL_DOMAIN)>'
+    plainPassword: '<(App\DataFixtures\AdvertFixtures::PASSWORD)>'
+    roles: [ROLE_ADMIN]
+    enabled: 1
+  user_{auteur}:
+    username: '<current()>'
+    email: '<current()>@<(App\DataFixtures\AdvertFixtures::MAIL_DOMAIN)>'
+    plainPassword: '<(App\DataFixtures\AdvertFixtures::PASSWORD)>'
+    roles: [ROLE_AUTEUR]
+    enabled: 1
+  user_{some_api_user}:
+    username: '<current()>'
+    email: '<current()>@<(App\DataFixtures\AdvertFixtures::MAIL_DOMAIN)>'
+    plainPassword: '<(App\DataFixtures\AdvertFixtures::PASSWORD)>'
+    roles: [ROLE_API_ACCESS]
+    enabled: 1
+  user_{user}:
+    username: '<current()>'
+    email: '<current()>@<(App\DataFixtures\AdvertFixtures::MAIL_DOMAIN)>'
+    plainPassword: '<(App\DataFixtures\AdvertFixtures::PASSWORD)>'
+    roles: [ROLE_USER]
+    enabled: 1
+  user_{1..15}:
+    username: '<username()>'
+    email: '<safeEmail()>'
+    plainPassword: '<(App\DataFixtures\AdvertFixtures::PASSWORD)>'
+    roles: <randomElements(['ROLE_AUTEUR', 'ROLE_API_ACCESS', 'ROLE_USER'], 2)>
+    enabled: <boolean(75)>
