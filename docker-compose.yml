@@ -1,6 +1,6 @@
 version: '3.6'
 services:
-    nginx:
+    web:
         image: nginx
         labels:
             traefik.enable: true
@@ -9,8 +9,6 @@ services:
         ports:
           - 80
           - 443
-        environment:
-          - NGINX_HOST=platform.docker
         volumes:
           - .:/var/www
           - ./config/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -18,11 +16,10 @@ services:
         restart: always
         depends_on:
           - php
-          - mysql
         networks:
           - platform
 
-    mysql:
+    db:
         image: mysql:5.7
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
         restart: always
@@ -42,10 +39,8 @@ services:
         volumes:
           - .:/var/www
           - ${COMPOSER_HOME:-/tmp/composer}:/home/www-data/.composer # Share composer cache
-        ports:
-          - 9010
         depends_on:
-          - mysql
+          - db
         networks:
           - platform
 

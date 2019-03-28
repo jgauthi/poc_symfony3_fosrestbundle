@@ -1,12 +1,14 @@
 version: '3.6'
 services:
-    mysql:
+    db:
         build:
             context: config/docker/mysql
             args:
                 MYSQL_USER: ${MYSQL_USER}
                 MYSQL_PASSWORD: ${MYSQL_PASSWORD}
                 MYSQL_PORT: ${MYSQL_PORT}
+        ports:
+            - 33060:3306 # Reserve port to localhost for database connexion on phpstorm
         volumes:
             - mysql-db:/var/lib/mysql
 
@@ -17,7 +19,7 @@ services:
             traefik.http.port: 80
             traefik.http.frontend.rule: "Host: pma.docker"
         environment:
-            PMA_HOST: mysql
+            PMA_HOST: db
             PMA_PORT: 3306
             PMA_USER: ${MYSQL_USER}
             PMA_PASSWORD: ${MYSQL_PASSWORD}
@@ -26,9 +28,9 @@ services:
         volumes:
           - ./config/docker/phpmyadmin/config.inc.php:/etc/phpmyadmin/config.user.inc.php
         depends_on:
-          - mysql
+          - db
         links:
-          - mysql
+          - db
         networks:
           - platform
 

@@ -1,8 +1,8 @@
 # Install this poc with Docker
 
 ## Prerequisites
-* Docker v18+ / docker-compose v1.23+
-* _(for windows users)_ [Make command](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows/54086635)
+* Docker v18+ / Docker-compose v1.23+ / [Manage Docker as a non-root user](https://docs.docker.com/install/linux/linux-postinstall/)
+* Make command: Under linux `sudo apt install build-essential` or for [windows users](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows/54086635)
 * Git
 
 
@@ -19,9 +19,7 @@ make install
 Finally, install database.
 ```bash
 make db-migrate
-
-# Optional
-make db-fixtures
+make db-fixtures # Optional
 ```
 
 
@@ -39,12 +37,16 @@ You can connect on url application:
 * [mailDev](http://maildev.docker)
 
 ## Usage
-Launch docker containers:
+Launch docker containers: `make up`, or stop with `make stop`, you can get command list with `make help`.
 
-```bash
-make start
-```
 
-For additional make command, you can use `make help`. 
+## Dev environment
+If you use dev docker file _(default configuration)_, you have additional tools:
+ 
+* You can access to mysql on localhost:33060 (for PhpStorm / Mysql Workbench).
+* You can use mysql command line without indicate user/pass:
+    * Standard request: `docker-compose exec db mysql symfony -e "show tables;"`
+    * Dump: `docker-compose exec db mysqldump symfony > export.sql`
+
 
 Enjoy
