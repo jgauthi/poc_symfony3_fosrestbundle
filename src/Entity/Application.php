@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
@@ -14,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Application
 {
+    public const CITY_AVAILABLE = ['Paris', 'Dunwall', 'Angoulême', 'Nice'];
+
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -21,14 +24,6 @@ class Application
      * @Groups({"advert", "application"})
      */
     private $id;
-
-    /**
-     * @ORM\Column(name="author", type="string", length=255)
-     * @Assert\Length(min=3, max=255)
-     * @Assert\Type(type="string")
-     * @Groups({"advert", "application"})
-     */
-    private $author;
 
     /**
      * @ORM\Column(name="content", type="text")
@@ -65,9 +60,16 @@ class Application
      */
     private $advert;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="applications")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"advert", "application"})
+     */
+    private $author;
+
     public function __construct()
     {
-        $this->date = new \Datetime();
+        $this->date = new Datetime();
     }
 
     /**
@@ -83,18 +85,6 @@ class Application
         return $this->id;
     }
 
-    public function setAuthor($author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
     public function setContent($content): self
     {
         $this->content = $content;
@@ -107,14 +97,14 @@ class Application
         return $this->content;
     }
 
-    public function setDate(\Datetime $date): self
+    public function setDate(Datetime $date): self
     {
         $this->date = $date;
 
         return $this;
     }
 
-    public function getDate(): \DateTime
+    public function getDate(): DateTime
     {
         return $this->date;
     }
@@ -122,7 +112,7 @@ class Application
     /**
      * Set advert.
      *
-     * @param \App\Entity\Advert $advert
+     * @param Advert $advert
      *
      * @return Application
      */
@@ -138,7 +128,7 @@ class Application
      *
      * @MaxDepth(1)
      *
-     * @return \App\Entity\Advert
+     * @return Advert
      */
     public function getAdvert(): Advert
     {
@@ -207,5 +197,17 @@ class Application
     public function getSalaryClaim(): ?int
     {
         return $this->salaryClaim;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }

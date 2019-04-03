@@ -3,13 +3,14 @@
 namespace App\Entity;
 
 use App\Validator\Antiflood;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use LogicException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Serializer\Annotation\{Groups, MaxDepth};
 use Symfony\Component\Validator\{Constraints as Assert, Context\ExecutionContextInterface};
 
 /**
@@ -54,16 +55,6 @@ class Advert
     /**
      * @var string
      *
-     * @ORM\Column(name="author", type="string", length=255)
-     * @Assert\Length(min=3, max=255)
-     * @Assert\Type(type="string")
-     * @Groups({"advert", "application"})
-     */
-    private $author;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="content", type="text", nullable=true)
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
@@ -73,7 +64,7 @@ class Advert
     private $content;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="date", type="datetime")
      * @Assert\Type(type="\DateTime")
@@ -98,6 +89,13 @@ class Advert
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
      */
     private $image;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="adverts")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"advert", "application"})
+     */
+    private $author;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", cascade={"persist"})
@@ -128,7 +126,7 @@ class Advert
     public function __construct()
     {
         // By default, the date of the announcement is today's date
-        $this->date = new \Datetime();
+        $this->date = new Datetime();
         $this->categories = new ArrayCollection();
         $this->applications = new ArrayCollection();
     }
@@ -176,30 +174,6 @@ class Advert
     }
 
     /**
-     * Set author.
-     *
-     * @param string $author
-     *
-     * @return Advert
-     */
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author.
-     *
-     * @return string
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
      * Set content.
      *
      * @param string $content
@@ -226,15 +200,15 @@ class Advert
     /**
      * Set date.
      *
-     * @param \DateTime $date
+     * @param DateTime $date
      *
      * @return Advert
      */
-    public function setDate(\DateTime $date): self
+    public function setDate(DateTime $date): self
     {
-        $dateCreationPlatform = \DateTime::createFromFormat('Y-m-d H:i', '2018-01-23 19:05');
+        $dateCreationPlatform = DateTime::createFromFormat('Y-m-d H:i', '2018-01-23 19:05');
         if ($date < $dateCreationPlatform) {
-            throw new \LogicException('The advert can\'t be created before the '.$dateCreationPlatform->format('d/m/Y'));
+            throw new LogicException('The advert can\'t be created before the '.$dateCreationPlatform->format('d/m/Y'));
         }
         $this->date = $date;
 
@@ -244,9 +218,9 @@ class Advert
     /**
      * Get date.
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getDate(): \DateTime
+    public function getDate(): DateTime
     {
         return $this->date;
     }
@@ -302,7 +276,7 @@ class Advert
     /**
      * Set image.
      *
-     * @param \App\Entity\Image $image
+     * @param Image $image
      *
      * @return Advert
      */
@@ -316,7 +290,7 @@ class Advert
     /**
      * Get image.
      *
-     * @return \App\Entity\Image
+     * @return Image
      */
     public function getImage(): ?Image
     {
@@ -326,7 +300,7 @@ class Advert
     /**
      * Add category.
      *
-     * @param \App\Entity\Category $category
+     * @param Category $category
      *
      * @return Advert
      */
@@ -340,7 +314,7 @@ class Advert
     /**
      * Remove category.
      *
-     * @param \App\Entity\Category $category
+     * @param Category $category
      */
     public function removeCategory(Category $category): void
     {
@@ -350,7 +324,7 @@ class Advert
     /**
      * Get categories.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCategories(): Collection
     {
@@ -360,7 +334,7 @@ class Advert
     /**
      * Add application.
      *
-     * @param \App\Entity\Application $application
+     * @param Application $application
      *
      * @return Advert
      */
@@ -376,7 +350,7 @@ class Advert
     /**
      * Remove application.
      *
-     * @param \App\Entity\Application $application
+     * @param Application $application
      */
     public function removeApplication(Application $application): void
     {
@@ -391,7 +365,7 @@ class Advert
      *
      * @MaxDepth(1)
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getApplications(): Collection
     {
@@ -403,7 +377,7 @@ class Advert
      */
     public function updateDate(): void
     {
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     public function increaseApplication(): void
@@ -443,7 +417,7 @@ class Advert
     /**
      * Set updatedAt.
      *
-     * @param \DateTime $updatedAt
+     * @param DateTime $updatedAt
      *
      * @return Advert
      */
@@ -457,9 +431,9 @@ class Advert
     /**
      * Get updatedAt.
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
@@ -503,5 +477,17 @@ class Advert
                 ->atPath('content')                                // Attribute of the object
                 ->addViolation();                                       // Trigger error
         }
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }
