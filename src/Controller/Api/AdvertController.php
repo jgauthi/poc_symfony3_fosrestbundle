@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\{Request, Response};
 class AdvertController extends AbstractController
 {
     /**
-     * @Rest\View(serializerGroups={"advert", "advert_additional_info", "category"})
+     * @Rest\View(serializerGroups={"advert", "advert_additional_info", "category", "user"})
      * @Rest\Get("/advert/{id}")
      * @ApiDoc(
      *     resource=true,
@@ -60,7 +60,7 @@ class AdvertController extends AbstractController
 	}
 
     /**
-     * @Rest\View(serializerGroups={"advert"})
+     * @Rest\View(serializerGroups={"advert", "user-simple"})
      * @Rest\Get("/adverts")
      * @Rest\QueryParam(name="offset", requirements="\d+", default="", description="Index début pagination")
      * @Rest\QueryParam(name="limit", requirements="\d+", default="", description="Index de fin de pagination")
@@ -103,7 +103,6 @@ class AdvertController extends AbstractController
         }
 
         $advert_list = $qb->getQuery()->getResult();
-
 
         /*$formatted = [];
         foreach($advert_list as $advert) {
@@ -183,6 +182,7 @@ class AdvertController extends AbstractController
     public function postAdvertAction(Request $request): Object
     {
         $advert = new Advert();
+        $advert->setAuthor($this->getUser());
         $em = $this->getDoctrine()->getManager();
 
         $post_data = $request->request->all();
@@ -222,7 +222,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Rest\View(serializerGroups={"advert"})
+     * @Rest\View(serializerGroups={"advert", "category"})
      * @Rest\Put("/advert/{id}")
      *
      * @ApiDoc(
@@ -259,7 +259,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Rest\View(serializerGroups={"advert"})
+     * @Rest\View(serializerGroups={"advert", "category"})
      * @Rest\Patch("/advert/{id}")
      *
      * @ApiDoc(

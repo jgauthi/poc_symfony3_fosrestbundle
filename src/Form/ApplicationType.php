@@ -17,7 +17,7 @@ class ApplicationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('author', TextType::class, ['description' => 'Application title'])
+        $builder
             ->add('content', TextType::class, ['description' => 'Application content'])
             ->add('city', TextType::class, ['description' => 'Application city'])
             ->add('salaryClaim', IntegerType::class, ['description' => 'Application salary']);

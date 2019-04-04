@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\{Request, Response};
 class ApplicationController extends AbstractController
 {
     /**
-     * @Rest\View(serializerGroups={"application"})
+     * @Rest\View(serializerGroups={"application", "user-simple"})
      * @Rest\Get("/applications")
      *
      * @ApiDoc(
@@ -51,7 +51,7 @@ class ApplicationController extends AbstractController
     }
 
     /**
-     * @Rest\View(serializerGroups={"application"})
+     * @Rest\View(serializerGroups={"application", "user-simple"})
      * @Rest\Get("/advert/{id}/application")
      *
      * @ApiDoc(
@@ -134,7 +134,9 @@ class ApplicationController extends AbstractController
         }
 
         $application = new application();
-        $application->setAdvert($advert);
+        $application
+            ->setAdvert($advert)
+            ->setAuthor($this->getUser());
 
         $form = $this->createForm(ApplicationType::class, $application);
         $form->submit($request->request->all());

@@ -93,7 +93,7 @@ class Advert
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="adverts")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"advert", "application"})
+     * @Groups({"user", "user-simple"})
      */
     private $author;
 

@@ -18,7 +18,6 @@ class AdvertTypeApi extends AbstractType
     {
         $builder->add('title', TextType::class, ['description' => 'Advert title'])
             ->add('content', TextType::class, ['description' => 'Advert content'])
-            ->add('author', TextType::class, ['description' => 'Advert author'])
             ->add('categories', CollectionType::class, [
                 'entry_type'        => CategoryType::class,
                 'allow_add'         => true,
