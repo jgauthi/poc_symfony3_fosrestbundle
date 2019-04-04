@@ -3,10 +3,10 @@
 App\Entity\Advert:
     advert_{1..10}:
         title: '<realtext(50)>'
-        author: '<username()>'
+        author: '@user_editor_*'
         content: '<text()>'
         image: '@image_<current()>'
-        categories: '3x @category_*'
+        categories: '<numberBetween(1, 5)>x @category_*'
         published: '<boolean(80)>'
         archived: '<boolean(20)>'
 
@@ -24,7 +24,7 @@ App\Entity\Image:
 App\Entity\Application:
     application_{1..32}:
         advert: '@advert_*'
-        author: '<firstname()> <lastname()>'
+        author: '@user_candidate_*'
         content: '<text()>'
         date: '<dateTimeThisYear()>'
         city: '<randomCity()>'

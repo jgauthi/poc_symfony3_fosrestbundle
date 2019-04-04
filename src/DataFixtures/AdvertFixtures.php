@@ -2,18 +2,13 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\{Advert, AdvertSkill, Application, Category, Image, Skill};
+use App\Entity\{AdvertSkill, Application};
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nelmio\Alice\Fixtures;
-use Symfony\Component\Yaml\Yaml;
 
 class AdvertFixtures extends Fixture
 {
-    const MAIL_DOMAIN = 'symfony.local';
-    const PASSWORD = 'local';
-
     // In the load method argument, the $manager object is the EntityManager
     public function load(ObjectManager $manager): void
     {
@@ -22,8 +17,8 @@ class AdvertFixtures extends Fixture
         Fixtures::load([
                 $aliceFolder.'/Skill.yaml',
                 $aliceFolder.'/Category.yaml',
-                $aliceFolder.'/Advert.yaml',
                 $aliceFolder.'/User.yaml',
+                $aliceFolder.'/Advert.yaml',
             ],
             $manager,
             ['providers' => [$this]]
@@ -33,20 +28,14 @@ class AdvertFixtures extends Fixture
 
     public function randomCity(): string
     {
-        static $city = ['Paris', 'Dunwall', 'Angoulême', 'Nice'];
-
-        $random = array_rand($city);
-        return $city[$random];
+        $random = array_rand(Application::CITY_AVAILABLE);
+        return Application::CITY_AVAILABLE[$random];
     }
 
     public function randomAdvertSkill(): string
     {
-        static $names = [
-            'Bas', 'Moyen', 'Bon', 'Expert'
-        ];
-
-        $key = array_rand($names);
-        return $names[$key];
+        $key = array_rand(AdvertSkill::LEVEL_AVAILABLE);
+        return AdvertSkill::LEVEL_AVAILABLE[$key];
     }
 
     public function randomSkill(): string

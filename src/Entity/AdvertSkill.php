@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AdvertSkill
 {
+    public const LEVEL_AVAILABLE = ['Bas', 'Moyen', 'Bon', 'Expert'];
+
     /**
      * @var int
      *
