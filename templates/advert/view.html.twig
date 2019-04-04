@@ -18,7 +18,7 @@
 			<i class="glyphicon glyphicon-chevron-left"></i>
 			{{ 'Retour à la liste'|trans }}
 		</a>
-		{% if is_granted('ROLE_AUTEUR') %}
+		{% if is_granted('ROLE_EDITOR') %}
 		<a href="{{ path('platform_edit', {'id': advert.id}) }}" class="btn btn-default">
 			<i class="glyphicon glyphicon-edit"></i>
 			{{ 'Modifier l\'annonce'|trans }}

@@ -17,6 +17,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class User extends FosUser implements UserInterface
 {
+    public const ROLE_CANDIDATE = 'ROLE_USER';
+    public const ROLE_EDITOR = 'ROLE_EDITOR';
+    public const ROLE_API = 'ROLE_API_ACCESS';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     /**
      * @var int
      *
@@ -43,7 +48,7 @@ class User extends FosUser implements UserInterface
      * @var array
      * @Groups({"user"})
      */
-    protected $roles;
+    protected $roles = [];
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Advert", mappedBy="author", cascade={"persist", "remove"})
@@ -51,7 +56,7 @@ class User extends FosUser implements UserInterface
     private $adverts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Application", mappedBy="applications", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Application", mappedBy="author", cascade={"persist", "remove"})
      */
     private $applications;
 

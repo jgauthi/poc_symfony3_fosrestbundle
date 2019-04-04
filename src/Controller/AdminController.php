@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Advert;
+use App\Entity\{Advert, User};
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
 use FOS\UserBundle\Model\UserInterface;
@@ -16,7 +16,7 @@ class AdminController extends BaseAdminController
     public function createNewUserEntity(): UserInterface
     {
         $user = $this->get('fos_user.user_manager')->createUser();
-        $user->addRole('ROLE_USER');
+        $user->addRole(User::ROLE_CANDIDATE);
 
         return $user;
     }
@@ -105,7 +105,7 @@ class AdminController extends BaseAdminController
 
             $serializer = new Serializer([$normalizer, new ArrayDenormalizer()], [new CsvEncoder()]);
 
-            // Options supplémentaires pour l'encodeur (optionnel)
+            // Options suplémentaires pour l'encodeur (optionnel)
             $context = [
                 'csv_delimiter' => ';',
                 'csv_enclosure' => '"',

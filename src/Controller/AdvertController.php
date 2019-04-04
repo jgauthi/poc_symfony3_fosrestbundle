@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\{Advert, AdvertSkill, Application};
+use App\Entity\{Advert, AdvertSkill, Application, User};
 use App\Event\{MessagePostEvent, PlatformEvents};
 use App\Form\{AdvertEditType, AdvertType};
 use App\Repository\{AdvertRepository, ApplicationRepository};
@@ -165,8 +165,8 @@ class AdvertController extends AbstractController
     public function add(Request $request, TranslatorInterface $translator, EventDispatcherInterface $eventDispatcher): Response
     {
         // Check, alternative to the @Security annotation
-        $this->denyAccessUnlessGranted('ROLE_AUTEUR', 'Advert', $translator->trans('advert.admin.author_require'));
-        // if (!$this->isGranted('ROLE_AUTEUR', 'Advert')) {
+        $this->denyAccessUnlessGranted(User::ROLE_EDITOR, 'Advert', $translator->trans('advert.admin.author_require'));
+        // if (!$this->isGranted('ROLE_EDITOR', 'Advert')) {
         //    throw new AccessDeniedException($translator->trans('advert.admin.author_require'));
         // }
 
@@ -245,7 +245,7 @@ class AdvertController extends AbstractController
 
     /**
      * @Route("/edit/{id}", methods={"GET", "POST"}, name="edit", requirements={"id"="\d+"})
-     * @Security("has_role('ROLE_AUTEUR')")
+     * @Security("has_role('ROLE_EDITOR')")
      *
      * @param Advert                 $advert
      * @param Request                $request

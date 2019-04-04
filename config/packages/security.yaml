@@ -10,8 +10,8 @@ security:
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512 #bcrypt
     role_hierarchy:
-        ROLE_AUTEUR: ROLE_USER
-        ROLE_ADMIN: ROLE_AUTEUR
+        ROLE_EDITOR: ROLE_USER
+        ROLE_ADMIN: ROLE_EDITOR
 
     firewalls:
         dev:

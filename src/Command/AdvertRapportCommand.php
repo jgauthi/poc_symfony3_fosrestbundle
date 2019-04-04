@@ -68,8 +68,7 @@ class AdvertRapportCommand extends Command
         }
 
         if(empty($to)) {
-            $to = Text::slugify($advert->getAuthor());
-            $to .= '@'.AdvertFixtures::MAIL_DOMAIN;
+            $to = $advert->getAuthor()->get;
         }
 
 //        if ($this->mailer->send($to, $advert)) {

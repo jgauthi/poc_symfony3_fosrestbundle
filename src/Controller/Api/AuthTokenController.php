@@ -59,7 +59,7 @@ class AuthTokenController extends AbstractController
         /** @var User $user */
         $user = $em->getRepository(User::class)->findOneBy(['username' => $credentials->getLogin()]);
 
-        if (!$user || !$user->hasRole('ROLE_API_ACCESS')) {
+        if (!$user || !$user->hasRole(User::ROLE_API)) {
             return $this->invalidCredentials();
         }
 

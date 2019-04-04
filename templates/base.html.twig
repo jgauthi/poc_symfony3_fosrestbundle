@@ -28,7 +28,7 @@
                         <a href="{{ path('fos_user_security_login') }}" title="login: admin ou user, password: local">Login</a>
                     </li>
                 {% else %}
-                    {% if is_granted('ROLE_AUTEUR') %}
+                    {% if is_granted('ROLE_EDITOR') %}
                         <li>
                             <a href="{{ path('platform_add') }}">Ajouter une annonce</a>
                         </li>
