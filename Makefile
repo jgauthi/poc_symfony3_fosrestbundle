@@ -138,8 +138,8 @@ up-ci:
 	@$(DOCKER_COMPOSE) up -d --remove-orphans
 
 perm:
-	@$(EXEC_ROOT) chmod -R 775 var
-	@$(EXEC_ROOT) chgrp -R www-data var/
+	@$(EXEC_ROOT) chmod -R 775 var public/uploads
+	@$(EXEC_ROOT) chgrp -R www-data var/ public/uploads
 	@$(EXEC_ROOT) chmod +x bin/* vendor/bin/*
 
 #docker-compose.override.yml:

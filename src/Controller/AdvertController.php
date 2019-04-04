@@ -173,7 +173,7 @@ class AdvertController extends AbstractController
         // Construction of the form
         $advert = new Advert();
         $advert->setTitle(sprintf('My Advert (%d)', date('Y')));
-        $advert->setAuthor('John Doe');
+        $advert->setAuthor($this->getUser());
 
         $form = $this->createForm(AdvertType::class, $advert);
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
