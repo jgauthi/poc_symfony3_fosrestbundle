@@ -2,16 +2,18 @@
 
 namespace App\Tests\Entity;
 
-use App\Entity\Application;
+use App\Entity\{Application, User};
 use PHPUnit\Framework\TestCase;
 
 class ApplicationTest extends TestCase
 {
     private function initApplication(): Application
     {
-        $application = new Application();
+        $user = new User();
+        $user->setUsername('tyrion-lannister');
 
-        $application->setAuthor('Tyrion Lannister')
+        $application = new Application();
+        $application->setAuthor($user)
             ->setContent('MyTestContent')
             ->setDate(\DateTime::createFromFormat('Y-m-d', '2018-07-15'))
             ->setCity('Port-Réal')

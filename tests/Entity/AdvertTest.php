@@ -5,15 +5,18 @@ namespace App\Tests\Entity;
 use App\Entity\Advert;
 use App\Entity\Application;
 use App\Entity\Image;
+use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class AdvertTest extends TestCase
 {
     private function initAdvert(): Advert
     {
-        $advert = new Advert();
+        $user = new User();
+        $user->setUsername('john-snow');
 
-        $advert->setAuthor('John Snow')
+        $advert = new Advert();
+        $advert->setAuthor($user)
             ->setTitle('MyTestTitle')
             ->setContent('MyTestContent')
             ->setPublished(false)
@@ -21,7 +24,7 @@ class AdvertTest extends TestCase
 
         for ($i = 0; $i < 3; ++$i) {
             $application = new Application();
-            $application->setAuthor("Someone #{$i}");
+            $application->setAuthor($user);
 
             $advert->addApplication($application);
             $advert->increaseApplication();
