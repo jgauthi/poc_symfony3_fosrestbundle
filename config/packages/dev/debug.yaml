@@ -1,0 +1,6 @@
+# Debug Configuration Reference (DebugBundle)
+# https://symfony.com/doc/3.4/reference/configuration/debug.html
+debug:
+    # Use to debug Controller/Api/* with dump()
+    # Equivalent `server:dump` from Symfony 4.1
+    dump_destination: "%kernel.logs_dir%/vardump.log"

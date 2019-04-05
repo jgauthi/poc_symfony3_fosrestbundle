@@ -14,12 +14,9 @@ More information on [symfony website](https://symfony.com/doc/3.4/reference/requ
 ## Features developed
 This git repot was migrate to symfony 3 LTS version, to look at before this migration, [follow this link](https://github.com/jgauthi/poc_symfony3_fosrestbundle/tree/v1.3).
 
-### Front Office
+### [1] Front Office
 Online advert management.
 
-* Custom command lines:
-    * `php bin/console advert:list --number=10 --order=DESC`: List Advert Items.
-    * `php bin/console advert:view ID`: View Advert Items.
 * Controller
     * List / add / edit / delete advert
     * List of applications for an advert
@@ -34,7 +31,7 @@ Online advert management.
     * CustomParamConverter: Display param converter from url request.
     * MarkdownTransformer: Convert markdown to html.
         
-### BackOffice / User management
+### [2] BackOffice / User management
 BackOffice / User management with fos/user-bundle.
 
 * Controller
@@ -45,7 +42,7 @@ BackOffice / User management with fos/user-bundle.
     * Entity management with the [EasyAdminBundle](https://symfony.com/doc/master/bundles/EasyAdminBundle/index.html) (Symfony BackOffice)
     * In BackOffice, export entity data to csv file with [serializer component](https://symfony.com/doc/3.4/components/serializer.html)
 
-### Rest API
+### [3] Rest API
 Add Rest API implementation with fos/rest-bundle.
 
 * Controller
@@ -59,6 +56,15 @@ Add Rest API implementation with fos/rest-bundle.
     * Query String (QueryParam & ParamFetcher)
     * API Documentation: Using [NelmioApiDocBundle](https://symfony.com/doc/2.x/bundles/NelmioApiDocBundle/index.html) v2.x to generate online doc with Annotations (ApiDoc & FosRest).
     * Security: Authentication by token _(X-Auth-Token)_
+
+### [4] PHP-cli
+Custom command lines:
+* `php bin/console advert:list --number=10 --order=DESC`: List Advert Items.
+* `php bin/console advert:view ID`: View Advert Items.
+* `php bin/console advert:rapport ID`: Send Advert info by email to recipient.
+
+You can simulate a **server-dump** like [Symfony4 version](https://symfony.com/blog/new-in-symfony-4-1-vardumper-server) on Dev Env with this command _(command different with [docker/makefile](config/docker/README.md#usage))_:  
+`truncate -s 0 var/log/vardump.log && tail -f var/log/vardump.log`
 
 
 ## Installation

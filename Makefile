@@ -46,9 +46,6 @@ clear-cache: perm												        ## Clear + Prepare Cache (alias: c:c), you 
 
 c\:c: clear-cache
 
-shell:                                                                                                 ## Run app container in interactive mode
-	@$(EXEC) /bin/bash
-
 clear: perm                                                                                            ## Remove all the cache, the logs, the sessions and the built assets
 	@$(EXEC_ROOT) rm -rf var/cache/* var/log/* public/build
 	@$(EXEC_ROOT) rm -f var/.php_cs.cache
@@ -56,8 +53,21 @@ clear: perm                                                                     
 clean: clear                                                                                           ## Clear and remove dependencies
 	@$(EXEC_ROOT) rm -rf vendor
 
+
+
+
+##
+## Developpment
+##---------------------------------------------------------------------------
 composer-update:										 ## Composer update. You can specified package, example: `make api-composer-update CMD="twig/twig"`
 	@$(EXEC) composer update $(CMD)
+
+shell:                                                                                      ## Run app container in interactive mode
+	@$(EXEC) /bin/bash
+
+server-dump:											 									## [Dev only] Display dump() values with tail (ctrl+C to stop)
+	@$(EXEC_ROOT) bash -c "truncate -s 0 var/log/vardump.log && tail -f var/log/vardump.log"
+
 
 ##
 ## Database

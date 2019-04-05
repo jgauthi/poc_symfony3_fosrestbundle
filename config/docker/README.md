@@ -39,6 +39,7 @@ You can connect on url application:
 ## Usage
 Launch docker containers: `make up`, or stop with `make stop`, you can get command list with `make help`.
 
+You can simulate a **server-dump** like [Symfony4 version](https://symfony.com/blog/new-in-symfony-4-1-vardumper-server) on Dev Env with this command: `make server-dump`.
 
 ## Dev environment
 If you use dev docker file _(default configuration)_, you have additional tools:
