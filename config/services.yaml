@@ -49,12 +49,6 @@ services:
         class: App\Service\MarkdownTransformer
         arguments: [ '@markdown.parser', '@doctrine_cache.providers.my_markdown_cache' ]
 
-    App\Twig\MarkdownExtension:
-        class: App\Twig\MarkdownExtension
-        arguments: ['@App\Service\MarkdownTransformer']
-        tags:
-            - { name: twig.extension }
-
     App\EventListener\ApplicationCreationListener:
         class: App\EventListener\ApplicationCreationListener
         arguments:
