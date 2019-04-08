@@ -1,0 +1,11 @@
+{# On vérifie qu'une image soit bien associée à l'annonce #}
+{% if advert.image is not null %}
+    <p><img src="{{ asset(advert.image.WebPath) }}" alt="{{ advert.image.alt }}" style="max-width: 500px; height: auto;"></p>
+{% endif %}
+
+<i>{{ 'advert.byauthor'|trans({'%author%': advert.author}) }}, {{ 'advert.thedate'|trans({'%date%': advert.date|date('d/m/Y')}) }}</i>
+
+<div class="well">
+    {# advert.content|raw #}
+    {{ advert.content|mardownify }}
+</div>

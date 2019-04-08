@@ -138,7 +138,7 @@ class ApplicationController extends AbstractController
             ->setAdvert($advert)
             ->setAuthor($this->getUser());
 
-        $form = $this->createForm(ApplicationType::class, $application);
+        $form = $this->createForm(ApplicationType::class, $application, ['csrf_protection' => false]);
         $form->submit($request->request->all());
 
         if (!$form->isValid()) {

@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\{
-    AbstractType,
-    Extension\Core\Type\TextType,
+use App\Entity\Application;
+use Symfony\Component\Form\{AbstractType,
+    Extension\Core\Type\ChoiceType,
+    Extension\Core\Type\SubmitType,
+    Extension\Core\Type\TextareaType,
     Extension\Core\Type\IntegerType,
-    FormBuilderInterface,
-};
+    FormBuilderInterface};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ApplicationType extends AbstractType
@@ -18,17 +19,20 @@ class ApplicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', TextType::class, ['description' => 'Application content'])
-            ->add('city', TextType::class, ['description' => 'Application city'])
-            ->add('salaryClaim', IntegerType::class, ['description' => 'Application salary']);
+            ->add('content', TextareaType::class, ['description' => 'Application content'])
+            ->add('city', ChoiceType::class, [
+                'choices' => array_combine(Application::CITY_AVAILABLE, Application::CITY_AVAILABLE),
+                'description' => 'Application city',
+            ])
+            ->add('salaryClaim', IntegerType::class, ['description' => 'Application salary'])
+            ->add('save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class'        => 'App\Entity\Application',
-            'csrf_protection'   => false,
-        ));
+        ]);
     }
 }
 

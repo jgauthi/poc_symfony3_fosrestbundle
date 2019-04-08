@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\{Advert, AdvertSkill, Application, User};
 use App\Event\{MessagePostEvent, PlatformEvents};
-use App\Form\{AdvertEditType, AdvertType};
+use App\Form\{AdvertEditType, AdvertType, ApplicationType};
 use App\Repository\{AdvertRepository, ApplicationRepository};
 use App\Service\MarkdownTransformer;
 use Doctrine\ORM\EntityManagerInterface;
@@ -269,6 +269,51 @@ class AdvertController extends AbstractController
         }
 
         return $this->render('advert/edit.html.twig', ['advert' => $advert, 'form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/candidate/{id}", methods={"GET", "POST"}, name="advert_signup", requirements={"id"="\d+"})
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @param Advert $advert
+     * @param ApplicationRepository $applicationRepository
+     * @param Request $request
+     * @param TranslatorInterface $translator
+     *
+     * @return Response
+     */
+    public function candidate(Advert $advert, ApplicationRepository $applicationRepository, Request $request, TranslatorInterface $translator): Response
+    {
+        // Already subscribe?
+        $application = $applicationRepository->findOneBy(['advert' => $advert, 'author' => $this->getUser()]);
+
+        // Construction of the form
+        if (empty($application)) {
+            $application = new Application();
+            $application
+                ->setAdvert($advert)
+                ->setAuthor($this->getUser());
+        }
+
+        $form = $this->createForm(ApplicationType::class, $application);
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($application);
+            $em->flush();
+
+            // Here, we will take care of the creation and management of the form
+            $id = $application->getId();
+            $this->addFlash('success', $translator->trans('advert.admin.save_application_confirm', ['%id%' => $id]));
+
+            // Then we redirect to the advert view
+            return $this->redirectToRoute('platform_view', ['id' => $advert->getId()]);
+        }
+
+        // If we are not in POST, then display the form
+        return $this->render('advert/candidate.html.twig', [
+            'advert' => $advert,
+            'candidate_form' => $form->createView(),
+        ]);
     }
 
     /**

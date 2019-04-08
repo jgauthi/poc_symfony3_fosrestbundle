@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% set title = 'advert.application.candidate'|trans %}
+
+{% block bodycontent %}
+    <h3>{{ advert.title }}</h3>
+    {% include('advert/bloc/advert.inc.html.twig') %}
+
+    <h3>{{ 'advert.application.your'|trans }}</h3>
+    {{ form(candidate_form) }}
+
+    <p style="margin-top: 25px;">
+        <a href="{{ path('platform_view', {'id': advert.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            {{ 'Retour à l\'annonce'|trans }}
+        </a>
+
+        <a href="{{ path('platform_home') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            {{ 'Retour à l\'index'|trans }}
+        </a>
+    </p>
+
+{% endblock %}

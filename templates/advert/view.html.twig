@@ -2,16 +2,7 @@
 {% set title = 'Lecture d\'une annonce'|trans ~ ' #' ~ advert.id %}
 
 {% block bodycontent %}
-    {# On vérifie qu'une image soit bien associée à l'annonce #}
-    {% if advert.image is not null %}
-		<p><img src="{{ asset(advert.image.WebPath) }}" alt="{{ advert.image.alt }}" style="max-width: 500px; height: auto;"></p>
-    {% endif %}
-	<i>{{ 'advert.byauthor'|trans({'%author%': advert.author}) }}, {{ 'advert.thedate'|trans({'%date%': advert.date|date('d/m/Y')}) }}</i>
-
-	<div class="well">
-        {# advert.content|raw #}
-        {{ advert.content|mardownify }}
-	</div>
+    {% include('advert/bloc/advert.inc.html.twig') %}
 
 	<p>
 		<a href="{{ path('platform_home') }}" class="btn btn-default">
@@ -30,6 +21,12 @@
 			{{ 'Supprimer l\'annonce'|trans }}
 		</a>
 		{% endif %}
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('platform_advert_signup', {'id': advert.id}) }}" class="btn btn-primary">
+                <i class="glyphicon glyphicon-hand-up"></i>
+                {{ 'advert.application.candidate'|trans }}
+            </a>
+        {% endif %}
 	</p>
 
 
@@ -48,7 +45,7 @@
 		{{ 'advert.skill_require'|trans }}
 		<ul>
 			{% for advertSkill in listAdvertSkills %}
-				<li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
+				<li>{{ advertSkill.skill.name }} : {{ 'niveau'|trans }} {{ advertSkill.level }}</li>
 			{% endfor %}
 		</ul>
 	</div>
