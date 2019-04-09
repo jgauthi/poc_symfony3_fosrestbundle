@@ -207,16 +207,14 @@ class AdvertController extends AbstractController
      * @Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
      *
-     * @param Request             $request
-     * @param Advert              $advert
+     * @param Request $request
+     * @param Advert $advert
+     * @param EntityManagerInterface $em
      * @param TranslatorInterface $translator
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      *
      * @return Response
      */
-    public function delete(Request $request, Advert $advert, TranslatorInterface $translator): Response
+    public function delete(Request $request, Advert $advert, EntityManagerInterface $em, TranslatorInterface $translator): Response
     {
         // Create an empty form, which will contain only the CSRF field
         // This will protect ad deletion against this flaw
@@ -228,7 +226,6 @@ class AdvertController extends AbstractController
                 $advert->removeCategory($category);
             }
 
-            $em = $this->get('doctrine.orm.entity_manager');
             $em->remove($advert);
             $em->flush();
 
@@ -317,8 +314,39 @@ class AdvertController extends AbstractController
         // If we are not in POST, then display the form
         return $this->render('advert/candidate.html.twig', [
             'advert' => $advert,
+            'application' => $application,
             'candidate_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/candidate/abort/{id}", methods={"GET"}, name="advert_signdown", requirements={"id"="\d+"})
+     * @Security("has_role('ROLE_USER')")
+     *
+     * @param Advert $advert
+     * @param EntityManagerInterface $em
+     * @param TranslatorInterface $translator
+     *
+     * @return Response
+     */
+    public function candidate_abort(Advert $advert, EntityManagerInterface $em, TranslatorInterface $translator): Response
+    {
+        // Current application
+        $application = $em->getRepository(Application::class)->findOneBy([
+            'advert' => $advert,
+            'author' => $this->getUser(),
+        ]);
+
+        if (empty($application) || $application->getAuthor() != $this->getUser()) {
+            return $this->redirectToRoute('platform_view', ['id' => $advert->getId()]);
+        }
+
+        $em->remove($application);
+        $em->flush();
+
+        $this->addFlash('info', $translator->trans('advert.application.confirm_delete'));
+
+        return $this->redirectToRoute('platform_view', ['id' => $advert->getId()]);
     }
 
     /**

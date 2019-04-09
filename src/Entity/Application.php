@@ -80,7 +80,7 @@ class Application
         return sprintf('%s (%s)', $this->getContent(), $this->getAuthor());
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

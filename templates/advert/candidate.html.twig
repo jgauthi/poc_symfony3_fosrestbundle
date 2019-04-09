@@ -18,6 +18,13 @@
             <i class="glyphicon glyphicon-chevron-left"></i>
             {{ 'Retour à l\'index'|trans }}
         </a>
+
+        {% if is_granted('ROLE_USER') and advert.author != app.user and application.id %}
+            <a href="{{ path('platform_advert_signdown', {'id': advert.id}) }}" class="btn btn-warning">
+                <i class="glyphicon glyphicon-trash"></i>
+                {{ 'advert.application.delete'|trans }}
+            </a>
+        {% endif %}
     </p>
 
 {% endblock %}

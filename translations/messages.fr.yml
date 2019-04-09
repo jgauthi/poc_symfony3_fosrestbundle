@@ -24,6 +24,8 @@ advert:
     application:
         candidate: 'S''inscrire à l''annonce'
         your: 'Votre candidature'
+        delete: 'Annuler la candidature'
+        confirm_delete: 'La candidature a bien été supprimé'
     already_publish: 'Vous éditez une annonce déjà existante, merci de ne pas changer l''esprit général de l''annonce déjà publiée'
     byauthor: 'par %author%'
     catlist: 'Cette annonce est parue dans les catégories suivantes:'
@@ -34,5 +36,3 @@ advert:
     no_exist: 'L''annonce #%id% n''existe pas.'
     skill_require: 'Cette annonce requiert les compétences suivantes :'
     thedate: 'le %date%'
-
-

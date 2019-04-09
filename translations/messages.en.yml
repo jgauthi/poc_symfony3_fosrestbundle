@@ -24,6 +24,8 @@ advert:
     application:
         candidate: 'Sign up for this advert'
         your: 'Your application'
+        delete: 'Cancel the application'
+        confirm_delete: 'The application has been deleted'
     already_publish: 'You are editing an already existing advert, please do not change the general spirit of the ad already published'
     byauthor: 'by %author%'
     catlist: 'This advert has been published in the following categories:'
