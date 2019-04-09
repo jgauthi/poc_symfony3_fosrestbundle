@@ -284,6 +284,11 @@ class AdvertController extends AbstractController
      */
     public function candidate(Advert $advert, ApplicationRepository $applicationRepository, Request $request, TranslatorInterface $translator): Response
     {
+        // Author don't apply on this advert
+        if ($advert->getAuthor() == $this->getUser()) {
+            return $this->redirectToRoute('platform_view', ['id' => $advert->getId()]);
+        }
+
         // Already subscribe?
         $application = $applicationRepository->findOneBy(['advert' => $advert, 'author' => $this->getUser()]);
 

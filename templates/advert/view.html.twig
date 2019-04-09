@@ -21,7 +21,7 @@
 			{{ 'Supprimer l\'annonce'|trans }}
 		</a>
 		{% endif %}
-        {% if is_granted('ROLE_USER') %}
+        {% if is_granted('ROLE_USER') and advert.author != app.user %}
             <a href="{{ path('platform_advert_signup', {'id': advert.id}) }}" class="btn btn-primary">
                 <i class="glyphicon glyphicon-hand-up"></i>
                 {{ 'advert.application.candidate'|trans }}
