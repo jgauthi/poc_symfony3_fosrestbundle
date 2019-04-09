@@ -1,38 +1,45 @@
-Hello: Bonjour %name% !
-'Ajouter une annonce': 'Ajouter une annonce'
-'Retour à l''index': 'Retour à l''index'
-'Supprimer une annonce': 'Supprimer une annonce'
-'Retour à l''annonce': 'Retour à l''annonce'
-'Modifier une annonce': 'Modifier une annonce'
-Accueil: Accueil
-'Aujourd''hui nous sommes le %date% et il est %time% !': Aujourd'hui nous sommes le %date% et il est %time% !
-'Liste des annonces': 'Liste des annonces'
-'La page %page% n''existe pas.': La page %page% n'existe pas.
-'Pas d''annonce pour le moment.': 'Pas d''annonce pour le moment.'
-'Quelques candidatures': 'Quelques candidatures'
-'Lecture d''une annonce': 'Lecture d''une annonce'
-'Retour à la liste': 'Retour à la liste'
-'Modifier l''annonce': 'Modifier l''annonce'
-'Supprimer l''annonce': 'Supprimer l''annonce'
-'niveau': 'niveau'
 advert:
     admin:
         author_require: 'Accès limités aux auteurs'
         edit_confirm_ok: 'L''annonce #%id% a bien été modifié'
         save_confirm: 'Annonce #%id% bien enregistrée'
         save_application_confirm: 'Candidature #%id% bien enregistrée'
-    application:
-        candidate: 'S''inscrire à l''annonce'
-        your: 'Votre candidature'
-        delete: 'Annuler la candidature'
-        confirm_delete: 'La candidature a bien été supprimé'
+    action:
+        add: 'Ajouter une annonce'
+        back: 'Retour à l''annonce'
+        delete: 'Supprimer une l''annonce'
+        edit: 'Modifier une annonce'
+        view: 'Lecture d''une annonce'
+    title:
+        last: 'Dernières annonces'
+        list: 'Liste des annonces'
+        emptylist: 'Pas d''annonce pour le moment'
     already_publish: 'Vous éditez une annonce déjà existante, merci de ne pas changer l''esprit général de l''annonce déjà publiée'
     byauthor: 'par %author%'
     catlist: 'Cette annonce est parue dans les catégories suivantes:'
     confirm_delete: 'Etes-vous certain de vouloir supprimer l''annonce "%title%" ?'
     confirm_delete_true: 'L''annonce a bien été supprimé.'
     display_nb_app: '[0,1]Une candidature pour cette annonce|[2,+Inf]Il y a %count% candidatures pour cette annonce'
-    no_application: 'Aucune Candidatures pour cette annonce.'
     no_exist: 'L''annonce #%id% n''existe pas.'
     skill_require: 'Cette annonce requiert les compétences suivantes :'
     thedate: 'le %date%'
+application:
+    action:
+        delete: 'Annuler la candidature'
+        confirm_delete: 'La candidature a bien été supprimé'
+    title:
+        candidate: 'S''inscrire à l''annonce'
+        your: 'Votre candidature'
+        emptylist: 'Aucune Candidatures pour cette annonce.'
+    level: 'niveau'
+page:
+    header:
+        title: 'Ma plateforme d''annonces'
+        catchphrase: 'Ce projet est propulsé par Symfony'
+    home:
+        comeback: 'Retour à l''index'
+        title: 'Accueil'
+        welcome_message: 'Aujourd''hui nous sommes le %date% et il est %time% !'
+        some_apply: 'Quelques candidatures'
+    error:
+        404: 'La page %page% n''existe pas'

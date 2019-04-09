@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% set title = 'Supprimer une annonce'|trans %}
+{% set title = 'advert.action.delete'|trans %}
 
 {% block bodycontent %}
     <p>{{ 'advert.confirm_delete'|trans({'%title%': advert.title }) }}</p>
@@ -8,7 +8,7 @@
     <form action="{{ path('platform_delete', {'advert_id': advert.id}) }}" method="post">
         <a href="{{ path('platform_view', {'id': advert.id}) }}" class="btn btn-default">
             <i class="glyphicon glyphicon-chevron-left"></i>
-            {{ 'Retour à l\'annonce'|trans }}
+            {{ 'advert.action.back'|trans }}
         </a>
         {# Ici j'ai écrit le bouton de soumission à la main #}
         <input type="submit" value="Supprimer" class="btn btn-danger" />

@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% set title = 'Lecture d\'une annonce'|trans ~ ' #' ~ advert.id %}
+{% set title = 'advert.action.view'|trans ~ ' #' ~ advert.id %}
 
 {% block bodycontent %}
     {% include('advert/bloc/advert.inc.html.twig') %}
@@ -7,24 +7,24 @@
 	<p>
 		<a href="{{ path('platform_home') }}" class="btn btn-default">
 			<i class="glyphicon glyphicon-chevron-left"></i>
-			{{ 'Retour à la liste'|trans }}
+			{{ 'page.home.comeback'|trans }}
 		</a>
 		{% if is_granted('ROLE_EDITOR') %}
 		<a href="{{ path('platform_edit', {'id': advert.id}) }}" class="btn btn-default">
 			<i class="glyphicon glyphicon-edit"></i>
-			{{ 'Modifier l\'annonce'|trans }}
+			{{ 'advert.action.edit'|trans }}
 		</a>
 		{% endif %}
 		{% if is_granted('ROLE_ADMIN') %}
 		<a href="{{ path('platform_delete', {'advert_id': advert.id}) }}" class="btn btn-danger">
 			<i class="glyphicon glyphicon-trash"></i>
-			{{ 'Supprimer l\'annonce'|trans }}
+			{{ 'advert.action.delete'|trans }}
 		</a>
 		{% endif %}
         {% if is_granted('ROLE_USER') and advert.author != app.user %}
             <a href="{{ path('platform_advert_signup', {'id': advert.id}) }}" class="btn btn-primary">
                 <i class="glyphicon glyphicon-hand-up"></i>
-                {{ 'advert.application.candidate'|trans }}
+                {{ 'application.title.candidate'|trans }}
             </a>
         {% endif %}
 	</p>
@@ -45,7 +45,7 @@
 		{{ 'advert.skill_require'|trans }}
 		<ul>
 			{% for advertSkill in listAdvertSkills %}
-				<li>{{ advertSkill.skill.name }} : {{ 'niveau'|trans }} {{ advertSkill.level }}</li>
+				<li>{{ advertSkill.skill.name }} : {{ 'application.level'|trans }} {{ advertSkill.level }}</li>
 			{% endfor %}
 		</ul>
 	</div>
@@ -69,7 +69,7 @@
 		{% endif %}
 
 	{% else %}
-		<p>{{ 'advert.no_application'|trans }}</p>
+		<p>{{ 'application.title.emptylist'|trans }}</p>
 	{% endfor %}
 
 

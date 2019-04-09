@@ -1,28 +1,28 @@
 {% extends "base.html.twig" %}
-{% set title = 'advert.application.candidate'|trans %}
+{% set title = 'application.title.candidate'|trans %}
 
 {% block bodycontent %}
     <h3>{{ advert.title }}</h3>
     {% include('advert/bloc/advert.inc.html.twig') %}
 
-    <h3>{{ 'advert.application.your'|trans }}</h3>
+    <h3>{{ 'application.title.your'|trans }}</h3>
     {{ form(candidate_form) }}
 
     <p style="margin-top: 25px;">
         <a href="{{ path('platform_view', {'id': advert.id}) }}" class="btn btn-default">
             <i class="glyphicon glyphicon-chevron-left"></i>
-            {{ 'Retour à l\'annonce'|trans }}
+            {{ 'advert.action.back'|trans }}
         </a>
 
         <a href="{{ path('platform_home') }}" class="btn btn-default">
             <i class="glyphicon glyphicon-chevron-left"></i>
-            {{ 'Retour à l\'index'|trans }}
+            {{ 'page.home.comeback'|trans }}
         </a>
 
         {% if is_granted('ROLE_USER') and advert.author != app.user and application.id %}
             <a href="{{ path('platform_advert_signdown', {'id': advert.id}) }}" class="btn btn-warning">
                 <i class="glyphicon glyphicon-trash"></i>
-                {{ 'advert.application.delete'|trans }}
+                {{ 'application.action.delete'|trans }}
             </a>
         {% endif %}
     </p>

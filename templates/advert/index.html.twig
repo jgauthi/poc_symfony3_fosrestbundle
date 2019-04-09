@@ -1,12 +1,12 @@
 {% extends "base.html.twig" %}
-{% set title = 'Accueil'|trans %}
+{% set title = 'page.home.title'|trans %}
 
 {% block bodycontent %}
     {% trans with {'%date%': 'now'|localizeddate('full', 'none'), '%time%': 'now'|localizeddate('none', 'short')} %}
-        Aujourd'hui nous sommes le %date% et il est %time% !
+        page.home.welcome_message
     {% endtrans %}
 
-    <h2>{{ 'Liste des annonces'|trans }}</h2>
+    <h2>{{ 'advert.title.list'|trans }}</h2>
     <ul>
         {% for advert in listAdverts %}
             <li>
@@ -15,7 +15,7 @@
                 {{ 'advert.thedate'|trans({'%date%': advert.date|date('d/m/Y')}) }}
             </li>
         {% else %}
-            <li>{% trans %}Pas d'annonce pour le moment.{% endtrans %}</li>
+            <li>{% trans %}advert.title.emptylist{% endtrans %}.</li>
         {% endfor %}
     </ul>
     {% if nbPages > 1 %}
@@ -29,7 +29,7 @@
     </ul>
     {% endif %}
 
-    <h3>{{ 'Quelques candidatures'|trans }}</h3>
+    <h3>{{ 'page.home.some_apply'|trans }}</h3>
     <ul>
         {% for app in listApplication %}
         <li>

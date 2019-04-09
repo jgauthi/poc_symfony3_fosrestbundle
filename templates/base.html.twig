@@ -13,8 +13,8 @@
 <body>
 <div class="container">
     <div id="header" class="jumbotron">
-        <h1>Ma plateforme d'annonces</h1>
-        <p>Ce projet est propulsé par Symfony</p>
+        <h1>{{ 'page.header.title'|trans }}</h1>
+        <p>{{ 'page.header.catchphrase'|trans }}</p>
         <p><a class="btn btn-primary btn-lg" href="{{ path('platform_home', {'page': 1}) }}">Index</a></p>
     </div>
 
@@ -30,7 +30,7 @@
                 {% else %}
                     {% if is_granted('ROLE_EDITOR') %}
                         <li>
-                            <a href="{{ path('platform_add') }}">Ajouter une annonce</a>
+                            <a href="{{ path('platform_add') }}">{{ 'advert.action.add'|trans }}</a>
                         </li>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
@@ -43,7 +43,7 @@
                 <li><a href="{{ path('nelmio_api_doc_index') }}">Api doc</a></li>
             </ul>
 
-            <h4>Dernières annonces</h4>
+            <h4>{{ 'advert.title.last'|trans }}</h4>
             {{ render(controller("App\\Controller\\AdvertController::menu", {'limit' : 3})) }}
         </div>
         <div id="content" class="col-md-9">

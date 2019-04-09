@@ -49,7 +49,7 @@ class AdvertController extends AbstractController
 
         $nbPages = ceil(\count($listAdverts) / $nbPerPage);
         if ($page > $nbPages) {
-            throw $this->createNotFoundException($translator->trans("La page %page% n''existe pas.", ['%page%', $page]));
+            throw $this->createNotFoundException($translator->trans('page.error.404', ['%page%', $page]));
         }
 
         $listApp = $applicationRepository->getApplicationsWithAdvert(2);
@@ -344,7 +344,7 @@ class AdvertController extends AbstractController
         $em->remove($application);
         $em->flush();
 
-        $this->addFlash('info', $translator->trans('advert.application.confirm_delete'));
+        $this->addFlash('info', $translator->trans('application.action.confirm_delete'));
 
         return $this->redirectToRoute('platform_view', ['id' => $advert->getId()]);
     }

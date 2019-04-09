@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% set title = 'Modifier une annonce'|trans %}
+{% set title = 'advert.action.edit'|trans %}
 
 {% block bodycontent %}
     {{ include("advert/form.html.twig") }}
@@ -11,7 +11,7 @@
     <p>
         <a href="{{ path('platform_view', {'id': advert.id}) }}" class="btn btn-default">
             <i class="glyphicon glyphicon-chevron-left"></i>
-            {{ 'Retour à l\'annonce'|trans }}
+            {{ 'advert.action.back'|trans }}
         </a>
     </p>
 
