@@ -26,7 +26,7 @@ class JsonParamConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverter $configuration): Request
     {
-        $json = $request->attributes->get('json');dump($json);
+        $json = $request->attributes->get('json');
         $json = json_decode($json, true);
 
         // We update the new value of the attribute

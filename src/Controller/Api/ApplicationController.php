@@ -100,11 +100,13 @@ class ApplicationController extends AbstractController
      *     input="App\Form\ApplicationType",
      *     statusCodes = {
      *        201 = "Création avec succès",
-     *        400 = "Formulaire invalide"
+     *        400 = "Formulaire invalide",
+     *        405 = "Candidature déjà existante"
      *    },
      *    responseMap={
      *         201 = {"class"=Application::class, "groups"={"application"}},
-     *         400 = { "class"=Application::class, "form_errors"=true, "name" = ""}
+     *         400 = {"class"=Application::class, "form_errors"=true, "name" = ""},
+     *         405 = {"class"=Application::class, "form_errors"=true, "name" = ""}
      *    },
      *    requirements={
      *         {
@@ -131,6 +133,17 @@ class ApplicationController extends AbstractController
         $advert = $em->getRepository(Advert::class)->find($request->get('id'));
         if (empty($advert)) {
             throw $this->createNotFoundException('Advert not found');
+        }
+
+        // Already subscribe?
+        $application = $em->getRepository(Application::class)->findOneBy(['advert' => $advert, 'author' => $this->getUser()]);
+        if (!empty($application)) {
+            return View::create([
+                    'message' => 'The application already exists for current user of this advert.',
+                    'current_application' => $application,
+                ],
+                Response::HTTP_METHOD_NOT_ALLOWED
+            );
         }
 
         $application = new application();
