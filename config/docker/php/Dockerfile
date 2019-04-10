@@ -18,6 +18,24 @@ RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && install-php-ext
 COPY php.ini /usr/local/etc/php/php.ini
 COPY php-fpm-pool.conf /usr/local/etc/php/php-fpm.conf
 
+# PHP Xdebug conf
+RUN printf "\n\
+xdebug.remote_enable=1\n\
+xdebug.remote_connect_back=1\n\
+xdebug.remote_host=172.17.0.1\n\
+xdebug.remote_port=9030\n\
+xdebug.idekey=\"dfk4G7_8bl1\"\n\
+" >>  /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+#xdebug.remote_autostart=0
+#xdebug.remote_connect_back=1
+#xdebug.remote_cookie_expire_time = 3600
+#xdebug.remote_enable = 1
+#xdebug.remote_host = localhost
+#xdebug.remote_port = 9000
+#
+#xdebug.remote_handler = dbgp
+
 # Install composer
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
 	mv composer.phar /usr/local/bin/composer
@@ -32,5 +50,4 @@ RUN rm -rf /var/lib/apt/lists/* \
 WORKDIR /var/www/
 USER www-data
 
-EXPOSE 9000
 CMD ["php-fpm"]

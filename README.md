@@ -63,8 +63,7 @@ Custom command lines:
 * `php bin/console advert:view ID`: View Advert Items.
 * `php bin/console advert:rapport ID`: Send Advert info by email to recipient.
 
-You can simulate a **server-dump** like [Symfony4 version](https://symfony.com/blog/new-in-symfony-4-1-vardumper-server) on Dev Env with this command _(command different with [docker/makefile](config/docker/README.md#usage))_:  
-`truncate -s 0 var/log/vardump.log && tail -f var/log/vardump.log`
+You can simulate a **server-dump** like [Symfony4 version](https://symfony.com/blog/new-in-symfony-4-1-vardumper-server) on Dev Env with this command _(command different with [docker/makefile](config/docker/README.md#usage))_: `truncate -s 0 var/log/vardump.log && tail -f var/log/vardump.log`
 
 
 ## Installation
