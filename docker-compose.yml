@@ -17,7 +17,9 @@ services:
         depends_on:
           - php
         networks:
-          - platform
+            platform:
+                aliases:
+                    - platform.docker
 
     db:
         image: mysql:5.7

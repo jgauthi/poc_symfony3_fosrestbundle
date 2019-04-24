@@ -32,7 +32,9 @@ services:
         links:
           - db
         networks:
-          - platform
+            platform:
+                aliases:
+                    - pma.docker
 
     maildev:
         image: djfarrelly/maildev
@@ -45,7 +47,9 @@ services:
           - 80
           - 25
         networks:
-          - platform
+            platform:
+                aliases:
+                    - maildev.docker
 
     traefik:
         image: traefik
