@@ -30,6 +30,7 @@ services:
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            TZ: ${TIMEZONE:-Europe/Paris}
         ports:
           - 3306
         networks:
