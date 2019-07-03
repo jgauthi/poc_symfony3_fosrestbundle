@@ -12,7 +12,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\{ParamConverter, Security};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\{JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -150,7 +150,7 @@ class AdvertController extends AbstractController
             ];
         }
 
-        return $this->json($articles);
+        return $this->json($articles, JsonResponse::HTTP_OK, [], ['groups' => ['advert', 'user-simple']]);
     }
 
     /**

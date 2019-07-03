@@ -139,8 +139,7 @@ class AdvertRepository extends ServiceEntityRepository
     public function getAdvertWithApplications(): array
     {
         $db = $this->createQueryBuilder('advert')
-            ->leftJoin('advert.applications', 'app', 'WITH', 'app.author = :author')
-            ->setParameter('author', 'Pierre')
+            ->innerJoin('advert.applications', 'app')
             ->addSelect('app')
             ->where('advert.archived = :archived')
             ->setParameter('archived', false);

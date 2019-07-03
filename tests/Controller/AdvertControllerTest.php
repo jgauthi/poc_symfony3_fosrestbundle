@@ -58,7 +58,7 @@ class AdvertControllerTest extends WebTestCase
         );
 
         $this->assertLessThanOrEqual(
-            3,
+            5,
             count($json['listsAdvert']),
             'The json file displays the right number of adverts.'
         );
