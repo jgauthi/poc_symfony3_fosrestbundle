@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\AuthToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\{PreAuthenticatedToken, TokenInterface};
 use Symfony\Component\Security\Core\Exception\{AuthenticationException, BadCredentialsException};
@@ -16,8 +17,9 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
     /**
      * @param Request $request
      * @param $providerKey
+     * @return PreAuthenticatedToken|void
      */
-    public function createToken(Request $request, $providerKey)
+    public function createToken(Request $request, $providerKey): PreAuthenticatedToken
     {
         $authorisedPaths = [
             'api_get_applications', // Liste applications
@@ -98,7 +100,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
      *
      * @return bool
      */
-    private function isTokenValid($authToken): bool
+    private function isTokenValid(AuthToken $authToken): bool
     {
         return (time() - $authToken->getCreatedAt()->getTimestamp()) < self::TOKEN_VALIDITY_DURATION;
     }

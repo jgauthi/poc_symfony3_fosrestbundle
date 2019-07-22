@@ -37,8 +37,8 @@ services:
         calls:
             - [ setLocale, ['%locale%'] ]
 
-    App\EventListener\BigbrotherListener:
-        class: App\EventListener\BigbrotherListener
+    App\Event\Listener\BigbrotherListener:
+        class: App\Event\Listener\BigbrotherListener
         arguments:
             - '@App\Email\BigbrotherMailer'
             - ["john", "alexandre", "pierre"]
@@ -49,8 +49,8 @@ services:
         class: App\Service\MarkdownTransformer
         arguments: [ '@markdown.parser', '@doctrine_cache.providers.my_markdown_cache' ]
 
-    App\EventListener\ApplicationCreationListener:
-        class: App\EventListener\ApplicationCreationListener
+    App\Event\Listener\ApplicationCreationListener:
+        class: App\Event\Listener\ApplicationCreationListener
         arguments:
             - '@App\Email\ApplicationCreationMailer'
         tags:

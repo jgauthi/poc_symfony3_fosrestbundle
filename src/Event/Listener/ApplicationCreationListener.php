@@ -1,5 +1,5 @@
 <?php
-namespace App\EventListener;
+namespace App\Event\Listener;
 
 use App\Entity\Application;
 use App\Email\ApplicationCreationMailer;

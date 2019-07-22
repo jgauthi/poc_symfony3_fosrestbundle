@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\Event\Listener;
 
 use App\Email\BigbrotherMailer;
 use App\Event\MessagePostEvent;
