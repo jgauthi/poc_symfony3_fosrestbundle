@@ -36,7 +36,7 @@ class AuthToken
     protected $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\User", cascade={"remove"})
      * @Groups({"auth-token"})
      *
      * @var User

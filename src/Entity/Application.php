@@ -56,13 +56,13 @@ class Application
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Advert", inversedBy="applications")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
-    private $advert;
+    private $advert = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="applications")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * @Groups({"user", "user-simple"})
      */
     private $author;
@@ -112,11 +112,11 @@ class Application
     /**
      * Set advert.
      *
-     * @param Advert $advert
+     * @param Advert|null $advert
      *
      * @return Application
      */
-    public function setAdvert(Advert $advert): self
+    public function setAdvert(?Advert $advert): self
     {
         $this->advert = $advert;
 
@@ -128,9 +128,9 @@ class Application
      *
      * @MaxDepth(1)
      *
-     * @return Advert
+     * @return Advert|null
      */
-    public function getAdvert(): Advert
+    public function getAdvert(): ?Advert
     {
         return $this->advert;
     }
@@ -199,12 +199,19 @@ class Application
         return $this->salaryClaim;
     }
 
-    public function getAuthor(): ?User
+    /**
+     * @return User
+     */
+    public function getAuthor(): User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    /**
+     * @param User $author
+     * @return $this
+     */
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
 

@@ -73,14 +73,14 @@ class Advert
     private $date;
 
     /**
-     * @ORM\Column(name="published", type="boolean")
+     * @ORM\Column(type="boolean")
      * @Assert\Type(type="bool")
      * @Groups({"advert_additional_info"})
      */
     private $published = true;
 
     /**
-     * @ORM\Column(name="archived", type="boolean")
+     * @ORM\Column(type="boolean")
      * @Assert\Type(type="bool")
      */
     private $archived = false;

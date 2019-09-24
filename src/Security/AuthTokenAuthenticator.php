@@ -19,7 +19,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
      * @param $providerKey
      * @return PreAuthenticatedToken|void
      */
-    public function createToken(Request $request, $providerKey): PreAuthenticatedToken
+    public function createToken(Request $request, $providerKey): ?PreAuthenticatedToken
     {
         $authorisedPaths = [
             'api_get_applications', // Liste applications
@@ -28,7 +28,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
 
         $currentRoute = $request->attributes->get('_route');
         if (\in_array($currentRoute, $authorisedPaths, true)) {
-            return;
+            return null;
         }
 
         $authTokenHeader = $request->headers->get('X-Auth-Token');
