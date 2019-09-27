@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Command;
 
 use App\Entity\Advert;
@@ -65,7 +64,7 @@ class AdvertListCommand extends Command
 
         foreach ($blogPostList as $blogPost) {
             $content = $blogPost->getContent();
-            if (\mb_strlen($content) > 50) {
+            if (mb_strlen($content) > 50) {
                 $content = trim(mb_substr($content, 0, 50)).'...';
             }
 

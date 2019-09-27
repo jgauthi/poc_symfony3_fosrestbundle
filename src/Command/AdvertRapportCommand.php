@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Command;
 
-use App\DataFixtures\AdvertFixtures;
 use App\Email\AdvertRapportMailer;
 use App\Entity\Advert;
-use App\Utils\Text;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\{InputArgument, InputInterface};
@@ -26,9 +23,10 @@ class AdvertRapportCommand extends Command
 
     /**
      * AdvertRapportCommand constructor.
+     *
      * @param EntityManagerInterface $entityManager
-     * @param AdvertRapportMailer $mailer
-     * @param string|null $name
+     * @param AdvertRapportMailer    $mailer
+     * @param string|null            $name
      */
     public function __construct(EntityManagerInterface $entityManager, AdvertRapportMailer $mailer, ?string $name = null)
     {
@@ -67,7 +65,7 @@ class AdvertRapportCommand extends Command
             die($output->writeln('<error>Advert not found.</error>'));
         }
 
-        if(empty($to)) {
+        if (empty($to)) {
             $to = $advert->getAuthor()->get;
         }
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Request\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -15,7 +14,7 @@ class JsonParamConverter implements ParamConverterInterface
      */
     public function supports(ParamConverter $configuration): bool
     {
-        return ('json' === $configuration->getName());
+        return 'json' === $configuration->getName();
     }
 
     /**

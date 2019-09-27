@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Event\Listener;
 
 use App\Email\BigbrotherMailer;

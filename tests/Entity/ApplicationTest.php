@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Tests\Entity;
 
 use App\Entity\{Application, User};
@@ -41,6 +40,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider dataSalaryExpected
+     *
      * @param $salary
      * @param $experted
      */

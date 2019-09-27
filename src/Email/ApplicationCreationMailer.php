@@ -9,6 +9,7 @@ class ApplicationCreationMailer extends AbstractMailer
 {
     /**
      * @param Application $application
+     *
      * @return int|null
      */
     public function send(Application $application): ?int

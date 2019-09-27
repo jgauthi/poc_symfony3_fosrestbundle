@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Security;
 
 use App\Entity\AuthToken;
@@ -17,6 +16,7 @@ class AuthTokenAuthenticator implements SimplePreAuthenticatorInterface, Authent
     /**
      * @param Request $request
      * @param $providerKey
+     *
      * @return PreAuthenticatedToken|void
      */
     public function createToken(Request $request, $providerKey): ?PreAuthenticatedToken

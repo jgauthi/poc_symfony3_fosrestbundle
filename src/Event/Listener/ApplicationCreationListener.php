@@ -1,8 +1,8 @@
 <?php
 namespace App\Event\Listener;
 
-use App\Entity\Application;
 use App\Email\ApplicationCreationMailer;
+use App\Entity\Application;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 
 class ApplicationCreationListener

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\Api;
 
 use App\Entity\{AuthToken, Credentials, User};
@@ -44,7 +43,7 @@ class AuthTokenController extends AbstractController
      *
      * @return object
      */
-    public function postAuthTokensAction(Request $request, UserPasswordEncoderInterface $encoder): Object
+    public function postAuthTokensAction(Request $request, UserPasswordEncoderInterface $encoder): object
     {
         $credentials = new Credentials();
         $form = $this->createForm(CredentialsType::class, $credentials);

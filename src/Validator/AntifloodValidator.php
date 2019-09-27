@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Validator;
 
 use App\Entity\Advert;

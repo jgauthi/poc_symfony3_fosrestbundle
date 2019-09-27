@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Security;
 
 use App\Entity\AuthToken;

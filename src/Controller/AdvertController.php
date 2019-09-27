@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\{Advert, AdvertSkill, Application, User};
@@ -207,10 +206,10 @@ class AdvertController extends AbstractController
      * @Security("has_role('ROLE_ADMIN')")
      * @ParamConverter("advert", options={"mapping": {"advert_id": "id"}})
      *
-     * @param Request $request
-     * @param Advert $advert
+     * @param Request                $request
+     * @param Advert                 $advert
      * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface    $translator
      *
      * @return Response
      */
@@ -272,17 +271,17 @@ class AdvertController extends AbstractController
      * @Route("/candidate/{id}", methods={"GET", "POST"}, name="advert_signup", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      *
-     * @param Advert $advert
+     * @param Advert                $advert
      * @param ApplicationRepository $applicationRepository
-     * @param Request $request
-     * @param TranslatorInterface $translator
+     * @param Request               $request
+     * @param TranslatorInterface   $translator
      *
      * @return Response
      */
     public function candidate(Advert $advert, ApplicationRepository $applicationRepository, Request $request, TranslatorInterface $translator): Response
     {
         // Author don't apply on this advert
-        if ($advert->getAuthor() == $this->getUser()) {
+        if ($advert->getAuthor() === $this->getUser()) {
             return $this->redirectToRoute('platform_view', ['id' => $advert->getId()]);
         }
 
@@ -323,9 +322,9 @@ class AdvertController extends AbstractController
      * @Route("/candidate/abort/{id}", methods={"GET"}, name="advert_signdown", requirements={"id"="\d+"})
      * @Security("has_role('ROLE_USER')")
      *
-     * @param Advert $advert
+     * @param Advert                 $advert
      * @param EntityManagerInterface $em
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface    $translator
      *
      * @return Response
      */
@@ -337,7 +336,7 @@ class AdvertController extends AbstractController
             'author' => $this->getUser(),
         ]);
 
-        if (empty($application) || $application->getAuthor() != $this->getUser()) {
+        if (empty($application) || $application->getAuthor() !== $this->getUser()) {
             return $this->redirectToRoute('platform_view', ['id' => $advert->getId()]);
         }
 
@@ -355,7 +354,7 @@ class AdvertController extends AbstractController
      * @param $name
      *
      * @return Response
-     * exampleUrl: http://localhost:8000/fr/platform/translation/Alice
+     *                  exampleUrl: http://localhost:8000/fr/platform/translation/Alice
      */
     public function translation($name): Response
     {
@@ -370,7 +369,7 @@ class AdvertController extends AbstractController
      * @param $json
      *
      * @return Response
-     * exampleUrl: http://localhost:8000/fr/platform/customparamconverter/{"a":1,"b":2,"c":3}
+     *                  exampleUrl: http://localhost:8000/fr/platform/customparamconverter/{"a":1,"b":2,"c":3}
      */
     public function ParamConverter($json): Response
     {

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -128,5 +127,4 @@ class User extends FosUser implements UserInterface
 
         return $this;
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Command;
 
 use App\Entity\Advert;

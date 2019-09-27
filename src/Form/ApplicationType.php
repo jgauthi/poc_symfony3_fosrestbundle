@@ -1,14 +1,15 @@
 <?php
-
 namespace App\Form;
 
 use App\Entity\Application;
-use Symfony\Component\Form\{AbstractType,
+use Symfony\Component\Form\{
+    AbstractType,
     Extension\Core\Type\ChoiceType,
+    Extension\Core\Type\IntegerType,
     Extension\Core\Type\SubmitType,
     Extension\Core\Type\TextareaType,
-    Extension\Core\Type\IntegerType,
-    FormBuilderInterface};
+    FormBuilderInterface
+};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ApplicationType extends AbstractType
@@ -31,9 +32,7 @@ class ApplicationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'        => 'App\Entity\Application',
+            'data_class' => 'App\Entity\Application',
         ]);
     }
 }
-
-?>

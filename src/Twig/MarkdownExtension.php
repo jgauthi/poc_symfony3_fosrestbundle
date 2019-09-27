@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Twig;
 
 use App\Service\MarkdownTransformer;

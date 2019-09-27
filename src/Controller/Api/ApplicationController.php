@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\Api;
 
 use App\Entity\Advert;
@@ -125,7 +124,7 @@ class ApplicationController extends AbstractController
      *
      * @return object
      */
-    public function postApplicationAction(Request $request): Object
+    public function postApplicationAction(Request $request): object
     {
         $em = $this->getDoctrine()->getManager();
 

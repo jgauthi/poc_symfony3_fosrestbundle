@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use DateTime;
@@ -209,6 +208,7 @@ class Application
 
     /**
      * @param User $author
+     *
      * @return $this
      */
     public function setAuthor(User $author): self

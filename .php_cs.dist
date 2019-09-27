@@ -17,6 +17,8 @@ return PhpCsFixer\Config::create()
 		'@Symfony' => true,
 		'@Symfony:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
+        'single_blank_line_before_namespace' => false,
+        'no_blank_lines_before_namespace' => true,
         'linebreak_after_opening_tag' => true,
         'lowercase_cast' => false,
         'mb_str_functions' => true,

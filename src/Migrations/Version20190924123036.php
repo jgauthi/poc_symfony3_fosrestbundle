@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
@@ -12,15 +11,15 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190924123036 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE advert_application DROP FOREIGN KEY FK_625E2802D07ECCB6');
         $this->addSql('ALTER TABLE advert_application DROP FOREIGN KEY FK_625E2802F675F31B');
@@ -31,10 +30,10 @@ final class Version20190924123036 extends AbstractMigration
         $this->addSql('ALTER TABLE advert_skill ADD CONSTRAINT FK_5619F91B5585C142 FOREIGN KEY (skill_id) REFERENCES skill (id) ON DELETE CASCADE');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE advert_application DROP FOREIGN KEY FK_625E2802D07ECCB6');
         $this->addSql('ALTER TABLE advert_application DROP FOREIGN KEY FK_625E2802F675F31B');

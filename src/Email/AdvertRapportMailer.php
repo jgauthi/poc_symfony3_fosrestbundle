@@ -11,6 +11,7 @@ class AdvertRapportMailer extends AbstractMailer
     /**
      * @param string $to
      * @param Advert $advert
+     *
      * @return int|null
      */
     public function send(string $to, Advert $advert): ?int

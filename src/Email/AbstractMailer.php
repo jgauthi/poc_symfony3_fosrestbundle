@@ -19,7 +19,8 @@ abstract class AbstractMailer
 
     /**
      * AbstractMailer constructor.
-     * @param Swift_Mailer $mailer
+     *
+     * @param Swift_Mailer     $mailer
      * @param Twig_Environment $twig
      */
     public function __construct(Swift_Mailer $mailer, Twig_Environment $twig)

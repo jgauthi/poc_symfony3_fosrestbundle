@@ -7,11 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 class AdvertControllerTest extends WebTestCase
 {
     private const ROUTE = [
-        'index' =>  '/fr/platform',
-        'list'  =>  '/fr/platform/list',
-        'add'   =>  '/fr/platform/add',
-        'login' =>  '/login',
-        'login_check' =>  '/login_check',
+        'index' => '/fr/platform',
+        'list' => '/fr/platform/list',
+        'add' => '/fr/platform/add',
+        'login' => '/login',
+        'login_check' => '/login_check',
     ];
 
     public function testIndex(): void
@@ -28,7 +28,7 @@ class AdvertControllerTest extends WebTestCase
 
         $this->assertLessThanOrEqual(
             3,
-            count($crawler->filter('#content ul')->first()->filter('li')),
+            \count($crawler->filter('#content ul')->first()->filter('li')),
             'The homepage displays the right number of adverts.'
         );
     }
@@ -53,13 +53,13 @@ class AdvertControllerTest extends WebTestCase
         $this->assertArrayHasKey('listsAdvert', $json);
         $this->assertGreaterThan(
             1,
-            count($json['listsAdvert']),
+            \count($json['listsAdvert']),
             'The json file displays the right number of adverts.'
         );
 
         $this->assertLessThanOrEqual(
             5,
-            count($json['listsAdvert']),
+            \count($json['listsAdvert']),
             'The json file displays the right number of adverts.'
         );
     }

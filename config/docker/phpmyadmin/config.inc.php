@@ -1,18 +1,17 @@
 <?php
+
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  * phpMyAdmin sample configuration, you can use it as base for
- * manual configuration. For easier setup you can use setup/
+ * manual configuration. For easier setup you can use setup/.
  *
  * All directives are explained in documentation in the doc/ folder
  * or at <http://docs.phpmyadmin.net/>.
- *
- * @package PhpMyAdmin
  */
 
 // NOTE; pour retirer l'avertissement "Vous devriez utiliser MySQL en version 5.5.0 ou plus r�cente."
 /*
-	I went to /usr/share/phpMyAdmin/libraries/common.inc.php and comment out this lines:
+    I went to /usr/share/phpMyAdmin/libraries/common.inc.php and comment out this lines:
     #if (PMA_MYSQL_INT_VERSION < 50500) {
     #    PMA_fatalError(
     #        __('You should upgrade to %s %s or later.'),
@@ -20,9 +19,8 @@
     #    );
     #}
 
-	http://stackoverflow.com/questions/26222244/phpmyadmin-error-you-should-upgrade-to-mysql-5-5-0-or-later
+    http://stackoverflow.com/questions/26222244/phpmyadmin-error-you-should-upgrade-to-mysql-5-5-0-or-later
 */
-
 
 /*
  * This is needed for cookie based authentication to encrypt password in
@@ -38,7 +36,7 @@ $i = 0;
 /*
  * First server
  */
-$i++;
+++$i;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'config'; // cookie
 /* Server parameters */
@@ -68,8 +66,8 @@ $cfg['Servers'][$i]['password'] = getenv('PMA_PASSWORD');
 $cfg['Servers'][$i]['hide_db'] = '^(information_schema|performance_schema|mysql|phpmyadmin)$';
 
 // Augmenter upload
-ini_set('post_max_size','200M');
-ini_set('upload_max_filesize','200M');
+ini_set('post_max_size', '200M');
+ini_set('upload_max_filesize', '200M');
 
 /* Storage database and tables */
 // $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
@@ -101,21 +99,21 @@ ini_set('upload_max_filesize','200M');
 $cfg['UploadDir'] = '';
 $cfg['SaveDir'] = '';
 
-/**
+/*
  * Defines whether a user should be displayed a "show all (records)"
  * button in browse mode or not.
  * default = false
  */
 //$cfg['ShowAll'] = true;
 
-/**
+/*
  * Number of rows displayed when browsing a result set. If the result
  * set contains more rows, "Previous" and "Next".
  * default = 30
  */
 //$cfg['MaxRows'] = 50;
 
-/**
+/*
  * disallow editing of binary fields
  * valid values are:
  *   false    allow editing
@@ -125,9 +123,9 @@ $cfg['SaveDir'] = '';
  * default = blob
  */
 $cfg['ProtectBinary'] = false;
-$cfg['ShowBlob'] = TRUE;
+$cfg['ShowBlob'] = true;
 
-/**
+/*
  * Default language to use, if not browser-defined or user-defined
  * (you find all languages in the locale folder)
  * uncomment the desired line:
@@ -136,20 +134,19 @@ $cfg['ShowBlob'] = TRUE;
 //$cfg['DefaultLang'] = 'en';
 //$cfg['DefaultLang'] = 'de';
 
-/**
+/*
  * default display direction (horizontal|vertical|horizontalflipped)
  */
 //$cfg['DefaultDisplay'] = 'vertical';
 
-
-/**
+/*
  * How many columns should be used for table display of a database?
  * (a value larger than 1 results in some information being hidden)
  * default = 1
  */
 //$cfg['PropertiesNumColumns'] = 2;
 
-/**
+/*
  * Set to true if you want DB-based query history.If false, this utilizes
  * JS-routines to display query history (lost by window close)
  *
@@ -158,17 +155,17 @@ $cfg['ShowBlob'] = TRUE;
  */
 //$cfg['QueryHistoryDB'] = true;
 
-/**
+/*
  * When using DB-based query history, how many entries should be kept?
  *
  * default = 25
  */
 //$cfg['QueryHistoryMax'] = 100;
 
-/**
+/*
  * Should error reporting be enabled for JavaScript errors
  *
- * default = 'ask' 
+ * default = 'ask'
  */
 //$cfg['SendErrorReports'] = 'ask';
 

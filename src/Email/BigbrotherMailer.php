@@ -7,9 +7,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class BigbrotherMailer extends AbstractMailer
 {
     /**
-     * Method to notify an administrator by e-mail
-     * @param string $message
+     * Method to notify an administrator by e-mail.
+     *
+     * @param string        $message
      * @param UserInterface $user
+     *
      * @return int|null
      */
     public function send(string $message, UserInterface $user): ?int
