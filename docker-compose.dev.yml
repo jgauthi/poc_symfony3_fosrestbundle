@@ -27,6 +27,7 @@ services:
           - 80
         volumes:
           - ./config/docker/phpmyadmin/config.inc.php:/etc/phpmyadmin/config.user.inc.php
+          - ./config/docker/phpmyadmin/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
         depends_on:
           - db
         links:

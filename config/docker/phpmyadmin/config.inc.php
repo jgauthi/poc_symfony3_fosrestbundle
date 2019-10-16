@@ -1,6 +1,6 @@
 <?php
-
 /* vim: set expandtab sw=4 ts=4 sts=4: */
+
 /**
  * phpMyAdmin sample configuration, you can use it as base for
  * manual configuration. For easier setup you can use setup/.
@@ -64,10 +64,6 @@ $cfg['ActionLinksMode'] = 'icons'; // Desactiver le texte pour les actions
 $cfg['Servers'][$i]['user'] = getenv('PMA_USER');
 $cfg['Servers'][$i]['password'] = getenv('PMA_PASSWORD');
 $cfg['Servers'][$i]['hide_db'] = '^(information_schema|performance_schema|mysql|phpmyadmin)$';
-
-// Augmenter upload
-ini_set('post_max_size', '200M');
-ini_set('upload_max_filesize', '200M');
 
 /* Storage database and tables */
 // $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
